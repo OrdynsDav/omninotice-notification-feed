@@ -1,0 +1,5 @@
+export {default as HomeIcon} from "./icons/HomeIcon"
+export {default as ArrowIcon} from "./icons/ArrowIcon"
+export {default as AboutIcon} from "./icons/AboutIcon"
+export {default as SearchIcon} from "./icons/SearchIcon"
+export {default as BellRingIcon} from "./icons/BellRingIcon"
