@@ -3,9 +3,12 @@
     --omni-secondary-text: #767a7f;
     --omni-breadcumbs-icon-color: #4A5665;
     --omni-primary-button: #487bfe;
-    --omni-primary-button-hover: #205fff;
+    --omni-primary-button-hover: hsl(from var(--omni-primary-button) h s calc(l - 10));
     --omni-nf-unread-bg: #edf2ff;
-    --omni-nf-icon-bg: #d1deff;
+    --omni-nf-icon: #487bfe;
+    --omni-nf-icon-error: #e65443;
+    --omni-nf-icon-bg: color-mix(in srgb, var(--omni-nf-icon) 25%, white);
+    --omni-nf-icon-bg-error: color-mix(in srgb, var(--omni-nf-icon-error) 25%, white);
     --omni-border-color: #E2E3E6;
     --omni-border-hover: #0C151D;
     --omni-radius: 8px;

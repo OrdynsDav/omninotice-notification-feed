@@ -3,6 +3,7 @@ import { Container } from "@/components/atoms";
 import { PageTitle, Tab } from "@/components/molecules";
 import TabProvider from "@/app/providers/TabProvider";
 import "./NotificationFeedPage.css"
+import NotificationsState from "../molecules/NotificationsState/NotificationsState";
 
 export default function NotificationFeedPage() {
   return (
@@ -12,7 +13,8 @@ export default function NotificationFeedPage() {
           <PageTitle />
           <TabProvider>
             <Tab />
-            <NotificationsSection />
+            <NotificationsState state={"error"} btn/>
+            {/* <NotificationsSection /> */}
           </TabProvider>
         </Container>
     </div>

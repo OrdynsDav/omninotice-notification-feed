@@ -21,28 +21,6 @@
   gap: 24px;
 }
 
-.omni-notification-card__icon {
-  overflow: hidden;
-  border-radius: calc(var(--omni-radius) + 4px);
-  width: var(--omni-nf-icon-container-size);
-  height: var(--omni-nf-icon-container-size);
-  flex-shrink: 0;
-  display: grid;
-  place-items: center;
-  background-color: var(--omni-nf-icon-bg);
-  color: var(--omni-primary-button);
-}
-
-.omni-notification-card__image {
-  object-position: center;
-  user-select: none;
-}
-
-.omni-notification-card__image[data-type="image"] {
-  width: var(--omni-nf-icon-container-size);
-  height: var(--omni-nf-icon-container-size);
-}
-
 .omni-notification-card__content {
   display: flex;
   flex-direction: column;

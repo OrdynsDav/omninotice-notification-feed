@@ -21,3 +21,10 @@ export interface NotificationCardProps {
   };
   isRead: boolean;
 }
+
+export interface NotificationsStateProps {
+  state: "empty" | "error";
+  title?: string;
+  description?: string;
+  btn?: boolean;
+}

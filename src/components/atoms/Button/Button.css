@@ -4,6 +4,7 @@
     cursor: pointer;
     border-radius: var(--omni-radius);
     transition: background-color var(--omni-transition);
+    font-family: inherit;
 }
 
 .omni-button--primary {
