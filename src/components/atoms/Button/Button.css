@@ -3,12 +3,18 @@
     background: transparent;
     cursor: pointer;
     border-radius: var(--omni-radius);
+    transition: background-color var(--omni-transition);
 }
 
 .omni-button--primary {
     background-color: var(--omni-primary-button);
     color: #ffffff;
     padding: 8px 16px;
+}
+
+.omni-button--primary:hover,
+.omni-button--primary:focus-visible {
+    background-color: var(--omni-primary-button-hover);
 }
 
 .omni-button--icon {
@@ -18,4 +24,8 @@
     display: grid;
     place-items: center;
     flex-shrink: 0;
+}
+
+.omni-button--icon:hover {
+    background-color: color-mix(in srgb, var(--omni-secondary-text) 22%, transparent);
 }

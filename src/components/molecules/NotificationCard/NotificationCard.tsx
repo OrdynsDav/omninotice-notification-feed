@@ -32,8 +32,9 @@ export default function NotificationCard({
           <img
             className={omni("notification-card__image")}
             src={resolved.src}
-            alt=""
+            alt={`Картинка уведомления с названием ${title}`}
             onError={() => markFailed(resolved.src)}
+            data-type={resolved.src.endsWith(".svg") ? "icon" : "image"}
           />
         );
       case "element":
@@ -53,10 +54,10 @@ export default function NotificationCard({
     <div
       className={omni(
         "notification-card",
-        isRead && "nofification-card--unread",
+        !isRead && "nofification-card--unread",
       )}
       data-status={status}
-      data-isRead={isRead}
+      data-is-read={isRead}
     >
       <div className={omni("notification-card__left")}>
         <div className={omni("notification-card__icon")}>
