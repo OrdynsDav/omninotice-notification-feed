@@ -1,5 +1,10 @@
 export {default as HomeIcon} from "./icons/HomeIcon"
 export {default as ArrowIcon} from "./icons/ArrowIcon"
-export {default as AboutIcon} from "./icons/AboutIcon"
+export {default as InfoIcon} from "./icons/InfoIcon"
 export {default as SearchIcon} from "./icons/SearchIcon"
 export {default as BellRingIcon} from "./icons/BellRingIcon"
+
+export {default as Input} from "./Input/Input"
+export {default as Button} from "./Button/Button"
+export {default as Text} from "./Text/Text"
+export {default as Container} from "./Container/Container"

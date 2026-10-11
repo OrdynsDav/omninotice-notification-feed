@@ -12,6 +12,7 @@
     place-items: center;
     width: 16px;
     height: 16px;
+    color: var(--omni-breadcumbs-icon-color);
 }
 
 .omni-breadcrumbs__link {
@@ -19,4 +20,9 @@
     place-items: center;
     width: 20px;
     height: 20px;
+    color: var(--omni-breadcumbs-icon-color);
+}
+
+.omni-breadcrumbs__link:hover {
+    color: var(--omni-primary-text);
 }

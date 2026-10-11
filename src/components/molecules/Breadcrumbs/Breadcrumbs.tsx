@@ -1,4 +1,4 @@
-import { ArrowIcon, HomeIcon } from "@/components/atoms";
+import { ArrowIcon, HomeIcon, Text } from "@/components/atoms";
 import "./Breadcrumbs.css";
 
 export default function Breadcrumbs() {
@@ -16,7 +16,7 @@ export default function Breadcrumbs() {
           </div>
         </li>
         <li className="omni-breadcrumbs__item">
-          <p className="omni-breadcrumbs__heading">Уведомления</p>
+          <Text>Уведомления</Text>
         </li>
       </ul>
     </nav>

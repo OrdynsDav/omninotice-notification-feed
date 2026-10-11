@@ -1,0 +1,20 @@
+.omni-button {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    border-radius: var(--omni-radius);
+}
+
+.omni-button--primary {
+    background-color: var(--omni-primary-button);
+    color: #ffffff;
+}
+
+.omni-button--icon {
+    background-color: #ECEEF4;
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+}

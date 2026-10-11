@@ -1,0 +1,9 @@
+.omni-tabs {
+    display: flex;
+    gap: 24px;
+    margin-block: 32px 16px;
+}
+
+.omni-tab {
+    padding: 8px 16px;
+}
