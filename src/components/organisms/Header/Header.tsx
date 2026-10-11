@@ -6,8 +6,10 @@ export default function Header() {
   return (
     <header className={omni("header")}>
       <Breadcrumbs />
-      <Search />
-      <InfoButton />
+      <div className={omni("header__actions")}>
+        <Search />
+        <InfoButton />
+      </div>
     </header>
   );
 }

@@ -1,5 +1,4 @@
 .search {
-    max-width: 256px;
-    width: 100%;
-    margin-inline: auto 12px;
+    margin-right: 12px;
+    min-width: 256px;
 }

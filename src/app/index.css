@@ -2,7 +2,9 @@
     --omni-primary-text: #0C151D;
     --omni-secondary-text: #767A7F;
     --omni-breadcumbs-icon-color: #4A5665;
-    --omni-primary-button: #487BFE;
+    --omni-primary-button: rgb(72, 123, 254);
+    --omni-nf-unread-bg: rgba(237, 242, 255, 1);
+    --omni-nf-icon-bg: rgba(209, 222, 255, 1);
     --omni-border-color: #E2E3E6;
     --omni-border-hover: #0C151D;
     --omni-radius: 8px;

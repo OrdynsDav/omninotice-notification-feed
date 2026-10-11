@@ -12,6 +12,10 @@
   color: var(--omni-secondary-text);
 }
 
+.omni-text--paper {
+  color: white;
+}
+
 /* size */
 .omni-text--size-xs {
   font-size: 12px;
@@ -29,11 +33,16 @@
 }
 
 .omni-text--size-lg {
-  font-size: 24px;
-  line-height: 28px;
+  font-size: 18px;
+  line-height: 20px;
 }
 
 .omni-text--size-xl {
+  font-size: 24px;
+  line-height: 40px;
+}
+
+.omni-text--size-xxl {
   font-size: 28px;
   line-height: 40px;
 }

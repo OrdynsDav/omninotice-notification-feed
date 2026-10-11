@@ -48,10 +48,11 @@ export type TextTag =
   | "h3"
   | "h4"
   | "h5"
-  | "h6";
+  | "h6"
+  | "time";
   
-export type TextVariant = "primary" | "secondary";
-export type TextSize = "xs" | "sm" | "md" | "lg" | "xl";
+export type TextVariant = "primary" | "secondary" | "paper";
+export type TextSize = "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
 export type TextWeight = "regular" | "medium" | "semibold" | "bold";
 
 export interface TextProps extends HTMLAttributes<HTMLElement> {

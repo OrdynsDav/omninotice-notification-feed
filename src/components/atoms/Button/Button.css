@@ -8,6 +8,7 @@
 .omni-button--primary {
     background-color: var(--omni-primary-button);
     color: #ffffff;
+    padding: 8px 16px;
 }
 
 .omni-button--icon {

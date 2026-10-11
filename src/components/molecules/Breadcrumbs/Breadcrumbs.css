@@ -1,3 +1,7 @@
+.omni-breadcrumbs {
+    flex: 1;
+}
+
 .omni-breadcrumbs__list {
     margin: 0;
     padding: 0;

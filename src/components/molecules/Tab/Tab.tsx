@@ -1,4 +1,4 @@
-import { Button } from "@/components/atoms";
+import { Button, Text } from "@/components/atoms";
 import { omni } from "@/helpers/omni";
 import { useTab } from "@/hooks/useTab";
 import "./Tab.css";
@@ -14,7 +14,7 @@ export default function Tab() {
         aria-pressed={tab === "all"}
         onClick={() => setTab("all")}
       >
-        Все
+        <Text variant={tab === "all" ? "paper" : "secondary"}>Все</Text>
       </Button>
       <Button
         className="tab"
@@ -22,7 +22,9 @@ export default function Tab() {
         aria-pressed={tab === "unread"}
         onClick={() => setTab("unread")}
       >
-        Непрочитанные
+        <Text variant={tab === "unread" ? "paper" : "secondary"}>
+          Непрочитанные
+        </Text>
       </Button>
     </div>
   );
