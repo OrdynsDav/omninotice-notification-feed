@@ -6,6 +6,7 @@
 
 .omni-tab {
     display: flex;
+    align-items: center;
     gap: 8px;
     padding: 6px 15px;
     letter-spacing: -0.04em;

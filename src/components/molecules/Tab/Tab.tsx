@@ -1,10 +1,10 @@
-import { Button, Text } from "@/components/atoms";
+import { Button, SpinnerLoader, Text } from "@/components/atoms";
 import { omni } from "@/helpers/omni";
 import { useTab } from "@/hooks/useTab";
 import "./Tab.css";
 
 export default function Tab() {
-  const { tab, setTab, unreadCount, allCount } = useTab();
+  const { tab, setTab, unreadCount, allCount, isLoading } = useTab();
 
   return (
     <div className={omni("tabs")}>
@@ -17,9 +17,14 @@ export default function Tab() {
         <Text variant={tab === "all" ? "paper" : "secondary"} weight="medium">
           Все
         </Text>
-        <Text variant={tab === "all" ? "paper" : "secondary"} weight="medium">
-          {allCount}
-        </Text>
+
+        {isLoading ? (
+          <SpinnerLoader variant={tab === "all" ? "paper" : "secondary"} />
+        ) : (
+          <Text variant={tab === "all" ? "paper" : "secondary"} weight="medium">
+            {allCount}
+          </Text>
+        )}
       </Button>
       <Button
         className="tab"
@@ -33,12 +38,16 @@ export default function Tab() {
         >
           Непрочитанные
         </Text>
-        <Text
-          variant={tab === "unread" ? "paper" : "secondary"}
-          weight="medium"
-        >
-          {unreadCount}
-        </Text>
+        {isLoading ? (
+          <SpinnerLoader variant={tab === "unread" ? "paper" : "secondary"} />
+        ) : (
+          <Text
+            variant={tab === "unread" ? "paper" : "secondary"}
+            weight="medium"
+          >
+            {unreadCount}
+          </Text>
+        )}
       </Button>
     </div>
   );

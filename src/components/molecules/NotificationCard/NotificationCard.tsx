@@ -1,10 +1,6 @@
 import { Button, NotificationIcon, Text } from "@/components/atoms";
 import { omni } from "@/helpers/omni";
 import type { NotificationCardProps } from "../types";
-import { renderIcon } from "@/helpers/renderIcon";
-import { resolvePicture } from "@/helpers/resolvePicture";
-import { useState } from "react";
-import { settings } from "@/config/settings.config";
 import "./NotificationCard.css";
 
 export default function NotificationCard({
