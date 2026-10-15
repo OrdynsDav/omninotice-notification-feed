@@ -1,6 +1,7 @@
 .omni-text {
   margin: 0;
   font-family: inherit;
+  font-variant-numeric: tabular-nums;
 }
 
 /* variant */

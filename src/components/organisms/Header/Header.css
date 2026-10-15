@@ -1,17 +1,17 @@
 .omni-header {
-    padding-inline: var(--omni-container-padding-inline);
-    padding-block: 16px;
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 16px 32px;
+  padding-inline: var(--omni-container-padding-inline);
+  padding-block: 16px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px 32px;
 }
 
 .omni-header__actions {
-    display: flex;
-    gap: 12px;
+  display: flex;
+  gap: 12px;
 }
 
 .omni-header__btn {
-    color: var(--omni-primary-button);
+  color: var(--omni-primary);
 }

@@ -5,5 +5,8 @@
 }
 
 .omni-tab {
-    padding: 8px 16px;
+    display: flex;
+    gap: 8px;
+    padding: 6px 15px;
+    letter-spacing: -0.04em;
 }

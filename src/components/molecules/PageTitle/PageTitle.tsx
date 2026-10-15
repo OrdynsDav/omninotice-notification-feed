@@ -1,5 +1,6 @@
 import { Text } from "@/components/atoms";
 import { omni } from "@/helpers/omni";
+import "./PageTitle.css"
 
 export default function PageTitle() {
   return (

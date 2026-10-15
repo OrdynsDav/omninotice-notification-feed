@@ -1,18 +1,23 @@
 :root {
-    --omni-primary-text: #0C151D;
-    --omni-secondary-text: #767a7f;
-    --omni-breadcumbs-icon-color: #4A5665;
-    --omni-primary-button: #487bfe;
-    --omni-primary-button-hover: hsl(from var(--omni-primary-button) h s calc(l - 10));
-    --omni-nf-unread-bg: #edf2ff;
-    --omni-nf-icon: #487bfe;
-    --omni-nf-icon-error: #e65443;
-    --omni-nf-icon-bg: color-mix(in srgb, var(--omni-nf-icon) 25%, white);
-    --omni-nf-icon-bg-error: color-mix(in srgb, var(--omni-nf-icon-error) 25%, white);
-    --omni-border-color: #E2E3E6;
-    --omni-border-hover: #0C151D;
-    --omni-radius: 8px;
-    --omni-container-padding-inline: 24px;
-    --omni-nf-icon-container-size: 56px;
-    --omni-transition: 0.15s ease-in;
+  --omni-main-bg: #f5f6f9;
+  --omni-primary: #487bfe;
+  --omni-primary-hover: hsl(from var(--omni-primary) h s calc(l - 10));
+  --omni-primary-text: #0c151d;
+  --omni-secondary-text: #767a7f;
+  --omni-breadcumbs-icon-color: #4a5665;
+  --omni-nf-unread-bg: color-mix(in srgb, var(--omni-primary) 8%, white);
+  --omni-nf-icon: var(--omni-primary);
+  --omni-nf-icon-error: #e65443;
+  --omni-nf-icon-bg: color-mix(in srgb, var(--omni-nf-icon) 25%, white);
+  --omni-nf-icon-bg-error: color-mix(
+    in srgb,
+    var(--omni-nf-icon-error) 25%,
+    white
+  );
+  --omni-border-color: #e2e3e6;
+  --omni-border-hover: #0c151d;
+  --omni-radius: 8px;
+  --omni-container-padding-inline: 24px 20px;
+  --omni-nf-icon-container-size: 56px;
+  --omni-transition: 0.15s ease-in;
 }

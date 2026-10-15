@@ -32,17 +32,25 @@
   grid-template-columns: auto 1fr 12px;
   align-items: center;
   gap: 30px;
+  grid-template-areas: "time btn dot";
+}
+
+.omni-notification-card__time {
+  grid-area: time;
 }
 
 .omni-notification-card__btn {
+  grid-area: btn;
   text-decoration: none;
   width: fit-content;
 }
 
 .omni-notification-card__dot {
+  grid-area: dot;
   display: flex;
   width: 12px;
   height: 12px;
-  background-color: var(--omni-primary-button);
+  background-color: var(--omni-primary);
   border-radius: 50%;
+  margin-left: auto;
 }

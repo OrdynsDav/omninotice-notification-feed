@@ -4,7 +4,7 @@ import { useTab } from "@/hooks/useTab";
 import "./Tab.css";
 
 export default function Tab() {
-  const { tab, setTab } = useTab();
+  const { tab, setTab, unreadCount, allCount } = useTab();
 
   return (
     <div className={omni("tabs")}>
@@ -14,7 +14,12 @@ export default function Tab() {
         aria-pressed={tab === "all"}
         onClick={() => setTab("all")}
       >
-        <Text variant={tab === "all" ? "paper" : "secondary"}>Все</Text>
+        <Text variant={tab === "all" ? "paper" : "secondary"} weight="medium">
+          Все
+        </Text>
+        <Text variant={tab === "all" ? "paper" : "secondary"} weight="medium">
+          {allCount}
+        </Text>
       </Button>
       <Button
         className="tab"
@@ -22,8 +27,17 @@ export default function Tab() {
         aria-pressed={tab === "unread"}
         onClick={() => setTab("unread")}
       >
-        <Text variant={tab === "unread" ? "paper" : "secondary"}>
+        <Text
+          variant={tab === "unread" ? "paper" : "secondary"}
+          weight="medium"
+        >
           Непрочитанные
+        </Text>
+        <Text
+          variant={tab === "unread" ? "paper" : "secondary"}
+          weight="medium"
+        >
+          {unreadCount}
         </Text>
       </Button>
     </div>

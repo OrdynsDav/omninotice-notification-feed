@@ -1,4 +1,9 @@
-import { BellRingIcon, Button, NotificationIcon, Text } from "@/components/atoms";
+import {
+  BellRingIcon,
+  Button,
+  NotificationIcon,
+  Text,
+} from "@/components/atoms";
 import { omni } from "@/helpers/omni";
 import "./NotificationsState.css";
 import { NotificationsStateProps } from "../types";
@@ -10,21 +15,25 @@ export default function NotificationsState({
   description,
   btn,
 }: NotificationsStateProps) {
-    const content = settings.notificationState[state];
+  const content = settings.notificationState[state];
 
   return (
-    <div className={omni("notifications-state", `notifications-state--${state}`)}>
+    <div
+      className={omni("notifications-state", `notifications-state--${state}`)}
+    >
       <NotificationIcon picture={{ icon: <BellRingIcon /> }} />
       <div className={omni("notifications-state__content")}>
         <Text size="lg" weight="medium">
           {title ?? content.title}
         </Text>
-        <Text variant="secondary">
-          {description ?? content.description}
-        </Text>
+        <Text variant="secondary">{description ?? content.description}</Text>
       </div>
       {btn && (
-        <Button><Text size="sm" variant="paper">Повторить</Text></Button>
+        <Button>
+          <Text size="sm" variant="paper">
+            Повторить
+          </Text>
+        </Button>
       )}
     </div>
   );

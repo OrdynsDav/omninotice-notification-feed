@@ -3,19 +3,20 @@ import { Container } from "@/components/atoms";
 import { PageTitle, Tab } from "@/components/molecules";
 import TabProvider from "@/app/providers/TabProvider";
 import "./NotificationFeedPage.css"
-import NotificationsState from "../molecules/NotificationsState/NotificationsState";
+import { omni } from "@/helpers/omni";
+import NotificationsRoot from "../organisms/NotificationsRoot/NotificationsRoot";
 
 export default function NotificationFeedPage() {
+
   return (
-    <div>
+    <div className={omni("notification-page")}>
       <Header />
         <Container>
           <PageTitle />
-          <TabProvider>
+          <NotificationsRoot>
             <Tab />
-            <NotificationsState state={"error"} btn/>
-            {/* <NotificationsSection /> */}
-          </TabProvider>
+            <NotificationsSection />
+          </NotificationsRoot>
         </Container>
     </div>
   );

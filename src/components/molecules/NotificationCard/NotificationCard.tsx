@@ -36,10 +36,10 @@ export default function NotificationCard({
         </div>
       </div>
       <div className={omni("notification-card__right")}>
-        <Text as="time" variant="secondary">
+        <Text className={omni("notification-card__time")} as="time" variant="secondary">
           {time}
         </Text>
-        {action && (
+        {action && action.title !== "" && (
           <Button className={"notification-card__btn"} as="a" href={action.url}>
             {action.title}
           </Button>
