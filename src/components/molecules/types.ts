@@ -11,7 +11,9 @@ export interface NotificationPicture {
 }
 
 export interface NotificationCardProps {
+  messageId?: string;
   status: string;
+  createdAt?: string;
   time: string;
   title: string;
   description: string;
@@ -24,7 +26,20 @@ export interface NotificationCardProps {
   isRead: boolean;
   isActionPending?: boolean;
   onAction?: (action: NotificationAction) => void;
+  onSelect?: (notification: NotificationDetails) => void;
 }
+
+export type NotificationDetails = Pick<
+  NotificationCardProps,
+  | "messageId"
+  | "status"
+  | "createdAt"
+  | "time"
+  | "title"
+  | "description"
+  | "picture"
+  | "isRead"
+>;
 
 export interface NotificationsStateProps {
   state: "empty" | "error";

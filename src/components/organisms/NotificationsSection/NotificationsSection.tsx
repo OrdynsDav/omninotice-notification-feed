@@ -6,9 +6,18 @@ import { useNotifications } from "@/hooks/useNotifications";
 import { useCallback, useMemo, useRef, useState } from "react";
 import { toCardProps } from "@/api/notificationMapper";
 import type { NotificationAction } from "@/api/actions";
+import type { NotificationDetails } from "@/components/molecules/types";
 import { useTab } from "@/hooks/useTab";
 
-export default function NotificationsSection() {
+interface NotificationsSectionProps {
+  onSelectNotification?: (notification: NotificationDetails) => void;
+  onNotificationRead?: (id: string) => void;
+}
+
+export default function NotificationsSection({
+  onSelectNotification,
+  onNotificationRead,
+}: NotificationsSectionProps) {
   const {
     items,
     error,
@@ -42,7 +51,10 @@ export default function NotificationsSection() {
       setActionError(null);
       try {
         const wasMarkedRead = await markRead(action.id);
-        if (wasMarkedRead) decrementUnreadCount();
+        if (wasMarkedRead) {
+          decrementUnreadCount();
+          onNotificationRead?.(action.id);
+        }
         return wasMarkedRead;
       } catch (cause) {
         setActionError(
@@ -60,7 +72,7 @@ export default function NotificationsSection() {
         });
       }
     },
-    [decrementUnreadCount, markRead],
+    [decrementUnreadCount, markRead, onNotificationRead],
   );
 
   const handleMarkAllRead = async () => {
@@ -106,6 +118,7 @@ export default function NotificationsSection() {
         notifications={cards}
         onAction={(action) => void handleAction(action)}
         pendingActionIds={pendingActionIds}
+        onSelect={onSelectNotification}
       />
 
       {hasMore && (

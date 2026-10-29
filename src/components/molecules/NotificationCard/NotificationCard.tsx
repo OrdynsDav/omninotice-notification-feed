@@ -1,9 +1,15 @@
-import { ChevronIcon, Button, NotificationIcon, Text } from "@/components/atoms";
+import {
+  ChevronIcon,
+  Button,
+  NotificationIcon,
+  Text,
+} from "@/components/atoms";
 import { omni } from "@/helpers/omni";
-import type { NotificationCardProps } from "../types";
+import type { NotificationCardProps, NotificationDetails } from "../types";
 import "./NotificationCard.css";
 
 export default function NotificationCard({
+  messageId,
   status,
   isRead,
   picture,
@@ -13,7 +19,18 @@ export default function NotificationCard({
   readAction,
   isActionPending = false,
   onAction,
+  onSelect,
 }: NotificationCardProps) {
+  const details: NotificationDetails = {
+    messageId,
+    status,
+    isRead,
+    picture,
+    title,
+    description,
+    time,
+  };
+
   return (
     <button
       className={omni(
@@ -22,8 +39,11 @@ export default function NotificationCard({
       )}
       data-status={status}
       data-is-read={isRead}
-      onClick={() => readAction && onAction?.(readAction)}
-      disabled={!readAction || isActionPending}
+      onClick={() => {
+        onSelect?.(details);
+        if (readAction) onAction?.(readAction);
+      }}
+      disabled={isActionPending}
       aria-busy={isActionPending}
     >
       <div className={omni("notification-card__left")}>
@@ -35,7 +55,12 @@ export default function NotificationCard({
           <Text size="lg" weight="medium">
             {title}
           </Text>
-          <Text variant="secondary">{description}</Text>
+          <Text
+            className={omni("notification-card__description")}
+            variant="secondary"
+          >
+            {description}
+          </Text>
         </div>
       </div>
       <div className={omni("notification-card__right")}>

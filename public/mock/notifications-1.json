@@ -2,6 +2,50 @@
   "data": [
     {
       "status": "published",
+      "created_date": "2026-10-29T11:32:00.000Z",
+      "modified_date": "2026-10-29T11:32:00.000Z",
+      "chit": {
+        "status": "published",
+        "created_date": "2026-10-29T11:32:00.000Z",
+        "modified_date": "2026-10-29T11:32:00.000Z",
+        "message_type": "simple",
+        "title": "Переход на новый регламент отпусков",
+        "description": "С 1 ноября заявления на отпуск подаются через новый раздел портала.",
+        "picture": {
+          "main": null,
+          "preview": null,
+          "cover": null,
+          "icon": null,
+          "emoji": "🔔"
+        },
+        "message_id": "3fa85f64-5717-4562-b3fc-000000000051"
+      },
+      "is_read": false
+    },
+    {
+      "status": "published",
+      "created_date": "2026-10-28T07:15:00.000Z",
+      "modified_date": "2026-10-28T07:15:00.000Z",
+      "chit": {
+        "status": "published",
+        "created_date": "2026-10-28T07:15:00.000Z",
+        "modified_date": "2026-10-28T07:15:00.000Z",
+        "message_type": "simple",
+        "title": "Опрос «Лояльность команды» — до 7 ноября",
+        "description": "Мы проводим ежеквартальный опрос вовлечённости. Он займёт не больше пяти минут.",
+        "picture": {
+          "main": null,
+          "preview": null,
+          "cover": null,
+          "icon": null,
+          "emoji": "📋"
+        },
+        "message_id": "3fa85f64-5717-4562-b3fc-000000000052"
+      },
+      "is_read": true
+    },
+    {
+      "status": "published",
       "created_date": "2026-10-14T09:00:00.000Z",
       "modified_date": "2026-10-14T09:00:00.000Z",
       "chit": {
@@ -211,9 +255,9 @@
   ],
   "info": {
     "api_version": "0.1.0",
-    "count": 10,
-    "total": 50,
+    "count": 12,
+    "total": 52,
     "page": 1,
-    "page_size": 10
+    "page_size": 12
   }
 }

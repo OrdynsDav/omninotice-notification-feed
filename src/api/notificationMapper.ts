@@ -1,18 +1,22 @@
 import { NotificationCardProps } from "@/components/molecules/types";
 import type { Notification } from "./notifications";
 
-const dateFormatter = new Intl.DateTimeFormat("ru-RU", {
-  day: "numeric",
-  month: "short",
+const timeFormatter = new Intl.DateTimeFormat("ru-RU", {
   hour: "2-digit",
   minute: "2-digit",
 });
 
 export function toCardProps(n: Notification): NotificationCardProps {
   const { chit } = n;
+  const createdAt = n.created_date;
+  const createdDate = new Date(createdAt);
   return {
+    messageId: chit.message_id,
     status: n.status,
-    time: dateFormatter.format(new Date(n.created_date)), // например, «14 окт., 12:15»
+    createdAt,
+    time: Number.isNaN(createdDate.getTime())
+      ? ""
+      : timeFormatter.format(createdDate),
     title: chit.title,
     description: chit.description ?? "",
     picture: {

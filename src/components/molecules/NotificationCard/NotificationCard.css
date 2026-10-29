@@ -1,4 +1,5 @@
 .omni-notification-card {
+  container-type: inline-size;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -36,6 +37,13 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 4px;
+}
+
+.omni-notification-card__description {
+  width: 71cqw;
+  overflow: hidden;
+  text-wrap: nowrap;
+  text-overflow: ellipsis;
 }
 
 .omni-notification-card__right {
