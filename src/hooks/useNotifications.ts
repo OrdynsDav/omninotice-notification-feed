@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { runAction } from "@core/actions";
 import { apiFetch, ApiError, isApiError } from "../api/apiFetch";
 import {
   NotificationsResponseSchema,
@@ -117,6 +118,26 @@ export function useNotifications({
   // Перезагрузка с первой страницы; старые элементы остаются, пока не придут новые
   const refetch = useCallback(() => load(1, true), [load]);
 
+  const markRead = useCallback(
+    async (messageId: string) => {
+      const item = items.find(
+        (notification) => notification.chit.message_id === messageId,
+      );
+      if (!item || item.is_read) return false;
+
+      await runAction({ type: "mark-read", id: messageId });
+      setItems((current) =>
+        current.map((notification) =>
+          notification.chit.message_id === messageId
+            ? { ...notification, is_read: true }
+            : notification,
+        ),
+      );
+      return true;
+    },
+    [items],
+  );
+
   return {
     items,
     info,
@@ -126,5 +147,6 @@ export function useNotifications({
     hasMore,
     loadMore,
     refetch,
+    markRead,
   };
 }

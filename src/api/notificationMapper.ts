@@ -20,8 +20,8 @@ export function toCardProps(n: Notification): NotificationCardProps {
       icon: chit.picture?.icon ?? undefined,
       emoji: chit.picture?.emoji ?? undefined,
     },
-    // в ответе API поля action нет, пока заглушка
     action: { url: "", title: "" },
+    readAction: n.is_read ? null : { type: "mark-read", id: chit.message_id },
     isRead: n.is_read,
   };
 }

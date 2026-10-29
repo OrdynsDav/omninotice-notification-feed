@@ -1,4 +1,5 @@
 import { ComponentType, ReactElement } from "react";
+import type { NotificationAction } from "@/api/actions";
 
 export interface NotificationPicture {
   /** Путь к картинке */
@@ -19,7 +20,10 @@ export interface NotificationCardProps {
     url: string;
     title: string;
   };
+  readAction?: NotificationAction | null;
   isRead: boolean;
+  isActionPending?: boolean;
+  onAction?: (action: NotificationAction) => void;
 }
 
 export interface NotificationsStateProps {

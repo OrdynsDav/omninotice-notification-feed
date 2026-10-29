@@ -10,7 +10,9 @@ export default function NotificationCard({
   title,
   description,
   time,
-  action,
+  readAction,
+  isActionPending = false,
+  onAction,
 }: NotificationCardProps) {
   return (
     <button
@@ -20,6 +22,9 @@ export default function NotificationCard({
       )}
       data-status={status}
       data-is-read={isRead}
+      onClick={() => readAction && onAction?.(readAction)}
+      disabled={!readAction || isActionPending}
+      aria-busy={isActionPending}
     >
       <div className={omni("notification-card__left")}>
         <NotificationIcon

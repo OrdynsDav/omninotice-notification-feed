@@ -1,4 +1,4 @@
-import { useMemo, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useMemo, useState, type ReactNode } from "react";
 import { TabContext, type TabType } from "../contexts/TabContext";
 
 interface TabProviderProps {
@@ -17,10 +17,26 @@ export default function TabProvider({
   children,
 }: TabProviderProps) {
   const [tab, setTab] = useState<TabType>(defaultTab);
+  const [currentUnreadCount, setCurrentUnreadCount] = useState(unreadCount);
+
+  useEffect(() => {
+    setCurrentUnreadCount(unreadCount);
+  }, [unreadCount]);
+
+  const decrementUnreadCount = useCallback(() => {
+    setCurrentUnreadCount((count) => Math.max(0, count - 1));
+  }, []);
 
   const value = useMemo(
-    () => ({ tab, setTab, allCount, unreadCount, isLoading }),
-    [tab, allCount, unreadCount, isLoading],
+    () => ({
+      tab,
+      setTab,
+      allCount,
+      unreadCount: currentUnreadCount,
+      isLoading,
+      decrementUnreadCount,
+    }),
+    [tab, allCount, currentUnreadCount, isLoading, decrementUnreadCount],
   );
 
   return <TabContext.Provider value={value}>{children}</TabContext.Provider>;

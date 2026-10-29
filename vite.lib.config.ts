@@ -6,12 +6,18 @@ export default defineConfig({
   build: {
     copyPublicDir: false,
     lib: {
-      entry: "src/index.ts",
+      entry: {
+        "register-all": "src/register-all.ts",
+      },
       formats: ["es", "cjs"],
-      fileName: (format) => (format === "es" ? "index.js" : "index.cjs"),
+      cssFileName: "style",
+      fileName: (format, entryName) =>
+        `${entryName}.${format === "es" ? "js" : "cjs"}`,
     },
     rollupOptions: {
-      external: ["react", "react-dom", "react/jsx-runtime"],
+      external: (id) =>
+        ["react", "react-dom", "react/jsx-runtime"].includes(id) ||
+        id.startsWith("@core/"),
     },
   },
 });
