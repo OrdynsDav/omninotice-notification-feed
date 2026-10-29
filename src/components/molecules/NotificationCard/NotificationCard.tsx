@@ -1,4 +1,4 @@
-import { Button, NotificationIcon, Text } from "@/components/atoms";
+import { ChevronIcon, Button, NotificationIcon, Text } from "@/components/atoms";
 import { omni } from "@/helpers/omni";
 import type { NotificationCardProps } from "../types";
 import "./NotificationCard.css";
@@ -12,9 +12,8 @@ export default function NotificationCard({
   time,
   action,
 }: NotificationCardProps) {
-
   return (
-    <div
+    <button
       className={omni(
         "notification-card",
         !isRead && "nofification-card--unread",
@@ -23,7 +22,10 @@ export default function NotificationCard({
       data-is-read={isRead}
     >
       <div className={omni("notification-card__left")}>
-        <NotificationIcon picture={picture} alt={`Картинка уведомления с названием ${title}`}/>
+        <NotificationIcon
+          picture={picture}
+          alt={`Картинка уведомления с названием ${title}`}
+        />
         <div className={omni("notification-card__content")}>
           <Text size="lg" weight="medium">
             {title}
@@ -32,16 +34,17 @@ export default function NotificationCard({
         </div>
       </div>
       <div className={omni("notification-card__right")}>
-        <Text className={omni("notification-card__time")} as="time" variant="secondary">
+        <Text
+          className={omni("notification-card__time")}
+          as="time"
+          variant="secondary"
+        >
           {time}
         </Text>
-        {action && action.title !== "" && (
-          <Button className={"notification-card__btn"} as="a" href={action.url}>
-            {action.title}
-          </Button>
-        )}
-        {!isRead && <div className={omni("notification-card__dot")}></div>}
+        <div className={"notification-card__chevron"}>
+          <ChevronIcon />
+        </div>
       </div>
-    </div>
+    </button>
   );
 }

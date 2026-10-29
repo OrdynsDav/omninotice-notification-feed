@@ -5,7 +5,8 @@
   --omni-primary-text: #0c151d;
   --omni-secondary-text: #767a7f;
   --omni-breadcumbs-icon-color: #4a5665;
-  --omni-nf-unread-bg: color-mix(in srgb, var(--omni-primary) 8%, white);
+  --omni-nf-bg: #FFFFFF;
+  --omni-nf-bg-hover: color-mix(in srgb, var(--omni-primary) 12%, white);
   --omni-nf-icon: var(--omni-primary);
   --omni-nf-icon-error: #e65443;
   --omni-nf-icon-bg: color-mix(in srgb, var(--omni-nf-icon) 25%, white);
