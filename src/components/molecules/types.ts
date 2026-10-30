@@ -25,13 +25,13 @@ export interface NotificationCardProps {
   readAction?: NotificationAction | null;
   isRead: boolean;
   isActionPending?: boolean;
-  onAction?: (action: NotificationAction) => void;
+  onAction?: (action: NotificationAction) => void | Promise<unknown>;
   onSelect?: (notification: NotificationDetails) => void;
 }
 
 export type NotificationDetails = Pick<
   NotificationCardProps,
-  "messageId" | "title" | "description" | "action" | "isRead"
+  "title" | "description" | "action"
 >;
 
 export interface NotificationsStateProps {

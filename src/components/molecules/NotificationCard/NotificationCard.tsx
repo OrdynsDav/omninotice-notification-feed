@@ -9,7 +9,6 @@ import type { NotificationCardProps, NotificationDetails } from "../types";
 import "./NotificationCard.css";
 
 export default function NotificationCard({
-  messageId,
   status,
   isRead,
   picture,
@@ -23,8 +22,6 @@ export default function NotificationCard({
   onSelect,
 }: NotificationCardProps) {
   const details: NotificationDetails = {
-    messageId,
-    isRead,
     title,
     description,
     action,

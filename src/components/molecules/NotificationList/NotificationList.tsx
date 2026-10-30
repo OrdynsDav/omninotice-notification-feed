@@ -2,8 +2,10 @@ import NotificationCard from "@/components/molecules/NotificationCard/Notificati
 import { NotificationCardProps } from "@/components/molecules/types";
 import type { NotificationDetails } from "@/components/molecules/types";
 import type { NotificationAction } from "@/api/actions";
+import { memo, useState } from "react";
 import { omni } from "@/helpers/omni";
 import "./NotificationList.css";
+import NotificationDetailsSidebar from "@/components/organisms/NotificationDetailsSidebar/NotificationDetailsSidebar";
 
 type DayGroup = "today" | "yesterday" | "earlier";
 
@@ -40,13 +42,41 @@ function getDayGroup(createdAt?: string): DayGroup {
 export default function NotificationList({
   notifications,
   onAction,
-  pendingActionIds,
-  onSelect,
+  isMarkingAll,
 }: {
   notifications: NotificationCardProps[];
-  onAction?: (action: NotificationAction) => void;
-  pendingActionIds?: ReadonlySet<string>;
-  onSelect?: (notification: NotificationDetails) => void;
+  onAction?: (action: NotificationAction) => void | Promise<unknown>;
+  isMarkingAll: boolean;
+}) {
+  const [selectedNotification, setSelectedNotification] =
+    useState<NotificationDetails | null>(null);
+
+  return (
+    <>
+      <NotificationListContent
+        notifications={notifications}
+        onAction={onAction}
+        onSelect={setSelectedNotification}
+        isMarkingAll={isMarkingAll}
+      />
+      <NotificationDetailsSidebar
+        notification={selectedNotification}
+        onClose={() => setSelectedNotification(null)}
+      />
+    </>
+  );
+}
+
+const NotificationListContent = memo(function NotificationListContent({
+  notifications,
+  onAction,
+  onSelect,
+  isMarkingAll,
+}: {
+  notifications: NotificationCardProps[];
+  onAction?: (action: NotificationAction) => void | Promise<unknown>;
+  onSelect: (notification: NotificationDetails) => void;
+  isMarkingAll: boolean;
 }) {
   const groupedNotifications = notifications.reduce<
     Record<DayGroup, NotificationCardProps[]>
@@ -79,15 +109,11 @@ export default function NotificationList({
                   className={omni("notifications__item")}
                   key={card.messageId ?? card.title}
                 >
-                  <NotificationCard
-                    {...card}
+                  <NotificationListItem
+                    card={card}
                     onAction={onAction}
                     onSelect={onSelect}
-                    isActionPending={
-                      card.readAction
-                        ? pendingActionIds?.has(card.readAction.id)
-                        : false
-                    }
+                    isMarkingAll={isMarkingAll}
                   />
                 </li>
               ))}
@@ -96,5 +122,38 @@ export default function NotificationList({
         );
       })}
     </div>
+  );
+});
+
+function NotificationListItem({
+  card,
+  onAction,
+  onSelect,
+  isMarkingAll,
+}: {
+  card: NotificationCardProps;
+  onAction?: (action: NotificationAction) => void | Promise<unknown>;
+  onSelect: (notification: NotificationDetails) => void;
+  isMarkingAll: boolean;
+}) {
+  const [isActionPending, setIsActionPending] = useState(false);
+
+  const handleAction = async (action: NotificationAction) => {
+    if (!onAction) return;
+    setIsActionPending(true);
+    try {
+      await onAction(action);
+    } finally {
+      setIsActionPending(false);
+    }
+  };
+
+  return (
+    <NotificationCard
+      {...card}
+      onAction={handleAction}
+      onSelect={onSelect}
+      isActionPending={isMarkingAll || isActionPending}
+    />
   );
 }

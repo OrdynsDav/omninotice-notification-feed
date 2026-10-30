@@ -70,6 +70,7 @@
 .omni-notification-details-sidebar__actions {
   display: flex;
   flex-direction: column;
+  gap: 4px;
 }
 
 .omni-notification-details-sidebar__btn {
