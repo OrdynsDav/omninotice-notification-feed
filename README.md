@@ -17,11 +17,12 @@ The registration entry calls
 the existing page component directly; it does not introduce a replacement UI
 or combine the existing component tree.
 
-Unread notification cards and the “Прочитать загруженные” button dispatch
+Unread notification cards dispatch
 `{ type: "mark-read", id: "<message_id>" }` through `runAction` from
-`@core/actions`. The UI marks each notification as read and decrements the
-unread counter only after that action succeeds. If the host rejects an action,
-the error is shown and the notification remains unread.
+`@core/actions`. The “Прочитать все уведомления” button currently marks all
+notifications read in local UI state without fetching remaining pages or
+dispatching an action. Notifications loaded later are also treated as read for
+the current feed session.
 
 An optional `chit.action` with `url` and `title` is shown as a link in the
 notification details sidebar.

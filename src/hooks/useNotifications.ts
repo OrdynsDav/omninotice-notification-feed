@@ -45,8 +45,11 @@ export function useNotifications({
   const [isLoading, setIsLoading] = useState(enabled); // первичная загрузка / refetch
   const [isLoadingMore, setIsLoadingMore] = useState(false);
 
+  const itemsRef = useRef(items);
+  itemsRef.current = items;
   const controllerRef = useRef<AbortController | null>(null);
   const busyRef = useRef(false);
+  const allReadRef = useRef(false);
 
   const load = useCallback(
     async (targetPage: number, reset: boolean) => {
@@ -55,6 +58,7 @@ export function useNotifications({
       const controller = new AbortController();
       controllerRef.current = controller;
       busyRef.current = true;
+      if (reset) allReadRef.current = false;
 
       setError(null);
       if (reset) setIsLoading(true);
@@ -76,7 +80,10 @@ export function useNotifications({
         });
         if (controller.signal.aborted) return;
 
-        setItems((prev) => merge(reset ? [] : prev, res.data));
+        const pageItems = allReadRef.current
+          ? res.data.map((item) => ({ ...item, is_read: true }))
+          : res.data;
+        setItems((prev) => merge(reset ? [] : prev, pageItems));
         setInfo(res.info);
         setPage(targetPage);
       } catch (e) {
@@ -118,12 +125,19 @@ export function useNotifications({
   // Перезагрузка с первой страницы; старые элементы остаются, пока не придут новые
   const refetch = useCallback(() => load(1, true), [load]);
 
+  const markAllRead = useCallback(() => {
+    allReadRef.current = true;
+    setItems((current) =>
+      current.map((notification) => ({ ...notification, is_read: true })),
+    );
+  }, []);
+
   const markRead = useCallback(
     async (messageId: string) => {
-      const item = items.find(
+      const item = itemsRef.current.find(
         (notification) => notification.chit.message_id === messageId,
       );
-      if (!item || item.is_read) return false;
+      if (item?.is_read) return false;
 
       await runAction({ type: "mark-read", id: messageId });
       setItems((current) =>
@@ -135,7 +149,7 @@ export function useNotifications({
       );
       return true;
     },
-    [items],
+    [],
   );
 
   return {
@@ -148,5 +162,6 @@ export function useNotifications({
     loadMore,
     refetch,
     markRead,
+    markAllRead,
   };
 }

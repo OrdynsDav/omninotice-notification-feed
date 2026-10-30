@@ -79,6 +79,8 @@
 }
 
 .omni-notification-details-sidebar__close {
+  width: fit-content;
+  margin-inline: auto;
   line-height: 24px;
 }
 

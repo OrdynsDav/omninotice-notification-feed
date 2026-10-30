@@ -1,14 +1,19 @@
-import { isValidElement } from "react";
-import type { ComponentType, ReactElement } from "react";
+import type { ComponentType, ReactNode } from "react";
 import { isEmoji } from "./isEmoji"; // твой существующий хелпер
 import { NotificationPicture } from "@/components/molecules/types";
 
 export type ResolvedPicture =
   | { kind: "image"; src: string }
-  | { kind: "element"; element: ReactElement }
+  | { kind: "element"; element: ReactNode }
   | { kind: "component"; Component: ComponentType }
   | { kind: "emoji"; value: string }
   | { kind: "default" };
+
+function isComponentType(
+  icon: NotificationPicture["icon"],
+): icon is ComponentType {
+  return typeof icon === "function";
+}
 
 export function resolvePicture(
   picture: NotificationPicture,
@@ -25,10 +30,10 @@ export function resolvePicture(
   if (icon) {
     if (typeof icon === "string") {
       if (!isFailed(icon)) return { kind: "image", src: icon };
-    } else if (isValidElement(icon)) {
-      return { kind: "element", element: icon };
+    } else if (isComponentType(icon)) {
+      return { kind: "component", Component: icon };
     } else {
-      return { kind: "component", Component: icon as ComponentType };
+      return { kind: "element", element: icon };
     }
   }
 

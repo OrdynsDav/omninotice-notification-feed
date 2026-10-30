@@ -1,11 +1,13 @@
-import { ComponentType, ReactElement } from "react";
+import { ComponentType, ReactElement, ReactNode } from "react";
 import type { NotificationAction } from "@/api/actions";
+
+export type NotificationState = "empty" | "error" | "allRead";
 
 export interface NotificationPicture {
   /** Путь к картинке */
   image?: string;
   /** Компонент с svg, готовый <svg>…</svg> или путь к svg-файлу */
-  icon?: ComponentType | ReactElement | string;
+  icon?: ComponentType | ReactNode;
   /** Эмодзи */
   emoji?: string;
 }
@@ -35,7 +37,7 @@ export type NotificationDetails = Pick<
 >;
 
 export interface NotificationsStateProps {
-  state: "empty" | "error";
+  state: NotificationState;
   title?: string;
   description?: string;
   btn?: boolean;

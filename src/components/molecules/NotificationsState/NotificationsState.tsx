@@ -1,5 +1,4 @@
 import {
-  BellRingIcon,
   Button,
   NotificationIcon,
   Text,
@@ -21,7 +20,7 @@ export default function NotificationsState({
     <div
       className={omni("notifications-state", `notifications-state--${state}`)}
     >
-      <NotificationIcon picture={{ icon: <BellRingIcon /> }} />
+      <NotificationIcon picture={{ icon: content.icon }} />
       <div className={omni("notifications-state__content")}>
         <Text size="lg" weight="medium">
           {title ?? content.title}

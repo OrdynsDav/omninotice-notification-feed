@@ -42,11 +42,9 @@ function getDayGroup(createdAt?: string): DayGroup {
 export default function NotificationList({
   notifications,
   onAction,
-  isMarkingAll,
 }: {
   notifications: NotificationCardProps[];
   onAction?: (action: NotificationAction) => void | Promise<unknown>;
-  isMarkingAll: boolean;
 }) {
   const [selectedNotification, setSelectedNotification] =
     useState<NotificationDetails | null>(null);
@@ -57,7 +55,6 @@ export default function NotificationList({
         notifications={notifications}
         onAction={onAction}
         onSelect={setSelectedNotification}
-        isMarkingAll={isMarkingAll}
       />
       <NotificationDetailsSidebar
         notification={selectedNotification}
@@ -71,12 +68,10 @@ const NotificationListContent = memo(function NotificationListContent({
   notifications,
   onAction,
   onSelect,
-  isMarkingAll,
 }: {
   notifications: NotificationCardProps[];
   onAction?: (action: NotificationAction) => void | Promise<unknown>;
   onSelect: (notification: NotificationDetails) => void;
-  isMarkingAll: boolean;
 }) {
   const groupedNotifications = notifications.reduce<
     Record<DayGroup, NotificationCardProps[]>
@@ -113,7 +108,6 @@ const NotificationListContent = memo(function NotificationListContent({
                     card={card}
                     onAction={onAction}
                     onSelect={onSelect}
-                    isMarkingAll={isMarkingAll}
                   />
                 </li>
               ))}
@@ -125,17 +119,11 @@ const NotificationListContent = memo(function NotificationListContent({
   );
 });
 
-function NotificationListItem({
+const NotificationListItem = memo(function NotificationListItem({
   card,
   onAction,
   onSelect,
-  isMarkingAll,
-}: {
-  card: NotificationCardProps;
-  onAction?: (action: NotificationAction) => void | Promise<unknown>;
-  onSelect: (notification: NotificationDetails) => void;
-  isMarkingAll: boolean;
-}) {
+}: NotificationListItemProps) {
   const [isActionPending, setIsActionPending] = useState(false);
 
   const handleAction = async (action: NotificationAction) => {
@@ -153,7 +141,45 @@ function NotificationListItem({
       {...card}
       onAction={handleAction}
       onSelect={onSelect}
-      isActionPending={isMarkingAll || isActionPending}
+      isActionPending={isActionPending}
     />
   );
+}, areNotificationCardPropsEqual);
+
+function areNotificationCardPropsEqual(
+  previous: NotificationListItemProps,
+  next: NotificationListItemProps,
+): boolean {
+  const previousPicture = previous.card.picture;
+  const nextPicture = next.card.picture;
+  const previousAction = previous.card.action;
+  const nextAction = next.card.action;
+  const previousReadAction = previous.card.readAction;
+  const nextReadAction = next.card.readAction;
+
+  return (
+    previous.onAction === next.onAction &&
+    previous.onSelect === next.onSelect &&
+    previous.card.messageId === next.card.messageId &&
+    previous.card.status === next.card.status &&
+    previous.card.createdAt === next.card.createdAt &&
+    previous.card.time === next.card.time &&
+    previous.card.title === next.card.title &&
+    previous.card.description === next.card.description &&
+    previous.card.isRead === next.card.isRead &&
+    previous.card.isActionPending === next.card.isActionPending &&
+    previousPicture.image === nextPicture.image &&
+    previousPicture.icon === nextPicture.icon &&
+    previousPicture.emoji === nextPicture.emoji &&
+    previousAction?.url === nextAction?.url &&
+    previousAction?.title === nextAction?.title &&
+    previousReadAction?.type === nextReadAction?.type &&
+    previousReadAction?.id === nextReadAction?.id
+  );
 }
+
+type NotificationListItemProps = {
+  card: NotificationCardProps;
+  onAction?: (action: NotificationAction) => void | Promise<unknown>;
+  onSelect: (notification: NotificationDetails) => void;
+};
