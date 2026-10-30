@@ -9,7 +9,6 @@ export interface TabContextValue {
   unreadCount: number;
   isLoading: boolean;
   decrementUnreadCount: () => void;
-  clearUnreadCount: () => void;
 }
 
 export const TabContext = createContext<TabContextValue | null>(null);

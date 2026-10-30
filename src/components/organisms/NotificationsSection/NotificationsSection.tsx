@@ -1,7 +1,7 @@
 import { omni } from "@/helpers/omni";
 import "./NotificationsSection.css";
 import { NotificationList } from "@/components/molecules";
-import { Button } from "@/components/atoms";
+import { Button, Text } from "@/components/atoms";
 import { useNotifications } from "@/hooks/useNotifications";
 import { useCallback, useMemo, useRef, useState } from "react";
 import { toCardProps } from "@/api/notificationMapper";
@@ -18,7 +18,6 @@ export default function NotificationsSection() {
     hasMore,
     loadMore,
     markRead,
-    markAllRead,
   } = useNotifications({
     baseUrl: "/mock",
     buildUrl: (page) => `/mock/notifications-${page}.json`,
@@ -26,7 +25,7 @@ export default function NotificationsSection() {
     projectId: "mock",
     perPage: 10,
   });
-  const { decrementUnreadCount, clearUnreadCount, tab, unreadCount } = useTab();
+  const { decrementUnreadCount, tab, unreadCount } = useTab();
   const pendingActionIdsRef = useRef(new Set<string>());
   const [actionError, setActionError] = useState<string | null>(null);
 
@@ -61,47 +60,25 @@ export default function NotificationsSection() {
     [decrementUnreadCount, markRead],
   );
 
-  const handleMarkAllRead = () => {
-    setActionError(null);
-    markAllRead();
-    clearUnreadCount();
-  };
-
   return (
     <section className={omni("notifications")}>
-      <div className={omni("notifications-action")}>
-        <Button
-          variant="link"
-          onClick={handleMarkAllRead}
-          disabled={isLoading || isLoadingMore || unreadCount === 0}
-        >
-          Прочитать все
-        </Button>
-      </div>
-
       {isLoading && items.length === 0 && <p>Загрузка...</p>}
       {error && <p>{error.message}</p>}
       {actionError && <p role="alert">{actionError}</p>}
-      {tab === "unread" && !isLoading && visibleCards.length === 0 && (
-        unreadCount === 0 || !hasMore ? (
+      {tab === "unread" &&
+        !isLoading &&
+        visibleCards.length === 0 &&
+        (unreadCount === 0 || !hasMore ? (
           <NotificationsState state="allRead" />
         ) : (
-          <p>На загруженных страницах нет непрочитанных уведомлений.</p>
-        )
-      )}
+          <Text>На загруженных страницах нет непрочитанных уведомлений.</Text>
+        ))}
 
-      <NotificationList
-        notifications={visibleCards}
-        onAction={handleAction}
-      />
+      <NotificationList notifications={visibleCards} onAction={handleAction} />
 
       {hasMore && !(tab === "unread" && unreadCount === 0) && (
         <div className={omni("notifications-action")}>
-          <Button
-            variant="link"
-            onClick={loadMore}
-            disabled={isLoadingMore}
-          >
+          <Button variant="link" onClick={loadMore} disabled={isLoadingMore}>
             {isLoadingMore ? "Загрузка..." : "Показать больше"}
           </Button>
         </div>

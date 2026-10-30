@@ -26,9 +26,6 @@ export default function TabProvider({
   const decrementUnreadCount = useCallback(() => {
     setCurrentUnreadCount((count) => Math.max(0, count - 1));
   }, []);
-  const clearUnreadCount = useCallback(() => {
-    setCurrentUnreadCount(0);
-  }, []);
 
   const value = useMemo(
     () => ({
@@ -38,7 +35,6 @@ export default function TabProvider({
       unreadCount: currentUnreadCount,
       isLoading,
       decrementUnreadCount,
-      clearUnreadCount,
     }),
     [
       tab,
@@ -46,7 +42,6 @@ export default function TabProvider({
       currentUnreadCount,
       isLoading,
       decrementUnreadCount,
-      clearUnreadCount,
     ],
   );
 
