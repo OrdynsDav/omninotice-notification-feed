@@ -22,3 +22,6 @@ Unread notification cards and the “Прочитать загруженные�
 `@core/actions`. The UI marks each notification as read and decrements the
 unread counter only after that action succeeds. If the host rejects an action,
 the error is shown and the notification remains unread.
+
+An optional `chit.action` with `url` and `title` is shown as a link in the
+notification details sidebar.

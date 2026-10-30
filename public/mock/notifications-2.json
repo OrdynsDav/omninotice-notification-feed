@@ -2,12 +2,12 @@
   "data": [
     {
       "status": "published",
-      "created_date": "2026-10-12T07:00:00.000Z",
-      "modified_date": "2026-10-12T07:00:00.000Z",
+      "created_date": "2026-10-28T09:00:00.000Z",
+      "modified_date": "2026-10-28T09:00:00.000Z",
       "chit": {
         "status": "published",
-        "created_date": "2026-10-12T07:00:00.000Z",
-        "modified_date": "2026-10-12T07:00:00.000Z",
+        "created_date": "2026-10-28T09:00:00.000Z",
+        "modified_date": "2026-10-28T09:00:00.000Z",
         "message_type": "simple",
         "title": "Назначена новая задача #11",
         "description": "Вам назначена задача «Подготовить отчёт за квартал». Срок: 20 октября.",
@@ -18,18 +18,22 @@
           "icon": null,
           "emoji": "📝"
         },
+        "action": {
+          "url": "https://example.com/tasks/11",
+          "title": "Открыть задачу"
+        },
         "message_id": "3fa85f64-5717-4562-b3fc-000000000011"
       },
       "is_read": true
     },
     {
       "status": "published",
-      "created_date": "2026-10-12T02:00:00.000Z",
-      "modified_date": "2026-10-12T02:00:00.000Z",
+      "created_date": "2026-10-28T08:55:00.000Z",
+      "modified_date": "2026-10-28T08:55:00.000Z",
       "chit": {
         "status": "published",
-        "created_date": "2026-10-12T02:00:00.000Z",
-        "modified_date": "2026-10-12T02:00:00.000Z",
+        "created_date": "2026-10-28T08:55:00.000Z",
+        "modified_date": "2026-10-28T08:55:00.000Z",
         "message_type": "simple",
         "title": "Отпуск согласован #12",
         "description": "Ваш отпуск с 3 по 17 ноября согласован руководителем.",
@@ -40,12 +44,12 @@
     },
     {
       "status": "published",
-      "created_date": "2026-10-11T21:00:00.000Z",
-      "modified_date": "2026-10-11T21:00:00.000Z",
+      "created_date": "2026-10-28T08:50:00.000Z",
+      "modified_date": "2026-10-28T08:50:00.000Z",
       "chit": {
         "status": "published",
-        "created_date": "2026-10-11T21:00:00.000Z",
-        "modified_date": "2026-10-11T21:00:00.000Z",
+        "created_date": "2026-10-28T08:50:00.000Z",
+        "modified_date": "2026-10-28T08:50:00.000Z",
         "message_type": "simple",
         "title": "Опрос: как вам новый корпоративный портал? #13",
         "description": null,
@@ -56,18 +60,22 @@
           "icon": null,
           "emoji": "📊"
         },
+        "action": {
+          "url": "https://example.com/tasks/13",
+          "title": "Открыть задачу"
+        },
         "message_id": "3fa85f64-5717-4562-b3fc-000000000013"
       },
       "is_read": false
     },
     {
       "status": "published",
-      "created_date": "2026-10-11T16:00:00.000Z",
-      "modified_date": "2026-10-11T16:00:00.000Z",
+      "created_date": "2026-10-28T08:45:00.000Z",
+      "modified_date": "2026-10-28T08:45:00.000Z",
       "chit": {
         "status": "published",
-        "created_date": "2026-10-11T16:00:00.000Z",
-        "modified_date": "2026-10-11T16:00:00.000Z",
+        "created_date": "2026-10-28T08:45:00.000Z",
+        "modified_date": "2026-10-28T08:45:00.000Z",
         "message_type": "simple",
         "title": "С днём рождения, Анна! #14",
         "description": "Команда поздравляет вас и желает успехов в новом году жизни.",
@@ -78,18 +86,22 @@
           "icon": null,
           "emoji": "🎉"
         },
+        "action": {
+          "url": "https://example.com/tasks/14",
+          "title": "Открыть задачу"
+        },
         "message_id": "3fa85f64-5717-4562-b3fc-000000000014"
       },
       "is_read": true
     },
     {
       "status": "published",
-      "created_date": "2026-10-11T11:00:00.000Z",
-      "modified_date": "2026-10-11T11:00:00.000Z",
+      "created_date": "2026-10-28T08:40:00.000Z",
+      "modified_date": "2026-10-28T08:40:00.000Z",
       "chit": {
         "status": "published",
-        "created_date": "2026-10-11T11:00:00.000Z",
-        "modified_date": "2026-10-11T11:00:00.000Z",
+        "created_date": "2026-10-28T08:40:00.000Z",
+        "modified_date": "2026-10-28T08:40:00.000Z",
         "message_type": "simple",
         "title": "Обновлён регламент информационной безопасности #15",
         "description": "Ознакомьтесь с новой версией регламента до конца недели.",
@@ -106,28 +118,32 @@
     },
     {
       "status": "published",
-      "created_date": "2026-10-11T06:00:00.000Z",
-      "modified_date": "2026-10-11T06:00:00.000Z",
+      "created_date": "2026-10-27T09:00:00.000Z",
+      "modified_date": "2026-10-27T09:00:00.000Z",
       "chit": {
         "status": "published",
-        "created_date": "2026-10-11T06:00:00.000Z",
-        "modified_date": "2026-10-11T06:00:00.000Z",
+        "created_date": "2026-10-27T09:00:00.000Z",
+        "modified_date": "2026-10-27T09:00:00.000Z",
         "message_type": "simple",
         "title": "Плановые технические работы #16",
         "description": "В субботу с 02:00 до 04:00 сервис будет недоступен.",
         "picture": null,
+        "action": {
+          "url": "https://example.com/tasks/16",
+          "title": "Открыть задачу"
+        },
         "message_id": "3fa85f64-5717-4562-b3fc-000000000016"
       },
       "is_read": false
     },
     {
       "status": "published",
-      "created_date": "2026-10-11T01:00:00.000Z",
-      "modified_date": "2026-10-11T01:00:00.000Z",
+      "created_date": "2026-10-27T08:55:00.000Z",
+      "modified_date": "2026-10-27T08:55:00.000Z",
       "chit": {
         "status": "published",
-        "created_date": "2026-10-11T01:00:00.000Z",
-        "modified_date": "2026-10-11T01:00:00.000Z",
+        "created_date": "2026-10-27T08:55:00.000Z",
+        "modified_date": "2026-10-27T08:55:00.000Z",
         "message_type": "simple",
         "title": "Напоминание о встрече #17",
         "description": "Совещание отдела начнётся через 30 минут в переговорной «Север».",
@@ -138,18 +154,22 @@
           "icon": null,
           "emoji": "📅"
         },
+        "action": {
+          "url": "https://example.com/tasks/17",
+          "title": "Открыть задачу"
+        },
         "message_id": "3fa85f64-5717-4562-b3fc-000000000017"
       },
       "is_read": true
     },
     {
       "status": "published",
-      "created_date": "2026-10-10T20:00:00.000Z",
-      "modified_date": "2026-10-10T20:00:00.000Z",
+      "created_date": "2026-10-27T08:50:00.000Z",
+      "modified_date": "2026-10-27T08:50:00.000Z",
       "chit": {
         "status": "published",
-        "created_date": "2026-10-10T20:00:00.000Z",
-        "modified_date": "2026-10-10T20:00:00.000Z",
+        "created_date": "2026-10-27T08:50:00.000Z",
+        "modified_date": "2026-10-27T08:50:00.000Z",
         "message_type": "simple",
         "title": "Заявка одобрена #18",
         "description": "Ваша заявка на оборудование одобрена и передана в закупку.",
@@ -166,12 +186,12 @@
     },
     {
       "status": "published",
-      "created_date": "2026-10-10T15:00:00.000Z",
-      "modified_date": "2026-10-10T15:00:00.000Z",
+      "created_date": "2026-10-27T08:45:00.000Z",
+      "modified_date": "2026-10-27T08:45:00.000Z",
       "chit": {
         "status": "published",
-        "created_date": "2026-10-10T15:00:00.000Z",
-        "modified_date": "2026-10-10T15:00:00.000Z",
+        "created_date": "2026-10-27T08:45:00.000Z",
+        "modified_date": "2026-10-27T08:45:00.000Z",
         "message_type": "simple",
         "title": "Новый документ на подпись #19",
         "description": null,
@@ -182,22 +202,30 @@
           "icon": null,
           "emoji": "📄"
         },
+        "action": {
+          "url": "https://example.com/tasks/19",
+          "title": "Открыть задачу"
+        },
         "message_id": "3fa85f64-5717-4562-b3fc-000000000019"
       },
       "is_read": false
     },
     {
       "status": "published",
-      "created_date": "2026-10-10T10:00:00.000Z",
-      "modified_date": "2026-10-10T10:00:00.000Z",
+      "created_date": "2026-10-27T08:40:00.000Z",
+      "modified_date": "2026-10-27T08:40:00.000Z",
       "chit": {
         "status": "published",
-        "created_date": "2026-10-10T10:00:00.000Z",
-        "modified_date": "2026-10-10T10:00:00.000Z",
+        "created_date": "2026-10-27T08:40:00.000Z",
+        "modified_date": "2026-10-27T08:40:00.000Z",
         "message_type": "simple",
         "title": "Вы в числе лучших сотрудников месяца #20",
         "description": "Поздравляем! Спасибо за вклад в общий результат команды.",
         "picture": null,
+        "action": {
+          "url": "https://example.com/tasks/20",
+          "title": "Открыть задачу"
+        },
         "message_id": "3fa85f64-5717-4562-b3fc-000000000020"
       },
       "is_read": true

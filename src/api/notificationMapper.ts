@@ -24,7 +24,7 @@ export function toCardProps(n: Notification): NotificationCardProps {
       icon: chit.picture?.icon ?? undefined,
       emoji: chit.picture?.emoji ?? undefined,
     },
-    action: { url: "", title: "" },
+    action: chit.action ?? undefined,
     readAction: n.is_read ? null : { type: "mark-read", id: chit.message_id },
     isRead: n.is_read,
   };

@@ -18,13 +18,25 @@
   background-color: var(--omni-primary-hover);
 }
 
+.omni-button--secondary {
+  color: var(--omni-primary);
+  background-color: transparent;
+  font-weight: 700;
+}
+
+.omni-button--secondary:hover,
+.omni-button--secondary:focus-visible {
+  color: var(--omni-primary-hover);
+}
+
 .omni-button--icon {
   background-color: transparent;
-  width: 40px;
-  height: 40px;
+  width: 24px;
+  height: 24px;
   display: grid;
   place-items: center;
   flex-shrink: 0;
+  border-radius: calc(var(--omni-radius) - 4px);
 }
 
 .omni-button--icon:hover {

@@ -19,6 +19,7 @@
   "scripts": {
     "build": "vite build",
     "dev": "vite dev",
+    "generate:mock": "node src/scripts/generate-mock.mjs",
     "typecheck": "tsc --noEmit",
     "prepublishOnly": "npm run typecheck && npm run build"
   },

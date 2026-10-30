@@ -15,6 +15,7 @@ export default function NotificationCard({
   picture,
   title,
   description,
+  action,
   time,
   readAction,
   isActionPending = false,
@@ -23,12 +24,10 @@ export default function NotificationCard({
 }: NotificationCardProps) {
   const details: NotificationDetails = {
     messageId,
-    status,
     isRead,
-    picture,
     title,
     description,
-    time,
+    action,
   };
 
   return (

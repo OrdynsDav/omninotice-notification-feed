@@ -1,5 +1,4 @@
-import { useEffect } from "react";
-import { Button, NotificationIcon, Text } from "@/components/atoms";
+import { Button, Text } from "@/components/atoms";
 import { omni } from "@/helpers/omni";
 import type { NotificationDetails } from "@/components/molecules/types";
 import "./NotificationDetailsSidebar.css";
@@ -15,16 +14,10 @@ export default function NotificationDetailsSidebar({
   onClose,
 }: NotificationDetailsSidebarProps) {
   const isOpen = notification !== null;
-
-  useEffect(() => {
-    if (!isOpen) return;
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") onClose();
-    };
-
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [isOpen, onClose]);
+  const hasAction =
+    notification?.action &&
+    notification?.action.url != "" &&
+    notification?.action.title != "";
 
   return (
     <div
@@ -53,7 +46,7 @@ export default function NotificationDetailsSidebar({
                 tabIndex={isOpen ? undefined : -1}
                 onClick={onClose}
               >
-                <CloseIcon />
+                <CloseIcon width={9} height={9} />
               </Button>
             </div>
             <div className={omni("notification-details-sidebar__content")}>
@@ -61,9 +54,24 @@ export default function NotificationDetailsSidebar({
                 <Text variant="secondary">{notification.description}</Text>
               )}
             </div>
-            {/* <div className={omni("notification-details-sidebar__actions")}>
-              <Button as="a" href={notification.action.url}>{notification.action.title}</Button>
-            </div> */}
+            <div className={omni("notification-details-sidebar__actions")}>
+              {hasAction && (
+                <Button
+                  className={"notification-details-sidebar__btn"}
+                  as="a"
+                  href={notification.action?.url}
+                >
+                  {notification.action?.title}
+                </Button>
+              )}
+              <Button
+                className="notification-details-sidebar__close"
+                variant="secondary"
+                onClick={onClose}
+              >
+                Закрыть
+              </Button>
+            </div>
           </div>
         )}
       </aside>

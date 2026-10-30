@@ -10,6 +10,11 @@ const PictureSchema = t.object({
   emoji: maybeString
 });
 
+const ActionSchema = t.object({
+  url: t.string,
+  title: t.string
+});
+
 export const NotificationSchema = t.object({
   status: t.string,
   created_date: t.string,
@@ -22,6 +27,7 @@ export const NotificationSchema = t.object({
     title: t.string,
     description: maybeString,
     picture: t.optional(t.nullable(PictureSchema)),
+    action: t.optional(t.nullable(ActionSchema)),
     message_id: t.string
   }),
   is_read: t.boolean

@@ -3,6 +3,11 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 const TOTAL = 50;
 const PER_PAGE = 10;
 const OUT_DIR = 'public/mock';
+const TODAY_COUNT = 5;
+const YESTERDAY_COUNT = 5;
+const EARLIER_PER_DAY = 5;
+const TIME_CLUSTER_SIZE = 5;
+const MINUTES_BETWEEN_NOTIFICATIONS = 5;
 
 const samples = [
   ['📝', 'Назначена новая задача', 'Вам назначена задача «Подготовить отчёт за квартал». Срок: 20 октября.'],
@@ -17,12 +22,23 @@ const samples = [
   ['🏆', 'Вы в числе лучших сотрудников месяца', 'Поздравляем! Спасибо за вклад в общий результат команды.']
 ];
 
-const base = new Date('2026-10-14T09:00:00.000Z').getTime();
-const HOUR = 3600 * 1000;
-
 const items = Array.from({ length: TOTAL }, (_, i) => {
   const [emoji, title, description] = samples[i % samples.length];
-  const date = new Date(base - i * 5 * HOUR).toISOString();
+  const createdAt = new Date();
+  const daysAgo =
+    i < TODAY_COUNT
+      ? 0
+      : i < TODAY_COUNT + YESTERDAY_COUNT
+        ? 1
+        : 2 + Math.floor((i - TODAY_COUNT - YESTERDAY_COUNT) / EARLIER_PER_DAY);
+  createdAt.setDate(createdAt.getDate() - daysAgo);
+  createdAt.setHours(
+    12,
+    -((i % TIME_CLUSTER_SIZE) * MINUTES_BETWEEN_NOTIFICATIONS),
+    0,
+    0,
+  );
+  const date = createdAt.toISOString();
   return {
     status: 'published',
     created_date: date,
@@ -39,6 +55,13 @@ const items = Array.from({ length: TOTAL }, (_, i) => {
         i % 4 === 3
           ? null
           : { main: null, preview: null, cover: null, icon: null, emoji },
+      action:
+        i % 3 !== 2
+          ? {
+              url: `https://example.com/tasks/${i + 1}`,
+              title: 'Открыть задачу'
+            }
+          : undefined,
       message_id: `3fa85f64-5717-4562-b3fc-${String(i + 1).padStart(12, '0')}`
     },
     is_read: i % 3 === 1

@@ -18,7 +18,7 @@ export interface NotificationCardProps {
   title: string;
   description: string;
   picture: NotificationPicture;
-  action: {
+  action?: {
     url: string;
     title: string;
   };
@@ -31,14 +31,7 @@ export interface NotificationCardProps {
 
 export type NotificationDetails = Pick<
   NotificationCardProps,
-  | "messageId"
-  | "status"
-  | "createdAt"
-  | "time"
-  | "title"
-  | "description"
-  | "picture"
-  | "isRead"
+  "messageId" | "title" | "description" | "action" | "isRead"
 >;
 
 export interface NotificationsStateProps {
