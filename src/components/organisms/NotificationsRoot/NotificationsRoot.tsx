@@ -1,20 +1,15 @@
+import { useNotificationsContext } from "@/app/contexts/NotificationsContext";
 import TabProvider from "@/app/providers/TabProvider";
 import type { ReactNode } from "react";
-import { useNotificationCounts } from "@/hooks/useNotificationCounts";
 
 export default function NotificationsRoot({ children }: { children: ReactNode }) {
-  const { counts, isLoading } = useNotificationCounts({
-    url: "/mock/notification-counts.json",
-    token: "mock",
-    projectId: "mock",
-    mockDelayMs: 1200,
-  });
+  const { state } = useNotificationsContext();
 
   return (
     <TabProvider
-      allCount={counts.all}
-      unreadCount={counts.unread}
-      isLoading={isLoading}
+      allCount={state.counts.all}
+      unreadCount={state.counts.unread}
+      isLoading={state.isCountsLoading}
     >
       {children}
     </TabProvider>

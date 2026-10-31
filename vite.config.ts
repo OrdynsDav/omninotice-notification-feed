@@ -6,7 +6,9 @@ import { fileURLToPath } from 'node:url'
 export default defineConfig(({ command }) => ({
   plugins: [
     react(),
-    dts({ include: ["src/register-all.ts", "src/platform.d.ts"] }),
+    dts({
+      include: ["src/public.ts", "src/register-all.ts", "src/platform.d.ts"],
+    }),
   ],
   resolve: {
     alias:
@@ -26,6 +28,7 @@ export default defineConfig(({ command }) => ({
     copyPublicDir: false,
     lib: {
       entry: {
+        public: fileURLToPath(new URL("./src/public.ts", import.meta.url)),
         "register-all": fileURLToPath(
           new URL("./src/register-all.ts", import.meta.url),
         ),

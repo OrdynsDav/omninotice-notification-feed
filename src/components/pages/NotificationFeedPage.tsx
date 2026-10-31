@@ -1,4 +1,4 @@
-import { Header, NotificationsSection } from "@/components/organisms";
+import { NotificationsSection } from "@/components/organisms";
 import { Container } from "@/components/atoms";
 import { PageTitle, Tab } from "@/components/molecules";
 import "./NotificationFeedPage.css"
@@ -8,7 +8,6 @@ import NotificationsRoot from "../organisms/NotificationsRoot/NotificationsRoot"
 export default function NotificationFeedPage() {
   return (
     <div className={omni("notification-page")}>
-      <Header />
         <Container>
           <PageTitle />
           <NotificationsRoot>

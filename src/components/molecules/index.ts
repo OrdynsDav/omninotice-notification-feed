@@ -1,6 +1,3 @@
-export {default as Breadcrumbs} from "./Breadcrumbs/Breadcrumbs"
-export {default as Search} from "./Search/Search"
 export {default as PageTitle} from "./PageTitle/PageTitle"
-export {default as InfoButton} from "./InfoButton/InfoButton"
 export {default as Tab} from "./Tab/Tab"
 export {default as NotificationList} from "./NotificationList/NotificationList"

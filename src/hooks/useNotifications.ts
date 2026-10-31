@@ -1,24 +1,41 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import { runAction } from "@core/actions";
-import { apiFetch, ApiError, isApiError } from "../api/apiFetch";
-import {
-  NotificationsResponseSchema,
-  type Notification,
-  type NotificationsInfo,
-} from "../api/notifications";
+import { useCallback, useRef, useState } from "react";
+import type { NotificationCounts } from "../api/notificationCounts";
+import type { Notification, NotificationsInfo } from "../api/notifications";
 
-interface UseNotificationsOptions {
-  baseUrl: string;
-  token: string;
-  projectId: string;
+export interface UseNotificationsOptions {
   perPage?: number;
-  enabled?: boolean;
-  /** Переопределяет сборку URL (для моков) */
-  buildUrl?: (page: number, perPage: number) => string;
 }
 
-// Дедупликация по message_id: если во время просмотра пришли новые
-// уведомления, границы страниц сдвигаются и элементы могут повториться
+export interface NotificationsState {
+  items: Notification[];
+  info: NotificationsInfo | null;
+  page: number;
+  counts: NotificationCounts;
+  error: Error | null;
+  isLoading: boolean;
+  isLoadingMore: boolean;
+  isCountsLoading: boolean;
+  hasMore: boolean;
+  reset: () => void;
+  replacePage: (
+    items: Notification[],
+    info: NotificationsInfo,
+    page: number,
+  ) => void;
+  appendPage: (
+    items: Notification[],
+    info: NotificationsInfo,
+    page: number,
+  ) => void;
+  setCounts: (counts: NotificationCounts) => void;
+  markRead: (messageId: string) => boolean;
+  markAllRead: () => void;
+  setError: (error: Error | null) => void;
+  setIsLoading: (loading: boolean) => void;
+  setIsLoadingMore: (loading: boolean) => void;
+  setIsCountsLoading: (loading: boolean) => void;
+}
+
 function merge(prev: Notification[], next: Notification[]): Notification[] {
   const map = new Map<string, Notification>();
   for (const item of prev) map.set(item.chit.message_id, item);
@@ -27,128 +44,112 @@ function merge(prev: Notification[], next: Notification[]): Notification[] {
 }
 
 export function useNotifications({
-  baseUrl,
-  token,
-  projectId,
   perPage = 20,
-  enabled = true,
-  buildUrl,
-}: UseNotificationsOptions) {
-  const buildUrlRef = useRef(buildUrl);
-  buildUrlRef.current = buildUrl;
+}: UseNotificationsOptions = {}): NotificationsState {
   const size = Math.min(50, Math.max(1, perPage));
-
   const [items, setItems] = useState<Notification[]>([]);
   const [info, setInfo] = useState<NotificationsInfo | null>(null);
-  const [page, setPage] = useState(0); // последняя успешно загруженная страница
-  const [error, setError] = useState<ApiError | null>(null);
-  const [isLoading, setIsLoading] = useState(enabled); // первичная загрузка / refetch
+  const [page, setPage] = useState(0);
+  const [counts, setCountsState] = useState<NotificationCounts>({
+    all: 0,
+    unread: 0,
+  });
+  const [error, setError] = useState<Error | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
-
+  const [isCountsLoading, setIsCountsLoading] = useState(false);
   const itemsRef = useRef(items);
   itemsRef.current = items;
-  const controllerRef = useRef<AbortController | null>(null);
-  const busyRef = useRef(false);
 
-  const load = useCallback(
-    async (targetPage: number, reset: boolean) => {
-      // отменяем предыдущий запрос: защита от гонок
-      controllerRef.current?.abort();
-      const controller = new AbortController();
-      controllerRef.current = controller;
-      busyRef.current = true;
-
-      setError(null);
-      if (reset) setIsLoading(true);
-      else setIsLoadingMore(true);
-
-      try {
-        const query = new URLSearchParams({
-          page: String(targetPage),
-          per_page: String(size),
-        });
-        const url = buildUrlRef.current
-          ? buildUrlRef.current(targetPage, size)
-          : `${baseUrl}?${query}`;
-
-        const res = await apiFetch(url, NotificationsResponseSchema, {
-          token,
-          projectId,
-          signal: controller.signal,
-        });
-        if (controller.signal.aborted) return;
-
-        setItems((prev) => merge(reset ? [] : prev, res.data));
-        setInfo(res.info);
-        setPage(targetPage);
-      } catch (e) {
-        if (controller.signal.aborted) return;
-        setError(
-          isApiError(e)
-            ? e
-            : new ApiError("network", "Неизвестная ошибка", { cause: e }),
-        );
-      } finally {
-        // сбрасываем флаги, только если нас не заменил более новый запрос
-        if (controllerRef.current === controller) {
-          busyRef.current = false;
-          setIsLoading(false);
-          setIsLoadingMore(false);
-        }
-      }
-    },
-    [baseUrl, token, projectId, size],
-  );
-
-  // Первая загрузка и полный сброс при смене токена, проекта, URL или размера
-  useEffect(() => {
-    if (!enabled) return;
+  const reset = useCallback(() => {
     setItems([]);
     setInfo(null);
     setPage(0);
-    load(1, true);
-    return () => controllerRef.current?.abort();
-  }, [enabled, load]);
+    setCountsState({ all: 0, unread: 0 });
+    setError(null);
+    setIsLoading(false);
+    setIsLoadingMore(false);
+    setIsCountsLoading(false);
+  }, []);
 
-  const hasMore = info !== null && page * size < info.total;
-
-  const loadMore = useCallback(() => {
-    if (busyRef.current || !hasMore) return;
-    load(page + 1, false);
-  }, [hasMore, page, load]);
-
-  // Перезагрузка с первой страницы; старые элементы остаются, пока не придут новые
-  const refetch = useCallback(() => load(1, true), [load]);
-
-  const markRead = useCallback(
-    async (messageId: string) => {
-      const item = itemsRef.current.find(
-        (notification) => notification.chit.message_id === messageId,
-      );
-      if (item?.is_read) return false;
-
-      await runAction({ type: "mark-read", id: messageId });
-      setItems((current) =>
-        current.map((notification) =>
-          notification.chit.message_id === messageId
-            ? { ...notification, is_read: true }
-            : notification,
-        ),
-      );
-      return true;
+  const replacePage = useCallback(
+    (
+      nextItems: Notification[],
+      nextInfo: NotificationsInfo,
+      nextPage: number,
+    ) => {
+      setItems(nextItems);
+      setInfo(nextInfo);
+      setPage(nextPage);
     },
     [],
   );
 
+  const appendPage = useCallback(
+    (
+      nextItems: Notification[],
+      nextInfo: NotificationsInfo,
+      nextPage: number,
+    ) => {
+      setItems((current) => merge(current, nextItems));
+      setInfo(nextInfo);
+      setPage(nextPage);
+    },
+    [],
+  );
+
+  const setCounts = useCallback((nextCounts: NotificationCounts) => {
+    setCountsState(nextCounts);
+  }, []);
+
+  const markRead = useCallback((messageId: string) => {
+    const item = itemsRef.current.find(
+      (notification) => notification.chit.message_id === messageId,
+    );
+    if (!item || item.is_read) return false;
+
+    setItems((current) =>
+      current.map((notification) =>
+        notification.chit.message_id === messageId
+          ? { ...notification, is_read: true }
+          : notification,
+      ),
+    );
+    setCountsState((current) => ({
+      ...current,
+      unread: Math.max(0, current.unread - 1),
+    }));
+    return true;
+  }, []);
+
+  const markAllRead = useCallback(() => {
+    setItems((current) =>
+      current.map((notification) => ({ ...notification, is_read: true })),
+    );
+    setCountsState((current) => ({ ...current, unread: 0 }));
+  }, []);
+
+  const hasMore = info !== null && page * size < info.total;
+
   return {
     items,
     info,
+    page,
+    counts,
     error,
     isLoading,
     isLoadingMore,
+    isCountsLoading,
     hasMore,
-    loadMore,
-    refetch,
+    reset,
+    replacePage,
+    appendPage,
+    setCounts,
     markRead,
+    markAllRead,
+    setError,
+    setIsLoading,
+    setIsLoadingMore,
+    setIsCountsLoading,
   };
 }

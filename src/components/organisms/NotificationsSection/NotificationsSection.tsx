@@ -1,31 +1,25 @@
 import { omni } from "@/helpers/omni";
-import "./NotificationsSection.css";
 import { NotificationList } from "@/components/molecules";
 import { Button, Text } from "@/components/atoms";
-import { useNotifications } from "@/hooks/useNotifications";
 import { useCallback, useMemo, useRef, useState } from "react";
 import { toCardProps } from "@/api/notificationMapper";
 import type { NotificationAction } from "@/api/actions";
 import { useTab } from "@/hooks/useTab";
 import NotificationsState from "@/components/molecules/NotificationsState/NotificationsState";
+import { useNotificationsContext } from "@/app/contexts/NotificationsContext";
+import "./NotificationsSection.css";
 
 export default function NotificationsSection() {
+  const { state, onMarkRead, onLoadMore } = useNotificationsContext();
   const {
     items,
     error,
     isLoading,
     isLoadingMore,
     hasMore,
-    loadMore,
     markRead,
-  } = useNotifications({
-    baseUrl: "/mock",
-    buildUrl: (page) => `/mock/notifications-${page}.json`,
-    token: "mock",
-    projectId: "mock",
-    perPage: 10,
-  });
-  const { decrementUnreadCount, tab, unreadCount } = useTab();
+  } = state;
+  const { tab, unreadCount } = useTab();
   const pendingActionIdsRef = useRef(new Set<string>());
   const [actionError, setActionError] = useState<string | null>(null);
 
@@ -41,10 +35,13 @@ export default function NotificationsSection() {
       pendingActionIdsRef.current.add(action.id);
       setActionError(null);
       try {
-        const wasMarkedRead = await markRead(action.id);
-        if (wasMarkedRead) {
-          decrementUnreadCount();
-        }
+        const notification = items.find(
+          (item) => item.chit.message_id === action.id,
+        );
+        if (!notification || notification.is_read) return false;
+
+        await onMarkRead(action.id);
+        const wasMarkedRead = markRead(action.id);
         return wasMarkedRead;
       } catch (cause) {
         setActionError(
@@ -57,7 +54,7 @@ export default function NotificationsSection() {
         pendingActionIdsRef.current.delete(action.id);
       }
     },
-    [decrementUnreadCount, markRead],
+    [items, markRead, onMarkRead],
   );
 
   return (
@@ -78,7 +75,11 @@ export default function NotificationsSection() {
 
       {hasMore && !(tab === "unread" && unreadCount === 0) && (
         <div className={omni("notifications-action")}>
-          <Button variant="link" onClick={loadMore} disabled={isLoadingMore}>
+          <Button
+            variant="link"
+            onClick={onLoadMore}
+            disabled={isLoadingMore}
+          >
             {isLoadingMore ? "Загрузка..." : "Показать больше"}
           </Button>
         </div>
