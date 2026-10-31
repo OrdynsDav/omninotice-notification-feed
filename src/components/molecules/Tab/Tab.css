@@ -1,7 +1,7 @@
 .omni-tabs {
     display: flex;
     gap: 24px;
-    margin-block: 32px 16px;
+    margin-block: var(--omni-tabs-margin-block);
 }
 
 .omni-tab {

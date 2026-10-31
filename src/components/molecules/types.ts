@@ -1,7 +1,7 @@
-import { ComponentType, ReactElement, ReactNode } from "react";
+import { ComponentType, ReactNode } from "react";
 import type { NotificationAction } from "@/api/actions";
 
-export type NotificationState = "empty" | "error" | "allRead";
+export type NotificationState = "empty" | "error" | "allRead" | "noUnreadLoaded";
 
 export interface NotificationPicture {
   /** Путь к картинке */
@@ -40,5 +40,8 @@ export interface NotificationsStateProps {
   state: NotificationState;
   title?: string;
   description?: string;
-  btn?: boolean;
+  btn?: {
+    title: string;
+    onClick: () => void;
+  };
 }

@@ -9,7 +9,7 @@ import type { ComponentType, ReactNode } from "react";
 
 type NotificationStateContent = Omit<
   NotificationsStateProps,
-  "btn" | "state"
+  "state"
 > & {
   icon?: NotificationPicture["icon"];
 };
@@ -17,7 +17,26 @@ type NotificationStateContent = Omit<
 export interface SettingsProps {
   defaultIcon?: ComponentType | ReactNode;
   notificationState?: Record<NotificationState, NotificationStateContent>;
+  sidebarBackdrop?: boolean;
+  pageTitle?: string;
+  pageSubtitle?: string;
 }
+
+export interface ResolvedSettings {
+  defaultIcon: ComponentType | ReactNode;
+  notificationState: Record<NotificationState, NotificationStateContent>;
+  sidebarBackdrop: boolean;
+  pageTitle: string;
+  pageSubtitle: string;
+}
+
+export type SettingsOverrides = Partial<
+  Omit<SettingsProps, "notificationState">
+> & {
+  notificationState?: Partial<
+    Record<NotificationState, Partial<NotificationStateContent>>
+  >;
+};
 
 export const settings = {
   defaultIcon: <BellRingIcon />,
@@ -32,11 +51,57 @@ export const settings = {
       icon: <BellRingIcon />,
       title: "Не удалось загрузить уведомления",
       description: "Проверьте соединение и повторите. Ничего не потеряется.",
+      btn: {
+        title: "Повторить",
+        onClick: () => {}
+      }
     },
     allRead: {
       icon: <CheckIcon />,
       title: "Все уведомления прочитаны",
       description: "Прочитанные уведомления — на вкладке «Все».",
     },
+    noUnreadLoaded: {
+      icon: <BellRingIcon />,
+      title: "Непрочитанных нет",
+      description: "На загруженных страницах нет непрочитанных уведомлений.",
+      btn: {
+        title: "Показать еще",
+        onClick: () => {}
+      }
+    },
   },
-} satisfies SettingsProps;
+  sidebarBackdrop: true,
+  pageTitle: "Уведомления",
+  pageSubtitle:
+    "Объявления компании и&nbsp;сообщения о&nbsp;ваших задачах, отпусках и&nbsp;опросах",
+} satisfies ResolvedSettings;
+
+export function resolveSettings(
+  overrides: SettingsOverrides = {},
+): ResolvedSettings {
+  return {
+    ...settings,
+    ...overrides,
+    defaultIcon: overrides.defaultIcon ?? settings.defaultIcon,
+    sidebarBackdrop: overrides.sidebarBackdrop ?? settings.sidebarBackdrop,
+    notificationState: {
+      empty: {
+        ...settings.notificationState.empty,
+        ...overrides.notificationState?.empty,
+      },
+      error: {
+        ...settings.notificationState.error,
+        ...overrides.notificationState?.error,
+      },
+      allRead: {
+        ...settings.notificationState.allRead,
+        ...overrides.notificationState?.allRead,
+      },
+      noUnreadLoaded: {
+        ...settings.notificationState.noUnreadLoaded,
+        ...overrides.notificationState?.noUnreadLoaded,
+      },
+    },
+  };
+}

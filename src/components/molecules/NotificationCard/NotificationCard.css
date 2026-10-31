@@ -39,6 +39,7 @@
   gap: 4px;
 }
 
+.omni-notification-card__title, 
 .omni-notification-card__description {
   width: 71cqw;
   overflow: hidden;

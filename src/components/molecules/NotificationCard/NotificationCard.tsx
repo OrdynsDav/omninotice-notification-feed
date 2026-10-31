@@ -48,7 +48,7 @@ export default function NotificationCard({
           alt={`Картинка уведомления с названием ${title}`}
         />
         <div className={omni("notification-card__content")}>
-          <Text size="lg" weight="medium">
+          <Text className={omni("notification-card__title")} size="lg" weight="medium">
             {title}
           </Text>
           <Text

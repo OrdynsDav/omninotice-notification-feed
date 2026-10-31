@@ -3,6 +3,7 @@ import { omni } from "@/helpers/omni";
 import type { NotificationDetails } from "@/components/molecules/types";
 import "./NotificationDetailsSidebar.css";
 import CloseIcon from "@/components/atoms/icons/CloseIcon";
+import { useNotificationSettings } from "@/config/SettingsContext";
 
 interface NotificationDetailsSidebarProps {
   notification: NotificationDetails | null;
@@ -13,6 +14,7 @@ export default function NotificationDetailsSidebar({
   notification,
   onClose,
 }: NotificationDetailsSidebarProps) {
+  const { sidebarBackdrop } = useNotificationSettings();
   const isOpen = notification !== null;
   const hasAction =
     notification?.action &&
@@ -21,7 +23,11 @@ export default function NotificationDetailsSidebar({
 
   return (
     <div
-      className={omni("notification-details-backdrop", isOpen && "is-open")}
+      className={omni(
+        "notification-details-backdrop",
+        sidebarBackdrop && "is-filled",
+        isOpen && "is-open",
+      )}
       aria-hidden={!isOpen}
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) onClose();

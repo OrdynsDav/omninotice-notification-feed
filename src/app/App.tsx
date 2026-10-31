@@ -19,6 +19,7 @@ function App() {
     setIsLoading,
     setIsLoadingMore,
     setIsCountsLoading,
+    hasMore,
   } = notifications;
 
   useEffect(() => {
@@ -116,6 +117,16 @@ function App() {
         value={notifications}
         onMarkRead={markRead}
         onLoadMore={() => void loadMore()}
+        settings={{
+          sidebarBackdrop: false,
+          notificationState: {
+            noUnreadLoaded: {
+              btn: hasMore
+                ? { title: "Показать ещё", onClick: loadMore }
+                : undefined,
+            },
+          },
+        }}
       >
         <NotificationFeedPage />
       </NotificationsProvider>

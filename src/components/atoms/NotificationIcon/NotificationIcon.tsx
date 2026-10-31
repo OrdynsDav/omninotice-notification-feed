@@ -1,5 +1,5 @@
 import type { NotificationPicture } from "@/components/molecules/types";
-import { settings } from "@/config/settings.config";
+import { useNotificationSettings } from "@/config/SettingsContext";
 import { omni } from "@/helpers/omni";
 import { renderIcon } from "@/helpers/renderIcon";
 import { resolvePicture } from "@/helpers/resolvePicture";
@@ -13,6 +13,7 @@ export default function NotificationIcon({
   picture: NotificationPicture;
   alt?: string;
 }) {
+  const { defaultIcon } = useNotificationSettings();
   const [failedUrls, setFailedUrls] = useState<string[]>([]);
 
   const markFailed = (url: string) =>
@@ -43,7 +44,7 @@ export default function NotificationIcon({
       case "emoji":
         return <span>{resolved.value}</span>;
       default:
-        return renderIcon(settings.defaultIcon);
+        return renderIcon(defaultIcon);
     }
   };
   return (

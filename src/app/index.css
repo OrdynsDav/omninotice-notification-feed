@@ -20,5 +20,6 @@
   --omni-radius: 8px;
   --omni-container-padding-inline: 24px 20px;
   --omni-nf-icon-container-size: 56px;
+  --omni-tabs-margin-block: 32px;
   --omni-transition: 0.15s ease-in;
 }

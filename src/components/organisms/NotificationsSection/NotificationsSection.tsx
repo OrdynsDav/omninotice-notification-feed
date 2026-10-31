@@ -68,10 +68,9 @@ export default function NotificationsSection() {
         (unreadCount === 0 || !hasMore ? (
           <NotificationsState state="allRead" />
         ) : (
-          <Text>На загруженных страницах нет непрочитанных уведомлений.</Text>
+          <NotificationsState state="noUnreadLoaded" />
         ))}
-
-      <NotificationList notifications={visibleCards} onAction={handleAction} />
+      <NotificationList notifications={visibleCards} onAction={handleAction} /> 
 
       {hasMore && !(tab === "unread" && unreadCount === 0) && (
         <div className={omni("notifications-action")}>

@@ -18,9 +18,13 @@
     align-items: center;
     gap: 4px;
     margin-top: 24px;
+}
+
+.omni-notifications-state__title,
+.omni-notifications-state__subtitle {
     text-align: center;
 }
 
-.omni-notifications-state--error .omni-notifications-state__content {
-    margin-bottom: 16px;
+.omni-notifications-state__btn {
+    margin-top: 16px;
 }
