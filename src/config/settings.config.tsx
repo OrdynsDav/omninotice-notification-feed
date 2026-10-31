@@ -51,9 +51,8 @@ export const settings = {
       title: "Не удалось загрузить уведомления",
       description: "Проверьте соединение и повторите. Ничего не потеряется.",
       btn: {
-        title: "Повторить",
-        onClick: () => {},
-      },
+        title: "Повторить"
+      }
     },
     allRead: {
       icon: <CheckIcon />,
@@ -64,10 +63,6 @@ export const settings = {
       icon: <BellRingIcon />,
       title: "Непрочитанных нет",
       description: "На загруженных страницах нет непрочитанных уведомлений.",
-      btn: {
-        title: "Показать больше",
-        onClick: () => {},
-      },
     },
   },
   sidebarBackdrop: true,

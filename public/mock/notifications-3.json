@@ -40,10 +40,6 @@
           "icon": null,
           "emoji": "🌴"
         },
-        "action": {
-          "url": "https://example.com/tasks/22",
-          "title": "Открыть задачу"
-        },
         "message_id": "3fa85f64-5717-4562-b3fc-000000000022"
       },
       "is_read": false
@@ -65,10 +61,6 @@
           "cover": null,
           "icon": null,
           "emoji": "📊"
-        },
-        "action": {
-          "url": "https://example.com/tasks/23",
-          "title": "Открыть задачу"
         },
         "message_id": "3fa85f64-5717-4562-b3fc-000000000023"
       },
@@ -108,10 +100,6 @@
           "icon": null,
           "emoji": "🔒"
         },
-        "action": {
-          "url": "https://example.com/tasks/25",
-          "title": "Открыть задачу"
-        },
         "message_id": "3fa85f64-5717-4562-b3fc-000000000025"
       },
       "is_read": false
@@ -133,10 +121,6 @@
           "cover": null,
           "icon": null,
           "emoji": "🛠️"
-        },
-        "action": {
-          "url": "https://example.com/tasks/26",
-          "title": "Открыть задачу"
         },
         "message_id": "3fa85f64-5717-4562-b3fc-000000000026"
       },
@@ -176,10 +160,6 @@
         "title": "Заявка одобрена #28",
         "description": "Ваша заявка на оборудование одобрена и передана в закупку.",
         "picture": null,
-        "action": {
-          "url": "https://example.com/tasks/28",
-          "title": "Открыть задачу"
-        },
         "message_id": "3fa85f64-5717-4562-b3fc-000000000028"
       },
       "is_read": false
@@ -201,10 +181,6 @@
           "cover": null,
           "icon": null,
           "emoji": "📄"
-        },
-        "action": {
-          "url": "https://example.com/tasks/29",
-          "title": "Открыть задачу"
         },
         "message_id": "3fa85f64-5717-4562-b3fc-000000000029"
       },

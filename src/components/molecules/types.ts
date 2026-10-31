@@ -31,17 +31,38 @@ export interface NotificationCardProps {
   onSelect?: (notification: NotificationDetails) => void;
 }
 
-export type NotificationDetails = Pick<
-  NotificationCardProps,
-  "title" | "description" | "action"
->;
+export interface NotificationBtn {
+  title: string;
+  onClick?: () => void;
+}
 
 export interface NotificationsStateProps {
   state: NotificationState;
   title?: string;
   description?: string;
-  btn?: {
-    title: string;
-    onClick: () => void;
-  };
+  btn?: Partial<NotificationBtn>;
+}
+
+export type NotificationDetails = Pick<
+  NotificationCardProps,
+  "messageId" | "title" | "description" | "action"
+>;
+
+export type NotificationDetailsView =
+  | { status: "closed" }
+  | { status: "loading"; preview: NotificationDetails }
+  | { status: "ready"; details: NotificationDetails }
+  | { status: "error"; preview: NotificationDetails };
+
+/** Запрос деталей, который пишет потребитель пакета */
+export type LoadNotificationDetails = (
+  messageId: string,
+  signal: AbortSignal,
+) => Promise<NotificationDetails>;
+
+export interface NotificationsStateProps {
+  state: NotificationState;
+  title?: string;
+  description?: string;
+  btn?: Partial<NotificationBtn>;
 }

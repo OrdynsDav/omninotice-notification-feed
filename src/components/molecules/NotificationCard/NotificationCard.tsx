@@ -8,6 +8,7 @@ import type { NotificationCardProps, NotificationDetails } from "../types";
 import "./NotificationCard.css";
 
 export default function NotificationCard({
+  messageId,
   status,
   isRead,
   picture,
@@ -24,13 +25,14 @@ export default function NotificationCard({
     title,
     description,
     action,
+    messageId
   };
 
   return (
     <button
       className={omni(
         "notification-card",
-        !isRead && "nofification-card--unread",
+        !isRead && "notification-card--unread",
       )}
       data-status={status}
       data-is-read={isRead}

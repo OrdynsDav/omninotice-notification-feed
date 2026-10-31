@@ -1,27 +1,41 @@
+import { useRef } from "react";
 import { Button, Text } from "@/components/atoms";
-import { omni } from "@/helpers/omni";
-import type { NotificationDetails } from "@/components/molecules/types";
-import "./NotificationDetailsSidebar.css";
 import CloseIcon from "@/components/atoms/icons/CloseIcon";
-import { useNotificationSettings } from "@/config/SettingsContext";
 import NotificationsState from "@/components/molecules/NotificationsState/NotificationsState";
+import type { NotificationDetailsView } from "@/components/molecules/types";
+import { useNotificationSettings } from "@/config/SettingsContext";
+import { omni } from "@/helpers/omni";
+import "./NotificationDetailsSidebar.css";
 
 interface NotificationDetailsSidebarProps {
-  notification: NotificationDetails | null;
+  view: NotificationDetailsView;
   onClose: () => void;
+  onRetry: () => void;
 }
 
 export default function NotificationDetailsSidebar({
-  notification,
+  view,
   onClose,
+  onRetry,
 }: NotificationDetailsSidebarProps) {
   const { sidebarBackdrop } = useNotificationSettings();
-  const isOpen = notification !== null;
+  const isOpen = view.status !== "closed";
 
-  const title = notification?.title ?? "Произошла ошибка";
+  // чтобы при анимации закрытия содержимое не пропадало
+  const lastViewRef = useRef(view);
+  if (isOpen) lastViewRef.current = view;
+  const shown = lastViewRef.current;
+
+  const details =
+    shown.status === "ready" ? shown.details
+    : shown.status === "closed" ? null
+    : shown.preview;
+
   const action =
-    notification?.action?.url && notification.action.title
-      ? notification.action
+    shown.status === "ready" &&
+    shown.details.action?.url &&
+    shown.details.action.title
+      ? shown.details.action
       : null;
 
   return (
@@ -46,7 +60,7 @@ export default function NotificationDetailsSidebar({
         <div className={omni("notification-details-sidebar__wrapper")}>
           <div className={omni("notification-details-sidebar__header")}>
             <Text as="h2" id="notification-details-title" size="md" weight="semibold">
-              {title}
+              {details?.title}
             </Text>
             <Button
               variant="icon"
@@ -59,12 +73,14 @@ export default function NotificationDetailsSidebar({
           </div>
 
           <div className={omni("notification-details-sidebar__content")}>
-            {notification ? (
-              notification.description && (
-                <Text variant="secondary">{notification.description}</Text>
-              )
-            ) : (
-              <NotificationsState state="error" />
+            {shown.status === "loading" && (
+              <Text variant="secondary">Загрузка...</Text>
+            )}
+            {shown.status === "error" && (
+              <NotificationsState state="error" btn={{ onClick: onRetry }} />
+            )}
+            {shown.status === "ready" && shown.details.description && (
+              <Text variant="secondary">{shown.details.description}</Text>
             )}
           </div>
 

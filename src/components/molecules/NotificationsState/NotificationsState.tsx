@@ -13,23 +13,34 @@ export default function NotificationsState({
 }: NotificationsStateProps) {
   const { notificationState } = useNotificationSettings();
   const content = notificationState[state];
-  const button = btn ?? content.btn;
+  const btnTitle = btn?.title ?? content.btn?.title;
+  const btnOnClick = btn?.onClick ?? content.btn?.onClick;
+  console.log(state, { btnTitle, hasOnClick: Boolean(btnOnClick) });
 
   return (
-    <div className={omni("notifications-state", `notifications-state--${state}`)}>
+    <div
+      className={omni("notifications-state", `notifications-state--${state}`)}
+    >
       <NotificationIcon picture={{ icon: content.icon }} />
       <div className={omni("notifications-state__content")}>
-        <Text className={omni("notifications-state__title")} size="lg" weight="medium">
+        <Text
+          className={omni("notifications-state__title")}
+          size="lg"
+          weight="medium"
+        >
           {decode(title ?? content.title)}
         </Text>
-        <Text className={omni("notifications-state__subtitle")} variant="secondary">
+        <Text
+          className={omni("notifications-state__subtitle")}
+          variant="secondary"
+        >
           {decode(description ?? content.description)}
         </Text>
       </div>
-      {button && (
-        <Button className="notifications-state__btn" onClick={button.onClick}>
+      {btnTitle && btnOnClick && (
+        <Button className="notifications-state__btn" onClick={btnOnClick}>
           <Text size="sm" variant="paper">
-            {button.title}
+            {btnTitle}
           </Text>
         </Button>
       )}

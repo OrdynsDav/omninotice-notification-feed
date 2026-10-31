@@ -18,10 +18,6 @@
           "icon": null,
           "emoji": "📝"
         },
-        "action": {
-          "url": "https://example.com/tasks/31",
-          "title": "Открыть задачу"
-        },
         "message_id": "3fa85f64-5717-4562-b3fc-000000000031"
       },
       "is_read": false
@@ -38,10 +34,6 @@
         "title": "Отпуск согласован #32",
         "description": "Ваш отпуск с 3 по 17 ноября согласован руководителем.",
         "picture": null,
-        "action": {
-          "url": "https://example.com/tasks/32",
-          "title": "Открыть задачу"
-        },
         "message_id": "3fa85f64-5717-4562-b3fc-000000000032"
       },
       "is_read": true
@@ -86,10 +78,6 @@
           "icon": null,
           "emoji": "🎉"
         },
-        "action": {
-          "url": "https://example.com/tasks/34",
-          "title": "Открыть задачу"
-        },
         "message_id": "3fa85f64-5717-4562-b3fc-000000000034"
       },
       "is_read": false
@@ -111,10 +99,6 @@
           "cover": null,
           "icon": null,
           "emoji": "🔒"
-        },
-        "action": {
-          "url": "https://example.com/tasks/35",
-          "title": "Открыть задачу"
         },
         "message_id": "3fa85f64-5717-4562-b3fc-000000000035"
       },
@@ -154,10 +138,6 @@
           "icon": null,
           "emoji": "📅"
         },
-        "action": {
-          "url": "https://example.com/tasks/37",
-          "title": "Открыть задачу"
-        },
         "message_id": "3fa85f64-5717-4562-b3fc-000000000037"
       },
       "is_read": false
@@ -179,10 +159,6 @@
           "cover": null,
           "icon": null,
           "emoji": "✅"
-        },
-        "action": {
-          "url": "https://example.com/tasks/38",
-          "title": "Открыть задачу"
         },
         "message_id": "3fa85f64-5717-4562-b3fc-000000000038"
       },
@@ -222,10 +198,6 @@
         "title": "Вы в числе лучших сотрудников месяца #40",
         "description": "Поздравляем! Спасибо за вклад в общий результат команды.",
         "picture": null,
-        "action": {
-          "url": "https://example.com/tasks/40",
-          "title": "Открыть задачу"
-        },
         "message_id": "3fa85f64-5717-4562-b3fc-000000000040"
       },
       "is_read": false

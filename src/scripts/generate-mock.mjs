@@ -22,6 +22,8 @@ const samples = [
   ['🏆', 'Вы в числе лучших сотрудников месяца', 'Поздравляем! Спасибо за вклад в общий результат команды.']
 ];
 
+const details = [];
+
 const items = Array.from({ length: TOTAL }, (_, i) => {
   const [emoji, title, description] = samples[i % samples.length];
   const createdAt = new Date();
@@ -39,6 +41,27 @@ const items = Array.from({ length: TOTAL }, (_, i) => {
     0,
   );
   const date = createdAt.toISOString();
+  const messageId = `3fa85f64-5717-4562-b3fc-${String(i + 1).padStart(12, '0')}`;
+  // номер в заголовке, чтобы видеть порядок и отсутствие дублей
+  const fullTitle = `${title} #${i + 1}`;
+
+  // action теперь живёт только в деталях, а не в списке
+  const action =
+    i % 3 !== 2
+      ? {
+          url: `https://example.com/tasks/${i + 1}`,
+          title: 'Открыть задачу'
+        }
+      : undefined;
+
+  details.push({
+    messageId,
+    title: fullTitle,
+    description:
+      description ?? 'Подробности этого уведомления доступны по ссылке ниже.',
+    action
+  });
+
   return {
     status: 'published',
     created_date: date,
@@ -48,21 +71,13 @@ const items = Array.from({ length: TOTAL }, (_, i) => {
       created_date: date,
       modified_date: date,
       message_type: 'simple',
-      // номер в заголовке, чтобы видеть порядок и отсутствие дублей
-      title: `${title} #${i + 1}`,
+      title: fullTitle,
       description,
       picture:
         i % 4 === 3
           ? null
           : { main: null, preview: null, cover: null, icon: null, emoji },
-      action:
-        i % 3 !== 2
-          ? {
-              url: `https://example.com/tasks/${i + 1}`,
-              title: 'Открыть задачу'
-            }
-          : undefined,
-      message_id: `3fa85f64-5717-4562-b3fc-${String(i + 1).padStart(12, '0')}`
+      message_id: messageId
     },
     is_read: i % 3 === 1
   };
@@ -86,4 +101,13 @@ for (let p = 1; p <= pages; p++) {
   writeFileSync(`${OUT_DIR}/notifications-${p}.json`, JSON.stringify(json, null, 2));
 }
 
-console.log(`Готово: ${pages} файлов, ${TOTAL} записей`);
+for (const detail of details) {
+  writeFileSync(
+    `${OUT_DIR}/notification-details-${detail.messageId}.json`,
+    JSON.stringify(detail, null, 2)
+  );
+}
+
+console.log(
+  `Готово: ${pages} файлов списков, ${details.length} файлов деталей, ${TOTAL} записей`
+);

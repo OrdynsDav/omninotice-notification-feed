@@ -6,6 +6,8 @@ import { memo, useState } from "react";
 import { omni } from "@/helpers/omni";
 import "./NotificationList.css";
 import NotificationDetailsSidebar from "@/components/organisms/NotificationDetailsSidebar/NotificationDetailsSidebar";
+import { useNotificationDetails } from "@/hooks/useNotificationDetails";
+import { useNotificationsContext } from "@/app/contexts/NotificationsContext";
 
 type DayGroup = "today" | "yesterday" | "earlier";
 
@@ -46,19 +48,21 @@ export default function NotificationList({
   notifications: NotificationCardProps[];
   onAction?: (action: NotificationAction) => void | Promise<unknown>;
 }) {
-  const [selectedNotification, setSelectedNotification] =
-    useState<NotificationDetails | null>(null);
+  const { onLoadDetails, onRetry } = useNotificationsContext();
+const { view, open, retry, close } = useNotificationDetails(onLoadDetails, onRetry?.details);
+
 
   return (
     <>
       <NotificationListContent
         notifications={notifications}
         onAction={onAction}
-        onSelect={setSelectedNotification}
+        onSelect={open}
       />
       <NotificationDetailsSidebar
-        notification={selectedNotification}
-        onClose={() => setSelectedNotification(null)}
+        view={view}
+        onClose={close}
+        onRetry={retry}
       />
     </>
   );

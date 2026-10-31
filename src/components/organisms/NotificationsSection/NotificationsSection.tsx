@@ -11,7 +11,8 @@ import "./NotificationsSection.css";
 import { useNotificationSettings } from "@/config/SettingsContext";
 
 export default function NotificationsSection() {
-  const { state, onMarkRead, onLoadMore } = useNotificationsContext();
+  const { state, onMarkRead, onLoadMore, onRetry } = useNotificationsContext();
+  const retryFeed = onRetry?.feed;
   const { items, error, isLoading, isLoadingMore, hasMore, markRead } = state;
   const { tab, unreadCount } = useTab();
   const { autoLoadUnread } = useNotificationSettings();
@@ -63,14 +64,22 @@ export default function NotificationsSection() {
     },
     [items, markRead, onMarkRead],
   );
-
+  
+  console.log("retryFeed:", retryFeed);
   return (
     <section className={omni("notifications")}>
       {isLoading && items.length === 0 && <p>Загрузка...</p>}
-      {error && <p>{error.message}</p>}
+      {error && (
+        <NotificationsState
+          state="error"
+          description={error.message}
+          btn={retryFeed ? { onClick: () => void retryFeed() } : undefined}
+        />
+      )}
       {actionError && <p role="alert">{actionError}</p>}
       {tab === "unread" &&
         !isLoading &&
+        !error &&
         visibleCards.length === 0 &&
         (unreadCount === 0 || !hasMore ? (
           <NotificationsState state="allRead" />
