@@ -58,8 +58,9 @@
 }
 
 .omni-notification-card__chevron {
-  grid-area: btn;
-  text-decoration: none;
-  width: 24px;
-  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--omni-nf-icon-chevron-size);
+  height: var(--omni-nf-icon-chevron-size);
 }

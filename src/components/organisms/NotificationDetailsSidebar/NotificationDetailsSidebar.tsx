@@ -17,10 +17,12 @@ export default function NotificationDetailsSidebar({
 }: NotificationDetailsSidebarProps) {
   const { sidebarBackdrop } = useNotificationSettings();
   const isOpen = notification !== null;
-  const hasAction =
-    notification?.action &&
-    notification?.action.url != "" &&
-    notification?.action.title != "";
+
+  const title = notification?.title ?? "Произошла ошибка";
+  const action =
+    notification?.action?.url && notification.action.title
+      ? notification.action
+      : null;
 
   return (
     <div
@@ -41,48 +43,50 @@ export default function NotificationDetailsSidebar({
         aria-labelledby={isOpen ? "notification-details-title" : undefined}
         aria-hidden={!isOpen}
       >
-        {notification ? (
-          <div className={omni("notification-details-sidebar__wrapper")}>
-            <div className={omni("notification-details-sidebar__header")}>
-              <Text as="h2" size="md" weight="semibold">
-                {notification.title}
-              </Text>
-              <Button
-                variant="icon"
-                aria-label="Закрыть уведомление"
-                tabIndex={isOpen ? undefined : -1}
-                onClick={onClose}
-              >
-                <CloseIcon width={9} height={9} />
-              </Button>
-            </div>
-            <div className={omni("notification-details-sidebar__content")}>
-              {notification.description && (
-                <Text variant="secondary">{notification.description}</Text>
-              )}
-            </div>
-            <div className={omni("notification-details-sidebar__actions")}>
-              {hasAction && (
-                <Button
-                  className={"notification-details-sidebar__btn"}
-                  as="a"
-                  href={notification.action?.url}
-                >
-                  {notification.action?.title}
-                </Button>
-              )}
-              <Button
-                className="notification-details-sidebar__close"
-                variant="secondary"
-                onClick={onClose}
-              >
-                Закрыть
-              </Button>
-            </div>
+        <div className={omni("notification-details-sidebar__wrapper")}>
+          <div className={omni("notification-details-sidebar__header")}>
+            <Text as="h2" id="notification-details-title" size="md" weight="semibold">
+              {title}
+            </Text>
+            <Button
+              variant="icon"
+              aria-label="Закрыть уведомление"
+              tabIndex={isOpen ? undefined : -1}
+              onClick={onClose}
+            >
+              <CloseIcon width={9} height={9} />
+            </Button>
           </div>
-        ) : (
-          <NotificationsState state="error" />
-        )}
+
+          <div className={omni("notification-details-sidebar__content")}>
+            {notification ? (
+              notification.description && (
+                <Text variant="secondary">{notification.description}</Text>
+              )
+            ) : (
+              <NotificationsState state="error" />
+            )}
+          </div>
+
+          <div className={omni("notification-details-sidebar__actions")}>
+            {action && (
+              <Button
+                className="notification-details-sidebar__btn"
+                as="a"
+                href={action.url}
+              >
+                {action.title}
+              </Button>
+            )}
+            <Button
+              className="notification-details-sidebar__close"
+              variant="secondary"
+              onClick={onClose}
+            >
+              Закрыть
+            </Button>
+          </div>
+        </div>
       </aside>
     </div>
   );

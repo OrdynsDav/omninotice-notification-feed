@@ -1,6 +1,5 @@
 import {
   ChevronIcon,
-  Button,
   NotificationIcon,
   Text,
 } from "@/components/atoms";
@@ -67,7 +66,7 @@ export default function NotificationCard({
         >
           {time}
         </Text>
-        <div className={"notification-card__chevron"}>
+        <div className={omni("notification-card__chevron")}>
           <ChevronIcon />
         </div>
       </div>
