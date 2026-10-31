@@ -4,6 +4,7 @@ import type { NotificationDetails } from "@/components/molecules/types";
 import "./NotificationDetailsSidebar.css";
 import CloseIcon from "@/components/atoms/icons/CloseIcon";
 import { useNotificationSettings } from "@/config/SettingsContext";
+import NotificationsState from "@/components/molecules/NotificationsState/NotificationsState";
 
 interface NotificationDetailsSidebarProps {
   notification: NotificationDetails | null;
@@ -40,7 +41,7 @@ export default function NotificationDetailsSidebar({
         aria-labelledby={isOpen ? "notification-details-title" : undefined}
         aria-hidden={!isOpen}
       >
-        {notification && (
+        {notification ? (
           <div className={omni("notification-details-sidebar__wrapper")}>
             <div className={omni("notification-details-sidebar__header")}>
               <Text as="h2" size="md" weight="semibold">
@@ -79,6 +80,8 @@ export default function NotificationDetailsSidebar({
               </Button>
             </div>
           </div>
+        ) : (
+          <NotificationsState state="error" />
         )}
       </aside>
     </div>

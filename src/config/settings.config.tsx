@@ -7,10 +7,7 @@ import type {
 } from "@/components/molecules/types";
 import type { ComponentType, ReactNode } from "react";
 
-type NotificationStateContent = Omit<
-  NotificationsStateProps,
-  "state"
-> & {
+type NotificationStateContent = Omit<NotificationsStateProps, "state"> & {
   icon?: NotificationPicture["icon"];
 };
 
@@ -20,6 +17,7 @@ export interface SettingsProps {
   sidebarBackdrop?: boolean;
   pageTitle?: string;
   pageSubtitle?: string;
+  autoLoadUnread?: boolean;
 }
 
 export interface ResolvedSettings {
@@ -28,6 +26,7 @@ export interface ResolvedSettings {
   sidebarBackdrop: boolean;
   pageTitle: string;
   pageSubtitle: string;
+  autoLoadUnread: boolean;
 }
 
 export type SettingsOverrides = Partial<
@@ -53,8 +52,8 @@ export const settings = {
       description: "Проверьте соединение и повторите. Ничего не потеряется.",
       btn: {
         title: "Повторить",
-        onClick: () => {}
-      }
+        onClick: () => {},
+      },
     },
     allRead: {
       icon: <CheckIcon />,
@@ -66,15 +65,16 @@ export const settings = {
       title: "Непрочитанных нет",
       description: "На загруженных страницах нет непрочитанных уведомлений.",
       btn: {
-        title: "Показать еще",
-        onClick: () => {}
-      }
+        title: "Показать больше",
+        onClick: () => {},
+      },
     },
   },
   sidebarBackdrop: true,
   pageTitle: "Уведомления",
   pageSubtitle:
     "Объявления компании и&nbsp;сообщения о&nbsp;ваших задачах, отпусках и&nbsp;опросах",
+  autoLoadUnread: true,
 } satisfies ResolvedSettings;
 
 export function resolveSettings(
@@ -85,6 +85,7 @@ export function resolveSettings(
     ...overrides,
     defaultIcon: overrides.defaultIcon ?? settings.defaultIcon,
     sidebarBackdrop: overrides.sidebarBackdrop ?? settings.sidebarBackdrop,
+    autoLoadUnread: overrides.autoLoadUnread ?? settings.autoLoadUnread,
     notificationState: {
       empty: {
         ...settings.notificationState.empty,

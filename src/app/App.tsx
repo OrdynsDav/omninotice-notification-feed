@@ -13,6 +13,7 @@ function App() {
   const {
     reset,
     replacePage,
+    isLoadingMore,
     appendPage,
     setCounts,
     setError,
@@ -116,13 +117,17 @@ function App() {
       <NotificationsProvider
         value={notifications}
         onMarkRead={markRead}
-        onLoadMore={() => void loadMore()}
+        onLoadMore={() => loadMore()}
         settings={{
           sidebarBackdrop: false,
+          autoLoadUnread: false,
           notificationState: {
             noUnreadLoaded: {
               btn: hasMore
-                ? { title: "Показать ещё", onClick: loadMore }
+                ? {
+                    title: isLoadingMore ? "Загрузка" : "Показать больше",
+                    onClick: loadMore,
+                  }
                 : undefined,
             },
           },
