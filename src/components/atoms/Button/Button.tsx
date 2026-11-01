@@ -1,9 +1,9 @@
 import { forwardRef } from "react";
 import type { ForwardedRef, MouseEvent, ReactNode, ComponentType } from "react";
 import type { ButtonProps } from "../types";
-import { omni } from "@/helpers/omni";
-import "./Button.css"
-import { renderButtonContent } from "@/helpers/renderButtonContent";
+import { renderButtonContent } from "../../../helpers/renderButtonContent";
+import { classNames } from "../../../helpers/classNames";
+import styles from "./Button.module.css";
 
 const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
   function Button(props, ref) {
@@ -32,7 +32,7 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
         <a
           {...rest}
           ref={ref as ForwardedRef<HTMLAnchorElement>}
-          className={omni("button",`button--${variant}`, className)}
+          className={classNames(styles.button, styles[variant], className)}
           aria-disabled={disabled || undefined}
           tabIndex={disabled ? -1 : rest.tabIndex}
           onClick={handleClick}
@@ -58,7 +58,7 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
         {...rest}
         ref={ref as ForwardedRef<HTMLButtonElement>}
         type={type}
-        className={omni("button",`button--${variant}`, className)}
+        className={classNames(styles.button, styles[variant], className)}
       >
         {renderButtonContent(children, leftIcon, rightIcon)}
       </button>

@@ -1,37 +1,50 @@
-import {
-  BellRingIcon,
-  Button,
-  NotificationIcon,
-  Text,
-} from "@/components/atoms";
-import { omni } from "@/helpers/omni";
-import "./NotificationsState.css";
+import { Button, NotificationIcon, Text } from "../../atoms";
+import { classNames } from "../../../helpers/classNames";
+import styles from "./NotificationsState.module.css";
 import { NotificationsStateProps } from "../types";
-import { settings } from "@/config/settings.config";
+import { useNotificationSettings } from "../../../config/SettingsContext";
+import { decode } from "../../../helpers/decoder";
 
 export default function NotificationsState({
   state,
   title,
   description,
   btn,
+  className,
 }: NotificationsStateProps) {
-  const content = settings.notificationState[state];
+  const { notificationState } = useNotificationSettings();
+  const content = notificationState[state];
+  const btnTitle = btn?.title ?? content.btn?.title;
+  const btnOnClick = btn?.onClick ?? content.btn?.onClick;
 
   return (
     <div
-      className={omni("notifications-state", `notifications-state--${state}`)}
+      className={classNames(
+        styles.state,
+        state === "error" && styles.error,
+        className,
+      )}
     >
-      <NotificationIcon picture={{ icon: <BellRingIcon /> }} />
-      <div className={omni("notifications-state__content")}>
-        <Text size="lg" weight="medium">
-          {title ?? content.title}
+      <NotificationIcon picture={{ icon: content.icon }} />
+      <div className={styles.content}>
+        <Text
+          className={styles.title}
+          size="lg"
+          weight="medium"
+        >
+          {decode(title ?? content.title)}
         </Text>
-        <Text variant="secondary">{description ?? content.description}</Text>
+        <Text
+          className={styles.subtitle}
+          variant="secondary"
+        >
+          {decode(description ?? content.description)}
+        </Text>
       </div>
-      {btn && (
-        <Button>
+      {btnTitle && btnOnClick && (
+        <Button className={styles.button} onClick={btnOnClick}>
           <Text size="sm" variant="paper">
-            Повторить
+            {btnTitle}
           </Text>
         </Button>
       )}

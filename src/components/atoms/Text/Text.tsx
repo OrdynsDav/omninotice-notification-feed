@@ -1,6 +1,23 @@
-import { omni } from "@/helpers/omni";
 import type { TextProps } from "../types";
-import "./Text.css";
+import type { TextSize, TextWeight } from "../types";
+import { classNames } from "../../../helpers/classNames";
+import styles from "./Text.module.css";
+
+const sizeClasses: Record<TextSize, string> = {
+  xs: styles.sizeXs,
+  sm: styles.sizeSm,
+  md: styles.sizeMd,
+  lg: styles.sizeLg,
+  xl: styles.sizeXl,
+  xxl: styles.sizeXxl,
+};
+
+const weightClasses: Record<TextWeight, string> = {
+  regular: styles.weightRegular,
+  medium: styles.weightMedium,
+  semibold: styles.weightSemibold,
+  bold: styles.weightBold,
+};
 
 export default function Text({
   as: Tag = "p",
@@ -11,17 +28,13 @@ export default function Text({
   children,
   ...rest
 }: TextProps) {
-  const classes = [
-    omni(
-      "text",
-      `text--${variant}`,
-      `text--size-${size}`,
-      `text--weight-${weight}`
-    ),
+  const classes = classNames(
+    styles.text,
+    styles[variant],
+    sizeClasses[size],
+    weightClasses[weight],
     className,
-  ]
-    .filter(Boolean)
-    .join(" ");
+  );
 
   return (
     <Tag {...rest} className={classes}>

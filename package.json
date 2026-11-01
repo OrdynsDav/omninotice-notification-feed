@@ -2,22 +2,31 @@
   "name": "omninotice-notification-feed",
   "version": "0.1.0",
   "type": "module",
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "types": "./dist/public.d.ts",
+      "import": "./dist/public.js",
+      "require": "./dist/public.cjs"
+    },
+    "./register-all": {
+      "types": "./dist/register-all.d.ts",
+      "import": "./dist/register-all.js",
+      "require": "./dist/register-all.cjs"
     },
     "./style.css": "./dist/style.css"
   },
-  "files": ["dist"],
-  "sideEffects": ["**/*.css"],
+  "files": ["dist", "README.md", "CHANGELOG.md"],
+  "sideEffects": [
+    "**/*.css",
+    "./dist/public.js",
+    "./dist/public.cjs",
+    "./dist/register-all.js",
+    "./dist/register-all.cjs"
+  ],
   "scripts": {
     "build": "vite build",
     "dev": "vite dev",
+    "generate:mock": "node src/scripts/generate-mock.mjs",
     "typecheck": "tsc --noEmit",
     "prepublishOnly": "npm run typecheck && npm run build"
   },

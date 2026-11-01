@@ -1,1 +1,15 @@
-{ "all": 24, "unread": 5 }
+{
+  "data": [
+    {
+      "total_count": 50,
+      "unread_count": 33
+    }
+  ],
+  "info": {
+    "api_version": "0.1.0",
+    "count": 1,
+    "total": 1,
+    "page": 1,
+    "page_size": 1
+  }
+}

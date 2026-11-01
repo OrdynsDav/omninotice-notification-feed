@@ -1,4 +1,4 @@
-import { TabContext } from "@/app/contexts/TabContext";
+import { TabContext } from "../app/contexts/TabContext";
 import { useContext } from "react";
 
 export function useTab() {

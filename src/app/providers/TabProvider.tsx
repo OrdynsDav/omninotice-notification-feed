@@ -19,7 +19,13 @@ export default function TabProvider({
   const [tab, setTab] = useState<TabType>(defaultTab);
 
   const value = useMemo(
-    () => ({ tab, setTab, allCount, unreadCount, isLoading }),
+    () => ({
+      tab,
+      setTab,
+      allCount,
+      unreadCount,
+      isLoading,
+    }),
     [tab, allCount, unreadCount, isLoading],
   );
 

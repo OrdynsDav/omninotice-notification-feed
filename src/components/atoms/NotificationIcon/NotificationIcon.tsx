@@ -1,10 +1,9 @@
-import type { NotificationPicture } from "@/components/molecules/types";
-import { settings } from "@/config/settings.config";
-import { omni } from "@/helpers/omni";
-import { renderIcon } from "@/helpers/renderIcon";
-import { resolvePicture } from "@/helpers/resolvePicture";
+import type { NotificationPicture } from "../../molecules/types";
+import { useNotificationSettings } from "../../../config/SettingsContext";
+import { renderIcon } from "../../../helpers/renderIcon";
+import { resolvePicture } from "../../../helpers/resolvePicture";
 import { useState } from "react";
-import "./NotificationIcon.css"
+import styles from "./NotificationIcon.module.css";
 
 export default function NotificationIcon({
   picture,
@@ -13,6 +12,7 @@ export default function NotificationIcon({
   picture: NotificationPicture;
   alt?: string;
 }) {
+  const { defaultIcon } = useNotificationSettings();
   const [failedUrls, setFailedUrls] = useState<string[]>([]);
 
   const markFailed = (url: string) =>
@@ -27,7 +27,7 @@ export default function NotificationIcon({
       case "image":
         return (
           <img
-            className={omni("notification-icon__image")}
+            className={styles.image}
             src={resolved.src}
             alt={alt}
             onError={() => markFailed(resolved.src)}
@@ -43,10 +43,10 @@ export default function NotificationIcon({
       case "emoji":
         return <span>{resolved.value}</span>;
       default:
-        return renderIcon(settings.defaultIcon);
+        return renderIcon(defaultIcon);
     }
   };
   return (
-    <div className={omni("notification-icon")}>{renderPicture(isFailed)}</div>
+    <div className={styles.icon}>{renderPicture(isFailed)}</div>
   );
 }
