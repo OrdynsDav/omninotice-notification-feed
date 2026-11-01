@@ -5,6 +5,13 @@
     gap: 16px;
 }
 
+.omni-notifications-loader-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 260px;
+}
+
 .omni-notifications-action {
     margin-left: auto;
 }

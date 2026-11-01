@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { Button, Text } from "@/components/atoms";
+import { Button, SpinnerLoader, Text } from "@/components/atoms";
 import CloseIcon from "@/components/atoms/icons/CloseIcon";
 import NotificationsState from "@/components/molecules/NotificationsState/NotificationsState";
 import type { NotificationDetailsView } from "@/components/molecules/types";
@@ -27,9 +27,11 @@ export default function NotificationDetailsSidebar({
   const shown = lastViewRef.current;
 
   const details =
-    shown.status === "ready" ? shown.details
-    : shown.status === "closed" ? null
-    : shown.preview;
+    shown.status === "ready"
+      ? shown.details
+      : shown.status === "closed"
+        ? null
+        : shown.preview;
 
   const body =
     shown.status === "ready"
@@ -64,7 +66,12 @@ export default function NotificationDetailsSidebar({
       >
         <div className={omni("notification-details-sidebar__wrapper")}>
           <div className={omni("notification-details-sidebar__header")}>
-            <Text as="h2" id="notification-details-title" size="md" weight="semibold">
+            <Text
+              as="h2"
+              id="notification-details-title"
+              size="md"
+              weight="semibold"
+            >
               {details?.title}
             </Text>
             <Button
@@ -79,10 +86,20 @@ export default function NotificationDetailsSidebar({
 
           <div className={omni("notification-details-sidebar__content")}>
             {shown.status === "loading" && (
-              <Text variant="secondary">Загрузка...</Text>
+              <div
+                className={omni(
+                  "notification-details-sidebar-loader-container",
+                )}
+              >
+                <SpinnerLoader variant="primary" size="lg" />
+              </div>
             )}
             {shown.status === "error" && (
-              <NotificationsState state="error" btn={{ onClick: onRetry }} />
+              <NotificationsState
+                className="notification-details-sidebar__error"
+                state="error"
+                btn={{ onClick: onRetry }}
+              />
             )}
             {body && <Text variant="secondary">{body}</Text>}
           </div>

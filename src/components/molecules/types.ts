@@ -41,6 +41,7 @@ export interface NotificationsStateProps {
   title?: string;
   description?: string;
   btn?: Partial<NotificationBtn>;
+  className?: string;
 }
 
 export type NotificationDetails = Pick<

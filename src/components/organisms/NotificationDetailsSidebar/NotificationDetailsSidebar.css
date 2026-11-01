@@ -50,6 +50,18 @@
   height: 100%;
 }
 
+.omni-notification-details-sidebar-loader-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.omni-notification-details-sidebar__error {
+  padding: 0;
+  box-shadow: none;
+}
+
 .omni-notification-details-sidebar__header {
   display: flex;
   align-items: center;

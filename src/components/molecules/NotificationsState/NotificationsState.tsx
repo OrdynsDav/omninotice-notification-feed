@@ -10,6 +10,7 @@ export default function NotificationsState({
   title,
   description,
   btn,
+  className,
 }: NotificationsStateProps) {
   const { notificationState } = useNotificationSettings();
   const content = notificationState[state];
@@ -18,7 +19,11 @@ export default function NotificationsState({
 
   return (
     <div
-      className={omni("notifications-state", `notifications-state--${state}`)}
+      className={omni(
+        "notifications-state",
+        `notifications-state--${state}`,
+        className,
+      )}
     >
       <NotificationIcon picture={{ icon: content.icon }} />
       <div className={omni("notifications-state__content")}>

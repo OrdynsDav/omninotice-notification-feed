@@ -1,6 +1,6 @@
 import { omni } from "@/helpers/omni";
 import { NotificationList } from "@/components/molecules";
-import { Button, Text } from "@/components/atoms";
+import { Button, SpinnerLoader, Text } from "@/components/atoms";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toCardProps } from "@/api/notificationMapper";
 import type { NotificationAction } from "@/api/actions";
@@ -75,7 +75,11 @@ export default function NotificationsSection() {
 
   return (
     <section className={omni("notifications")}>
-      {isLoading && items.length === 0 && <p>Загрузка...</p>}
+      {isLoading && items.length === 0 && (
+        <div className={omni("notifications-loader-container")}>
+          <SpinnerLoader variant="primary" size="lg"/>
+        </div>
+      )}
       {error && (
         <NotificationsState
           state="error"

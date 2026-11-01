@@ -15,6 +15,21 @@ const settings: SettingsOverrides = {
   autoLoadUnread: false,
 };
 
+// хелпер: пауза, которая прерывается вместе с запросом
+const delay = (ms: number, signal: AbortSignal) =>
+  new Promise<void>((resolve, reject) => {
+    if (signal.aborted) return reject(signal.reason);
+    const timer = setTimeout(resolve, ms);
+    signal.addEventListener(
+      "abort",
+      () => {
+        clearTimeout(timer);
+        reject(signal.reason);
+      },
+      { once: true },
+    );
+  });
+
 // --- тест: убрать после проверки ---
 let failNext = true; // следующий запрос списка упадёт один раз
 (window as unknown as { failNext: () => void }).failNext = () => {
@@ -37,7 +52,6 @@ function App() {
       <img src="/src/assets/menu.png" />
       <NotificationsProvider
         fetchList={async (page, signal) => {
-          await testDelayAndFail(signal);
           return apiFetch(
             `/mock/notifications-${page}.json`,
             NotificationsResponseSchema,
@@ -51,14 +65,17 @@ function App() {
             { ...auth, signal },
           )
         }
-        fetchDetails={(messageId, signal) =>
-          apiFetch(
+        fetchDetails={async (messageId, signal) => {
+          await delay(3000, signal);
+          return apiFetch(
             `/mock/notification-details-${messageId}.json`,
             NotificationDetailsResponseSchema,
             { ...auth, signal },
-          )
+          );
+        }}
+        onMarkRead={(messageId) =>
+          runAction({ type: "mark-read", id: messageId })
         }
-        onMarkRead={(messageId) => runAction({ type: "mark-read", id: messageId })}
         settings={settings}
       >
         <NotificationFeedPage />
