@@ -23,7 +23,7 @@
 
 .omni-notification-card--unread,
 .omni-notification-card[data-is-read="false"] {
-  border-left: 3px solid var(--omni-primary)
+  border-left: 3px solid var(--omni-primary);
 }
 
 .omni-notification-card__left {

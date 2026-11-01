@@ -62,7 +62,6 @@ export function toCardProps(n: Notification): NotificationCardProps {
       emoji: chit.picture?.emoji ?? undefined,
     },
     action: chit.action ?? undefined,
-    readAction: n.is_read ? null : { type: "mark-read", id: chit.message_id },
     isRead: n.is_read,
   };
 }

@@ -33,7 +33,7 @@ export interface NotificationsProviderProps {
   fetchCounts: FetchNotificationCounts;
   /** Детали уведомления. Без него сайдбар показывает данные карточки как есть */
   fetchDetails?: FetchNotificationDetails;
-  /** Запрос «прочитано». После успеха пакет сам обновит ленту и счётчик */
+  /** Запрос «прочитано» после успешной загрузки деталей. После успеха обновятся лента и счётчик */
   onMarkRead: (messageId: string) => Promise<unknown>;
   /**
    * Есть ли ещё страницы. Без неё пакет сравнивает число загруженных

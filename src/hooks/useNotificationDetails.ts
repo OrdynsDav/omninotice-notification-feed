@@ -5,7 +5,10 @@ import type {
   NotificationDetailsView,
 } from "@/components/molecules/types";
 
-export function useNotificationDetails(onLoadDetails?: LoadNotificationDetails) {
+export function useNotificationDetails(
+  onLoadDetails?: LoadNotificationDetails,
+  onDetailsReady?: (details: NotificationDetails) => void | Promise<unknown>,
+) {
   const [view, setView] = useState<NotificationDetailsView>({ status: "closed" });
   const abortRef = useRef<AbortController | null>(null);
   const previewRef = useRef<NotificationDetails | null>(null);
@@ -16,6 +19,7 @@ export function useNotificationDetails(onLoadDetails?: LoadNotificationDetails) 
 
       if (!onLoadDetails || !preview.messageId) {
         setView({ status: "ready", details: preview });
+        if (preview.messageId) void onDetailsReady?.(preview);
         return;
       }
 
@@ -25,13 +29,16 @@ export function useNotificationDetails(onLoadDetails?: LoadNotificationDetails) 
 
       onLoadDetails(preview.messageId, controller.signal)
         .then((details) => {
-          if (!controller.signal.aborted) setView({ status: "ready", details });
+          if (!controller.signal.aborted) {
+            setView({ status: "ready", details });
+            void onDetailsReady?.(details);
+          }
         })
         .catch(() => {
           if (!controller.signal.aborted) setView({ status: "error", preview });
         });
     },
-    [onLoadDetails],
+    [onDetailsReady, onLoadDetails],
   );
 
   const open = useCallback(

@@ -2,7 +2,7 @@ import NotificationCard from "@/components/molecules/NotificationCard/Notificati
 import { NotificationCardProps } from "@/components/molecules/types";
 import type { NotificationDetails } from "@/components/molecules/types";
 import type { NotificationAction } from "@/api/actions";
-import { memo, useState } from "react";
+import { memo } from "react";
 import { omni } from "@/helpers/omni";
 import "./NotificationList.css";
 import NotificationDetailsSidebar from "@/components/organisms/NotificationDetailsSidebar/NotificationDetailsSidebar";
@@ -49,13 +49,19 @@ export default function NotificationList({
   onAction?: (action: NotificationAction) => void | Promise<unknown>;
 }) {
   const { onLoadDetails } = useNotificationsContext();
-  const { view, open, retry, close } = useNotificationDetails(onLoadDetails);
+  const { view, open, retry, close } = useNotificationDetails(
+    onLoadDetails,
+    (details) => {
+      if (details.messageId) {
+        return onAction?.({ type: "mark-read", id: details.messageId });
+      }
+    },
+  );
 
   return (
     <>
       <NotificationListContent
         notifications={notifications}
-        onAction={onAction}
         onSelect={open}
       />
       <NotificationDetailsSidebar
@@ -69,11 +75,9 @@ export default function NotificationList({
 
 const NotificationListContent = memo(function NotificationListContent({
   notifications,
-  onAction,
   onSelect,
 }: {
   notifications: NotificationCardProps[];
-  onAction?: (action: NotificationAction) => void | Promise<unknown>;
   onSelect: (notification: NotificationDetails) => void;
 }) {
   const groupedNotifications = notifications.reduce<
@@ -109,7 +113,6 @@ const NotificationListContent = memo(function NotificationListContent({
                 >
                   <NotificationListItem
                     card={card}
-                    onAction={onAction}
                     onSelect={onSelect}
                   />
                 </li>
@@ -124,27 +127,12 @@ const NotificationListContent = memo(function NotificationListContent({
 
 const NotificationListItem = memo(function NotificationListItem({
   card,
-  onAction,
   onSelect,
 }: NotificationListItemProps) {
-  const [isActionPending, setIsActionPending] = useState(false);
-
-  const handleAction = async (action: NotificationAction) => {
-    if (!onAction) return;
-    setIsActionPending(true);
-    try {
-      await onAction(action);
-    } finally {
-      setIsActionPending(false);
-    }
-  };
-
   return (
     <NotificationCard
       {...card}
-      onAction={handleAction}
       onSelect={onSelect}
-      isActionPending={isActionPending}
     />
   );
 }, areNotificationCardPropsEqual);
@@ -157,11 +145,8 @@ function areNotificationCardPropsEqual(
   const nextPicture = next.card.picture;
   const previousAction = previous.card.action;
   const nextAction = next.card.action;
-  const previousReadAction = previous.card.readAction;
-  const nextReadAction = next.card.readAction;
 
   return (
-    previous.onAction === next.onAction &&
     previous.onSelect === next.onSelect &&
     previous.card.messageId === next.card.messageId &&
     previous.card.status === next.card.status &&
@@ -170,19 +155,15 @@ function areNotificationCardPropsEqual(
     previous.card.title === next.card.title &&
     previous.card.description === next.card.description &&
     previous.card.isRead === next.card.isRead &&
-    previous.card.isActionPending === next.card.isActionPending &&
     previousPicture.image === nextPicture.image &&
     previousPicture.icon === nextPicture.icon &&
     previousPicture.emoji === nextPicture.emoji &&
     previousAction?.url === nextAction?.url &&
-    previousAction?.title === nextAction?.title &&
-    previousReadAction?.type === nextReadAction?.type &&
-    previousReadAction?.id === nextReadAction?.id
+    previousAction?.title === nextAction?.title
   );
 }
 
 type NotificationListItemProps = {
   card: NotificationCardProps;
-  onAction?: (action: NotificationAction) => void | Promise<unknown>;
   onSelect: (notification: NotificationDetails) => void;
 };

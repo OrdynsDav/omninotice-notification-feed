@@ -1,5 +1,4 @@
 import { ComponentType, ReactNode } from "react";
-import type { NotificationAction } from "@/api/actions";
 
 export type NotificationState = "empty" | "error" | "allRead" | "noUnreadLoaded";
 
@@ -24,10 +23,7 @@ export interface NotificationCardProps {
     url: string;
     title: string;
   };
-  readAction?: NotificationAction | null;
   isRead: boolean;
-  isActionPending?: boolean;
-  onAction?: (action: NotificationAction) => void | Promise<unknown>;
   onSelect?: (notification: NotificationDetails) => void;
 }
 

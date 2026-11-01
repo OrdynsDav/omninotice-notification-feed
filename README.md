@@ -34,7 +34,7 @@ function Notifications() {
 | `fetchList`    | yes      | on mount, then for every next page (from `1`)  | `NotificationsResponse`                      |
 | `fetchCounts`  | yes      | on mount, together with page `1`               | `NotificationCountsResponse`                 |
 | `fetchDetails` | no       | when a notification is opened                  | `NotificationDetailsResponse`                |
-| `onMarkRead`   | yes      | when an unread notification is opened          | any promise; the package updates the feed and the counter after it resolves |
+| `onMarkRead`   | yes      | after details load successfully for an unread notification | any promise; the package updates the feed and the counter after it resolves |
 | `getHasMore`   | no       | after every page                               | `boolean`: are there more pages. Gets `(info, loadedCount)` |
 | `settings`     | no       |                                                | see `SettingsOverrides`                      |
 
@@ -47,7 +47,8 @@ Notes:
 - Every request gets an `AbortSignal`. Pass it to `fetch` so that stale requests
   are cancelled. A rejected promise shows the error state; its "Retry" button
   repeats the request that failed.
-- Without `fetchDetails` the sidebar shows what the card already has.
+- Without `fetchDetails` the sidebar shows what the card already has, and
+  opening it counts as successful details availability for the read mark.
 - Functions may be created inline on every render, no `useCallback` needed.
 
 ### Responses
@@ -65,6 +66,16 @@ The details sidebar shows `chit.text` (falls back to `chit.description`) and
 Types and runtime schemas are exported (`NotificationsResponse`,
 `NotificationCountsResponse`, `NotificationDetailsResponse`,
 `NotificationsResponseSchema`, ...) if you want to type or validate your client.
+
+The published stylesheet defines `--omni-*` variables on the
+`.omni-notification-page` root from
+Apiary theme tokens when available:
+`--color-primary`, `--color-primary-hover`, `--color-text-primary`,
+`--color-text-secondary`, `--color-shadow`, `--color-surface`,
+`--color-bg-hover`, `--color-primary-soft`, `--color-danger`,
+`--color-danger-soft`, and `--radius-md`. Local values remain as fallbacks;
+layout-specific values continue to use the package defaults. Variables are
+scoped to the notification page, not declared on `:root`.
 
 ## Registering in an Apiary host
 

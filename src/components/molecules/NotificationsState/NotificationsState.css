@@ -2,8 +2,8 @@
     display: grid;
     place-items: center;
     padding: 40px;
-    background-color: rgba(255, 255, 255, 1);
-    box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.3);
+    background-color: var(--omni-nf-bg);
+    box-shadow: var(--omni-sidebar-box-shadow);
     border-radius: calc(var(--omni-radius) + 4px);
 }
 
