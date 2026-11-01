@@ -41,6 +41,16 @@ export default function NotificationsSection() {
     unreadCount > 0 &&
     hasMore;
 
+  const isEmpty = !isLoading && !error && items.length === 0;
+
+  // Непрочитанных на вкладке нет, но в ленте уведомления есть
+  const isUnreadTabEmpty =
+    tab === "unread" &&
+    !isLoading &&
+    !error &&
+    items.length > 0 &&
+    visibleCards.length === 0;
+
   useEffect(() => {
     if (needsMoreUnread && autoLoadUnread) loadMore();
   }, [needsMoreUnread, autoLoadUnread, loadMore]);
@@ -75,11 +85,7 @@ export default function NotificationsSection() {
 
   return (
     <section className={omni("notifications")}>
-      {isLoading && items.length === 0 && (
-        <div className={omni("notifications-loader-container")}>
-          <SpinnerLoader variant="primary" size="lg"/>
-        </div>
-      )}
+      {isEmpty && <NotificationsState state="empty" />}
       {error && (
         <NotificationsState
           state="error"
@@ -88,10 +94,7 @@ export default function NotificationsSection() {
         />
       )}
       {actionError && <p role="alert">{actionError}</p>}
-      {tab === "unread" &&
-        !isLoading &&
-        !error &&
-        visibleCards.length === 0 &&
+      {isUnreadTabEmpty &&
         (unreadCount === 0 || !hasMore ? (
           <NotificationsState state="allRead" />
         ) : autoLoadUnread ? null : (

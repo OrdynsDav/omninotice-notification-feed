@@ -6,9 +6,17 @@ import type {
   FetchNotifications,
 } from "@/api/requests";
 
+/** Есть ли ещё страницы. `loadedCount` — сколько уведомлений уже в ленте (без дублей) */
+export type GetHasMore = (
+  info: NotificationsInfo,
+  loadedCount: number,
+) => boolean;
+
 export interface NotificationsFeedRequests {
   fetchList: FetchNotifications;
   fetchCounts: FetchNotificationCounts;
+  /** Необязательно: своя логика «есть ещё страницы». Без неё считаем по counts */
+  getHasMore?: GetHasMore;
 }
 
 export interface NotificationsState {
@@ -53,14 +61,21 @@ export function useNotificationsFeed(
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [isCountsLoading, setIsCountsLoading] = useState(true);
+  // Пустая страница = конец, что бы ни говорили счётчики
+  const [isExhausted, setIsExhausted] = useState(false);
 
   // Потребитель может передать новые функции на каждом рендере:
   // держим актуальные в ref, чтобы не перезапускать загрузку.
   const requestsRef = useRef(requests);
   requestsRef.current = requests;
 
-  const hasMore =
-    info !== null && info.page_size > 0 && page * info.page_size < info.total;
+  // Решает getHasMore потребителя; без него сравниваем загруженное с total_count
+  const hasMore = (() => {
+    if (info === null || isExhausted) return false;
+    return requests.getHasMore
+      ? requests.getHasMore(info, items.length)
+      : items.length < counts.all;
+  })();
 
   const latestRef = useRef({ items, page, hasMore, isLoading, isLoadingMore });
   latestRef.current = { items, page, hasMore, isLoading, isLoadingMore };
@@ -81,6 +96,7 @@ export function useNotificationsFeed(
       setInfo(null);
       setPage(0);
       setCounts(NO_COUNTS);
+      setIsExhausted(false);
       setIsLoading(true);
       setIsCountsLoading(true);
       setIsLoadingMore(false);
@@ -104,6 +120,7 @@ export function useNotificationsFeed(
       );
       setInfo(list.info);
       setPage(pageNumber);
+      setIsExhausted(list.data.length === 0);
       if (nextCounts) setCounts(nextCounts);
     } catch (cause) {
       if (signal.aborted) return;

@@ -35,12 +35,15 @@ function Notifications() {
 | `fetchCounts`  | yes      | on mount, together with page `1`               | `NotificationCountsResponse`                 |
 | `fetchDetails` | no       | when a notification is opened                  | `NotificationDetailsResponse`                |
 | `onMarkRead`   | yes      | when an unread notification is opened          | any promise; the package updates the feed and the counter after it resolves |
+| `getHasMore`   | no       | after every page                               | `boolean`: are there more pages. Gets `(info, loadedCount)` |
 | `settings`     | no       |                                                | see `SettingsOverrides`                      |
 
 Notes:
 
-- Page size is yours: put it in the `fetchList` request. The package asks for
-  the next page while `page * info.page_size < info.total`.
+- Page size is yours: put it in the `fetchList` request. Whether to show
+  "Show more" is decided by `getHasMore(info, loadedCount)` if you pass it;
+  otherwise the package compares the loaded count with `total_count` from
+  `fetchCounts`. An empty page always ends the list.
 - Every request gets an `AbortSignal`. Pass it to `fetch` so that stale requests
   are cancelled. A rejected promise shows the error state; its "Retry" button
   repeats the request that failed.

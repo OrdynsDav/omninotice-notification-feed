@@ -9,7 +9,10 @@ import {
   NotificationsContext,
   type NotificationsContextValue,
 } from "../contexts/NotificationsContext";
-import { useNotificationsFeed } from "@/hooks/useNotificationsFeed";
+import {
+  useNotificationsFeed,
+  type GetHasMore,
+} from "@/hooks/useNotificationsFeed";
 import { toDetails } from "@/api/notificationMapper";
 import type {
   FetchNotificationCounts,
@@ -32,6 +35,11 @@ export interface NotificationsProviderProps {
   fetchDetails?: FetchNotificationDetails;
   /** Запрос «прочитано». После успеха пакет сам обновит ленту и счётчик */
   onMarkRead: (messageId: string) => Promise<unknown>;
+  /**
+   * Есть ли ещё страницы. Без неё пакет сравнивает число загруженных
+   * уведомлений с `total_count` из `fetchCounts`
+   */
+  getHasMore?: GetHasMore;
   settings?: SettingsOverrides;
   children: ReactNode;
 }
@@ -41,10 +49,11 @@ export function NotificationsProvider({
   fetchCounts,
   fetchDetails,
   onMarkRead,
+  getHasMore,
   settings,
   children,
 }: NotificationsProviderProps) {
-  const state = useNotificationsFeed({ fetchList, fetchCounts });
+  const state = useNotificationsFeed({ fetchList, fetchCounts, getHasMore });
 
   // Функции приходят от потребителя и могут меняться каждый рендер,
   // а ниже по дереву нужна стабильная ссылка.

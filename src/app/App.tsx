@@ -7,6 +7,7 @@ import NotificationFeedPage from "@/components/pages/NotificationFeedPage";
 import type { SettingsOverrides } from "@/config/settings.config";
 import "./App.css";
 import { NotificationsProvider } from "./providers/NotificationsProvider";
+import { NotificationList } from "@/components/molecules";
 
 const auth = { token: "mock", projectId: "mock" };
 
@@ -46,6 +47,16 @@ async function testDelayAndFail(signal: AbortSignal) {
 }
 // --- конец теста ---
 
+function getList () {
+  return []
+}
+const emptyInfo = {
+  api_version: "0.1.0",
+  count: 0,
+  total: 0,
+  page: 1,
+  page_size: 20,
+};
 function App() {
   return (
     <div className="app">
