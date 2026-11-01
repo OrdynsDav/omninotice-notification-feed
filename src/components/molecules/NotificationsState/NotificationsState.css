@@ -3,7 +3,7 @@
     place-items: center;
     padding: 40px;
     background-color: var(--omni-nf-bg);
-    box-shadow: var(--omni-sidebar-box-shadow);
+    box-shadow: var(--omni-state-box-shadow);
     border-radius: calc(var(--omni-radius) + 4px);
 }
 

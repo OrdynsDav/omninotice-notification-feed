@@ -23,11 +23,16 @@ function Notifications() {
       fetchDetails={(messageId, signal) => hostApi.notifications.details(messageId, signal)}
       onMarkRead={(messageId) => hostApi.notifications.markRead(messageId)}
     >
-      <NotificationFeedPage />
+      <NotificationFeedPage
+        header={<h1>Company notifications</h1>}
+      />
     </NotificationsProvider>
   );
 }
 ```
+
+`header` is optional and accepts any React node (for example, a component or
+custom JSX). When omitted, the page renders its default title.
 
 | Prop           | Required | Called                                         | Must return                                  |
 | -------------- | -------- | ---------------------------------------------- | -------------------------------------------- |
@@ -37,6 +42,7 @@ function Notifications() {
 | `onMarkRead`   | yes      | after details load successfully for an unread notification | any promise; the package updates the feed and the counter after it resolves |
 | `getHasMore`   | no       | after every page                               | `boolean`: are there more pages. Gets `(info, loadedCount)` |
 | `settings`     | no       |                                                | see `SettingsOverrides`                      |
+| `header`       | no       |                                                | React node replacing the default page title |
 
 Notes:
 

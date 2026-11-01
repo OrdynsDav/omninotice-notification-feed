@@ -13,6 +13,7 @@
         0px 0px 1px 0px #00000066,
         -8px 8px 24px -8px #00000029
     );
+    --omni-state-box-shadow: 0px 0px 1px #0000004D;
     --omni-nf-bg: var(--color-surface, #ffffff);
     --omni-nf-bg-hover: var(
         --color-bg-hover,

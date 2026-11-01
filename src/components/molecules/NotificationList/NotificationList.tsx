@@ -2,7 +2,7 @@ import NotificationCard from "@/components/molecules/NotificationCard/Notificati
 import { NotificationCardProps } from "@/components/molecules/types";
 import type { NotificationDetails } from "@/components/molecules/types";
 import type { NotificationAction } from "@/api/actions";
-import { memo } from "react";
+import { memo, useCallback } from "react";
 import { omni } from "@/helpers/omni";
 import "./NotificationList.css";
 import NotificationDetailsSidebar from "@/components/organisms/NotificationDetailsSidebar/NotificationDetailsSidebar";
@@ -49,13 +49,17 @@ export default function NotificationList({
   onAction?: (action: NotificationAction) => void | Promise<unknown>;
 }) {
   const { onLoadDetails } = useNotificationsContext();
-  const { view, open, retry, close } = useNotificationDetails(
-    onLoadDetails,
-    (details) => {
+  const handleDetailsReady = useCallback(
+    (details: NotificationDetails) => {
       if (details.messageId) {
         return onAction?.({ type: "mark-read", id: details.messageId });
       }
     },
+    [onAction],
+  );
+  const { view, open, retry, close } = useNotificationDetails(
+    onLoadDetails,
+    handleDetailsReady,
   );
 
   return (

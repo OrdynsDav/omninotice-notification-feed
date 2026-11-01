@@ -2,7 +2,10 @@ export {
   NotificationsProvider,
   type NotificationsProviderProps,
 } from "./app/providers/NotificationsProvider";
-export { default as NotificationFeedPage } from "./components/pages/NotificationFeedPage";
+export {
+  default as NotificationFeedPage,
+  type NotificationFeedPageProps,
+} from "./components/pages/NotificationFeedPage";
 export type { SettingsOverrides } from "./config/settings.config";
 export type { GetHasMore } from "./hooks/useNotificationsFeed";
 export type {

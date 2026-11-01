@@ -25,6 +25,8 @@ export default function NotificationsSection() {
   const { tab, unreadCount } = useTab();
   const { autoLoadUnread } = useNotificationSettings();
   const pendingActionIdsRef = useRef(new Set<string>());
+  const itemsRef = useRef(items);
+  itemsRef.current = items;
   const [actionError, setActionError] = useState<string | null>(null);
   const cards = useMemo(() => items.map(toCardProps), [items]);
   const visibleCards = useMemo(
@@ -61,7 +63,7 @@ export default function NotificationsSection() {
       pendingActionIdsRef.current.add(action.id);
       setActionError(null);
       try {
-        const notification = items.find(
+        const notification = itemsRef.current.find(
           (item) => item.chit.message_id === action.id,
         );
         if (!notification || notification.is_read) return false;
@@ -80,7 +82,7 @@ export default function NotificationsSection() {
         pendingActionIdsRef.current.delete(action.id);
       }
     },
-    [items, markRead, onMarkRead],
+    [markRead, onMarkRead],
   );
 
   return (

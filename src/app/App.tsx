@@ -47,9 +47,6 @@ async function testDelayAndFail(signal: AbortSignal) {
 }
 // --- конец теста ---
 
-function getList () {
-  return []
-}
 const emptyInfo = {
   api_version: "0.1.0",
   count: 0,
