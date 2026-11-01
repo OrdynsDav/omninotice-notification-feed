@@ -20,18 +20,18 @@ import {
 } from "../contexts/NotificationsContext";
 import { SettingsContext } from "../../config/SettingsContext";
 
-export interface NotificationsProviderProps {
+export interface NotificationsFeedProviderProps {
   /** Override pagination when the registered data provider uses a custom scheme. */
   getHasMore?: GetHasMore;
   settings?: SettingsOverrides;
   children: ReactNode;
 }
 
-export function NotificationsProvider({
+export function NotificationsFeedProvider({
   getHasMore,
   settings,
   children,
-}: NotificationsProviderProps) {
+}: NotificationsFeedProviderProps) {
   const state = useNotificationsFeed({
     fetchList: (page) =>
       callProvider<NotificationsResponse>(NOTIFICATION_PROVIDERS.list, {

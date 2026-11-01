@@ -2,14 +2,14 @@ import { createElement } from "react";
 import type { SlotComponentProps } from "@core/hive";
 import { registerSlotComponent } from "@core/hive/react";
 import NotificationFeedPage from "./components/pages/NotificationFeedPage";
-import { NotificationsProvider } from "./app/providers/NotificationsProvider";
+import { NotificationsFeedProvider } from "./app/providers/NotificationsFeedProvider";
 import type { SettingsOverrides } from "./config/settings.config";
 
 function NotificationFeedSlot(props: SlotComponentProps) {
   const settings = getSettingsOverrides(props.settings);
 
   return createElement(
-    NotificationsProvider,
+    NotificationsFeedProvider,
     {
       settings,
       children: createElement(NotificationFeedPage, props),

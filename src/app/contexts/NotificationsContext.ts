@@ -15,7 +15,7 @@ export function useNotificationsContext(): NotificationsContextValue {
   const context = useContext(NotificationsContext);
   if (!context) {
     throw new Error(
-      "NotificationFeedPage must be rendered inside NotificationsProvider",
+      "NotificationFeedPage must be rendered inside NotificationsFeedProvider",
     );
   }
   return context;

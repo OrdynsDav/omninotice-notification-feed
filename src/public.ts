@@ -1,7 +1,7 @@
 export {
-  NotificationsProvider,
-  type NotificationsProviderProps,
-} from "./app/providers/NotificationsProvider";
+  NotificationsFeedProvider,
+  type NotificationsFeedProviderProps,
+} from "./app/providers/NotificationsFeedProvider";
 export {
   default as NotificationFeedPage,
   type NotificationFeedPageProps,
