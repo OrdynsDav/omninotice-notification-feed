@@ -1,9 +1,9 @@
-import { Button, NotificationIcon, Text } from "@/components/atoms";
-import { omni } from "@/helpers/omni";
-import "./NotificationsState.css";
+import { Button, NotificationIcon, Text } from "../../atoms";
+import { classNames } from "../../../helpers/classNames";
+import styles from "./NotificationsState.module.css";
 import { NotificationsStateProps } from "../types";
-import { useNotificationSettings } from "@/config/SettingsContext";
-import { decode } from "@/helpers/decoder";
+import { useNotificationSettings } from "../../../config/SettingsContext";
+import { decode } from "../../../helpers/decoder";
 
 export default function NotificationsState({
   state,
@@ -19,30 +19,30 @@ export default function NotificationsState({
 
   return (
     <div
-      className={omni(
-        "notifications-state",
-        `notifications-state--${state}`,
+      className={classNames(
+        styles.state,
+        state === "error" && styles.error,
         className,
       )}
     >
       <NotificationIcon picture={{ icon: content.icon }} />
-      <div className={omni("notifications-state__content")}>
+      <div className={styles.content}>
         <Text
-          className={omni("notifications-state__title")}
+          className={styles.title}
           size="lg"
           weight="medium"
         >
           {decode(title ?? content.title)}
         </Text>
         <Text
-          className={omni("notifications-state__subtitle")}
+          className={styles.subtitle}
           variant="secondary"
         >
           {decode(description ?? content.description)}
         </Text>
       </div>
       {btnTitle && btnOnClick && (
-        <Button className="notifications-state__btn" onClick={btnOnClick}>
+        <Button className={styles.button} onClick={btnOnClick}>
           <Text size="sm" variant="paper">
             {btnTitle}
           </Text>

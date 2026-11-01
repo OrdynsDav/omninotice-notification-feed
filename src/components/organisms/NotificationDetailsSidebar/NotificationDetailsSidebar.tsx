@@ -1,11 +1,11 @@
-import { useRef } from "react";
-import { Button, SpinnerLoader, Text } from "@/components/atoms";
-import CloseIcon from "@/components/atoms/icons/CloseIcon";
-import NotificationsState from "@/components/molecules/NotificationsState/NotificationsState";
-import type { NotificationDetailsView } from "@/components/molecules/types";
-import { useNotificationSettings } from "@/config/SettingsContext";
-import { omni } from "@/helpers/omni";
-import "./NotificationDetailsSidebar.css";
+import { useEffect, useRef } from "react";
+import { Button, SpinnerLoader, Text } from "../../atoms";
+import CloseIcon from "../../atoms/icons/CloseIcon";
+import NotificationsState from "../../molecules/NotificationsState/NotificationsState";
+import type { NotificationDetailsView } from "../../molecules/types";
+import { useNotificationSettings } from "../../../config/SettingsContext";
+import { classNames } from "../../../helpers/classNames";
+import styles from "./NotificationDetailsSidebar.module.css";
 
 interface NotificationDetailsSidebarProps {
   view: NotificationDetailsView;
@@ -20,11 +20,12 @@ export default function NotificationDetailsSidebar({
 }: NotificationDetailsSidebarProps) {
   const { sidebarBackdrop } = useNotificationSettings();
   const isOpen = view.status !== "closed";
-
+  
   // чтобы при анимации закрытия содержимое не пропадало
   const lastViewRef = useRef(view);
   if (isOpen) lastViewRef.current = view;
   const shown = lastViewRef.current;
+
 
   const details =
     shown.status === "ready"
@@ -47,10 +48,10 @@ export default function NotificationDetailsSidebar({
 
   return (
     <div
-      className={omni(
-        "notification-details-backdrop",
-        sidebarBackdrop && "is-filled",
-        isOpen && "is-open",
+      className={classNames(
+        styles.backdrop,
+        sidebarBackdrop && styles.filled,
+        isOpen && styles.open,
       )}
       aria-hidden={!isOpen}
       onMouseDown={(event) => {
@@ -58,14 +59,14 @@ export default function NotificationDetailsSidebar({
       }}
     >
       <aside
-        className={omni("notification-details-sidebar", isOpen && "is-open")}
+        className={classNames(styles.sidebar, isOpen && styles.open)}
         role={isOpen ? "dialog" : undefined}
         aria-modal={isOpen ? true : undefined}
         aria-labelledby={isOpen ? "notification-details-title" : undefined}
         aria-hidden={!isOpen}
       >
-        <div className={omni("notification-details-sidebar__wrapper")}>
-          <div className={omni("notification-details-sidebar__header")}>
+        <div className={styles.wrapper}>
+          <div className={styles.header}>
             <Text
               as="h2"
               id="notification-details-title"
@@ -84,19 +85,15 @@ export default function NotificationDetailsSidebar({
             </Button>
           </div>
 
-          <div className={omni("notification-details-sidebar__content")}>
+          <div className={styles.content}>
             {shown.status === "loading" && (
-              <div
-                className={omni(
-                  "notification-details-sidebar-loader-container",
-                )}
-              >
+              <div className={styles.loader}>
                 <SpinnerLoader variant="primary" size="lg" />
               </div>
             )}
             {shown.status === "error" && (
               <NotificationsState
-                className="notification-details-sidebar__error"
+                className={styles.error}
                 state="error"
                 btn={{ onClick: onRetry }}
               />
@@ -104,10 +101,10 @@ export default function NotificationDetailsSidebar({
             {body && <Text variant="secondary">{body}</Text>}
           </div>
 
-          <div className={omni("notification-details-sidebar__actions")}>
+          <div className={styles.actions}>
             {action && (
               <Button
-                className="notification-details-sidebar__btn"
+                className={styles.actionButton}
                 as="a"
                 href={action.url}
               >
@@ -115,7 +112,7 @@ export default function NotificationDetailsSidebar({
               </Button>
             )}
             <Button
-              className="notification-details-sidebar__close"
+              className={styles.closeButton}
               variant="secondary"
               onClick={onClose}
             >

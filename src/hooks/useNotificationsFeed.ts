@@ -1,10 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import type { Notification, NotificationsInfo } from "@/api/notifications";
-import { toCounts, type FeedCounts } from "@/api/notificationMapper";
-import type {
-  FetchNotificationCounts,
-  FetchNotifications,
-} from "@/api/requests";
+import type { Notification, NotificationsInfo } from "../api/notifications";
+import { toCounts, type FeedCounts } from "../api/notificationMapper";
+import type { NotificationCountsResponse } from "../api/notificationCounts";
+import type { NotificationsResponse } from "../api/notifications";
 
 /** Есть ли ещё страницы. `loadedCount` — сколько уведомлений уже в ленте (без дублей) */
 export type GetHasMore = (
@@ -13,8 +11,8 @@ export type GetHasMore = (
 ) => boolean;
 
 export interface NotificationsFeedRequests {
-  fetchList: FetchNotifications;
-  fetchCounts: FetchNotificationCounts;
+  fetchList: (page: number) => Promise<NotificationsResponse>;
+  fetchCounts: () => Promise<NotificationCountsResponse>;
   /** Необязательно: своя логика «есть ещё страницы». Без неё считаем по counts */
   getHasMore?: GetHasMore;
 }
@@ -107,8 +105,8 @@ export function useNotificationsFeed(
     try {
       const { fetchList, fetchCounts } = requestsRef.current;
       const [list, countsResponse] = await Promise.all([
-        fetchList(pageNumber, signal),
-        isFirst ? fetchCounts(signal) : undefined,
+        fetchList(pageNumber),
+        isFirst ? fetchCounts() : undefined,
       ]);
       if (signal.aborted) return;
 

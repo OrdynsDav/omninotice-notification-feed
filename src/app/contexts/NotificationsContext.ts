@@ -1,12 +1,11 @@
-import type { LoadNotificationDetails } from "@/components/molecules/types";
-import type { NotificationsState } from "@/hooks/useNotificationsFeed";
+import type { LoadNotificationDetails } from "../../components/molecules/types";
+import type { NotificationsState } from "../../hooks/useNotificationsFeed";
 import { createContext, useContext } from "react";
 
 export interface NotificationsContextValue {
   state: NotificationsState;
-  onMarkRead: (messageId: string) => Promise<unknown>;
-  /** Нет `fetchDetails` у потребителя — сайдбар показывает данные карточки как есть */
-  onLoadDetails?: LoadNotificationDetails;
+  /** Loads additional details from the registered data provider. */
+  onLoadDetails: LoadNotificationDetails;
 }
 
 export const NotificationsContext =

@@ -21,6 +21,15 @@ declare module "@core/hive/react" {
   ): void;
 }
 
+declare module "@core/data" {
+  export function callProvider<TResult>(
+    name: string,
+    params?: unknown,
+    context?: unknown,
+    ttl?: number,
+  ): Promise<TResult>;
+}
+
 declare module "@core/actions" {
   export function runAction(action: Record<string, unknown>): Promise<unknown>;
 }

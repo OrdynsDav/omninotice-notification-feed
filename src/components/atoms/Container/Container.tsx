@@ -1,7 +1,6 @@
-import { omni } from "@/helpers/omni";
 import { type ReactNode } from "react";
-import "./Container.css"
+import styles from "./Container.module.css";
 
 export default function Container({ children }: { children: ReactNode }) {
-  return <div className={omni("container")}>{children}</div>;
+  return <div className={styles.container}>{children}</div>;
 }

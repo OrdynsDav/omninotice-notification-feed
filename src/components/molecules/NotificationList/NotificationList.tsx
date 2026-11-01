@@ -1,13 +1,12 @@
-import NotificationCard from "@/components/molecules/NotificationCard/NotificationCard";
-import { NotificationCardProps } from "@/components/molecules/types";
-import type { NotificationDetails } from "@/components/molecules/types";
-import type { NotificationAction } from "@/api/actions";
+import NotificationCard from "../NotificationCard/NotificationCard";
+import { NotificationCardProps } from "../types";
+import type { NotificationDetails } from "../types";
+import type { NotificationAction } from "../../../api/actions";
 import { memo, useCallback } from "react";
-import { omni } from "@/helpers/omni";
-import "./NotificationList.css";
-import NotificationDetailsSidebar from "@/components/organisms/NotificationDetailsSidebar/NotificationDetailsSidebar";
-import { useNotificationDetails } from "@/hooks/useNotificationDetails";
-import { useNotificationsContext } from "@/app/contexts/NotificationsContext";
+import styles from "./NotificationList.module.css";
+import NotificationDetailsSidebar from "../../organisms/NotificationDetailsSidebar/NotificationDetailsSidebar";
+import { useNotificationDetails } from "../../../hooks/useNotificationDetails";
+import { useNotificationsContext } from "../../../app/contexts/NotificationsContext";
 
 type DayGroup = "today" | "yesterday" | "earlier";
 
@@ -95,24 +94,23 @@ const NotificationListContent = memo(function NotificationListContent({
   );
 
   return (
-    <div className={omni("notifications__groups")}>
+    <div className={styles.groups}>
       {(Object.keys(dayLabels) as DayGroup[]).map((group) => {
         const groupNotifications = groupedNotifications[group];
         if (groupNotifications.length === 0) return null;
 
         return (
           <section
-            className={omni("notifications__group")}
+            className={styles.group}
             key={group}
             aria-label={dayLabels[group]}
           >
-            <h2 className={omni("notifications__group-title")}>
+            <h2 className={styles.groupTitle}>
               {dayLabels[group]}
             </h2>
-            <ul className={omni("notifications__list")}>
+            <ul className={styles.list}>
               {groupNotifications.map((card) => (
                 <li
-                  className={omni("notifications__item")}
                   key={card.messageId ?? card.title}
                 >
                   <NotificationListItem

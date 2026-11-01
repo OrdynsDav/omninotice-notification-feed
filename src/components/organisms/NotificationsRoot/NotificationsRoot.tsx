@@ -1,5 +1,5 @@
-import { useNotificationsContext } from "@/app/contexts/NotificationsContext";
-import TabProvider from "@/app/providers/TabProvider";
+import { useNotificationsContext } from "../../../app/contexts/NotificationsContext";
+import TabProvider from "../../../app/providers/TabProvider";
 import type { ReactNode } from "react";
 
 export default function NotificationsRoot({ children }: { children: ReactNode }) {

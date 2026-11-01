@@ -1,10 +1,10 @@
-.omni-tabs {
+.tabs {
     display: flex;
     gap: 24px;
     margin-block: var(--omni-tabs-margin-block);
 }
 
-.omni-tab {
+.tab {
     display: flex;
     align-items: center;
     gap: 8px;

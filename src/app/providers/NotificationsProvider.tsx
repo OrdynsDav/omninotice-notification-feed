@@ -1,89 +1,64 @@
+import { callProvider } from "@core/data";
+import { createElement, useMemo, type ReactNode } from "react";
+import type { NotificationCountsResponse } from "../../api/notificationCounts";
+import type { NotificationDetailsResponse } from "../../api/notificationDetails";
+import { NOTIFICATION_PROVIDERS } from "../../api/requests";
+import { toDetails } from "../../api/notificationMapper";
+import type { NotificationsResponse } from "../../api/notifications";
+import type { LoadNotificationDetails } from "../../components/molecules/types";
 import {
-  createElement,
-  useCallback,
-  useMemo,
-  useRef,
-  type ReactNode,
-} from "react";
+  resolveSettings,
+  type SettingsOverrides,
+} from "../../config/settings.config";
+import {
+  useNotificationsFeed,
+  type GetHasMore,
+} from "../../hooks/useNotificationsFeed";
 import {
   NotificationsContext,
   type NotificationsContextValue,
 } from "../contexts/NotificationsContext";
-import {
-  useNotificationsFeed,
-  type GetHasMore,
-} from "@/hooks/useNotificationsFeed";
-import { toDetails } from "@/api/notificationMapper";
-import type {
-  FetchNotificationCounts,
-  FetchNotificationDetails,
-  FetchNotifications,
-} from "@/api/requests";
-import type { LoadNotificationDetails } from "@/components/molecules/types";
-import {
-  resolveSettings,
-  type SettingsOverrides,
-} from "@/config/settings.config";
-import { SettingsContext } from "@/config/SettingsContext";
+import { SettingsContext } from "../../config/SettingsContext";
 
 export interface NotificationsProviderProps {
-  /** Страница списка. Вернуть ответ бэка как есть */
-  fetchList: FetchNotifications;
-  /** Количество уведомлений. Вернуть ответ бэка как есть */
-  fetchCounts: FetchNotificationCounts;
-  /** Детали уведомления. Без него сайдбар показывает данные карточки как есть */
-  fetchDetails?: FetchNotificationDetails;
-  /** Запрос «прочитано» после успешной загрузки деталей. После успеха обновятся лента и счётчик */
-  onMarkRead: (messageId: string) => Promise<unknown>;
-  /**
-   * Есть ли ещё страницы. Без неё пакет сравнивает число загруженных
-   * уведомлений с `total_count` из `fetchCounts`
-   */
+  /** Override pagination when the registered data provider uses a custom scheme. */
   getHasMore?: GetHasMore;
   settings?: SettingsOverrides;
   children: ReactNode;
 }
 
 export function NotificationsProvider({
-  fetchList,
-  fetchCounts,
-  fetchDetails,
-  onMarkRead,
   getHasMore,
   settings,
   children,
 }: NotificationsProviderProps) {
-  const state = useNotificationsFeed({ fetchList, fetchCounts, getHasMore });
+  const state = useNotificationsFeed({
+    fetchList: (page) =>
+      callProvider<NotificationsResponse>(NOTIFICATION_PROVIDERS.list, {
+        page,
+      }),
+    fetchCounts: () =>
+      callProvider<NotificationCountsResponse>(
+        NOTIFICATION_PROVIDERS.counts,
+      ),
+    getHasMore,
+  });
 
-  // Функции приходят от потребителя и могут меняться каждый рендер,
-  // а ниже по дереву нужна стабильная ссылка.
-  const fetchDetailsRef = useRef(fetchDetails);
-  fetchDetailsRef.current = fetchDetails;
-  const onMarkReadRef = useRef(onMarkRead);
-  onMarkReadRef.current = onMarkRead;
-
-  const hasDetails = fetchDetails !== undefined;
-  const onLoadDetails = useMemo<LoadNotificationDetails | undefined>(
-    () =>
-      hasDetails
-        ? async (messageId, signal) =>
-            toDetails(
-              await fetchDetailsRef.current!(messageId, signal),
-              messageId,
-            )
-        : undefined,
-    [hasDetails],
-  );
-  const stableOnMarkRead = useCallback(
-    (messageId: string) => onMarkReadRef.current(messageId),
+  const onLoadDetails = useMemo<LoadNotificationDetails>(
+    () => async (messageId, signal) =>
+      toDetails(
+        await callProvider<NotificationDetailsResponse>(
+          NOTIFICATION_PROVIDERS.details,
+          { messageId, signal },
+        ),
+        messageId,
+      ),
     [],
   );
-
   const resolvedSettings = useMemo(() => resolveSettings(settings), [settings]);
-
   const contextValue = useMemo<NotificationsContextValue>(
-    () => ({ state, onMarkRead: stableOnMarkRead, onLoadDetails }),
-    [state, stableOnMarkRead, onLoadDetails],
+    () => ({ state, onLoadDetails }),
+    [state, onLoadDetails],
   );
 
   return createElement(

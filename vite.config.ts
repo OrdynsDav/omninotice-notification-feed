@@ -7,7 +7,13 @@ export default defineConfig(({ command }) => ({
   plugins: [
     react(),
     dts({
-      include: ["src/public.ts", "src/register-all.ts", "src/platform.d.ts"],
+      include: ["src/**/*.ts", "src/**/*.tsx", "src/platform.d.ts"],
+      exclude: [
+        "src/app/App.tsx",
+        "src/app/main.tsx",
+        "src/mock/**",
+        "src/scripts/**",
+      ],
     }),
   ],
   resolve: {
@@ -20,9 +26,14 @@ export default defineConfig(({ command }) => ({
                 new URL("./src/mock/actions.ts", import.meta.url),
               ),
             },
+            {
+              find: "@core/data",
+              replacement: fileURLToPath(
+                new URL("./src/mock/data.ts", import.meta.url),
+              ),
+            },
           ]
         : [],
-    tsconfigPaths: true,
   },
   build: {
     copyPublicDir: false,

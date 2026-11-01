@@ -1,4 +1,4 @@
-.omni-button {
+.button {
   border: none;
   background: transparent;
   cursor: pointer;
@@ -7,29 +7,29 @@
   font-family: inherit;
 }
 
-.omni-button--primary {
+.primary {
   background-color: var(--omni-primary);
-  color: #ffffff;
+  color: var(--color-surface, #ffffff);
   padding: 8px 16px;
 }
 
-.omni-button--primary:hover,
-.omni-button--primary:focus-visible {
+.primary:hover,
+.primary:focus-visible {
   background-color: var(--omni-primary-hover);
 }
 
-.omni-button--secondary {
+.secondary {
   color: var(--omni-primary);
   background-color: transparent;
   font-weight: 700;
 }
 
-.omni-button--secondary:hover,
-.omni-button--secondary:focus-visible {
+.secondary:hover,
+.secondary:focus-visible {
   color: var(--omni-primary-hover);
 }
 
-.omni-button--icon {
+.icon {
   background-color: transparent;
   width: 24px;
   height: 24px;
@@ -39,7 +39,7 @@
   border-radius: calc(var(--omni-radius) - 4px);
 }
 
-.omni-button--icon:hover {
+.icon:hover {
   background-color: color-mix(
     in srgb,
     var(--omni-secondary-text) 22%,
@@ -47,11 +47,11 @@
   );
 }
 
-.omni-button--link {
+.link {
   color: var(--omni-primary);
   text-decoration: underline;
 }
 
-.omni-button--link:hover {
+.link:hover {
   color: var(--omni-primary-hover);
 }

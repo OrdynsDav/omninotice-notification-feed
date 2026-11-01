@@ -1,5 +1,5 @@
-.omni-spinner-loader {
-  --color-1: #fff;
+.spinner {
+  --color-1: var(--color-surface, #fff);
   width: calc(16 * var(--size));
   height: calc(16 * var(--size));
   border: calc(2 * var(--size)) solid var(--color-1);
@@ -10,23 +10,23 @@
   animation: rotation 1s linear infinite;
 }
 
-.omni-spinner-loader--sm {
+.sm {
   --size: 1px;
 }
 
-.omni-spinner-loader--md {
+.md {
   --size: 1.5px;
 }
 
-.omni-spinner-loader--lg {
+.lg {
   --size: 2px;
 }
 
-.omni-spinner-loader--primary {
+.primary {
   --color-1: var(--omni-primary);
 }
 
-.omni-spinner-loader--secondary {
+.secondary {
   --color-1: var(--omni-secondary-text);
 }
 

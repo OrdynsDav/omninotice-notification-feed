@@ -1,5 +1,4 @@
-import { ComponentType, ReactNode } from "react";
-import { omni } from "./omni";
+import type { ComponentType, ReactNode } from "react";
 
 export const renderButtonContent = (
   children: ReactNode,
@@ -8,13 +7,13 @@ export const renderButtonContent = (
 ) => (
   <>
     {LeftIcon ? (
-      <span className={omni("button__icon", "button__icon--left")}>
+      <span>
         <LeftIcon />
       </span>
     ) : null}
     {children}
     {RightIcon ? (
-      <span className={omni("button__icon", "button__icon--right")}>
+      <span>
         <RightIcon />
       </span>
     ) : null}

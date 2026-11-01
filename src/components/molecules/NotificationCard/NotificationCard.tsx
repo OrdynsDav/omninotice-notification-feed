@@ -2,10 +2,10 @@ import {
   ChevronIcon,
   NotificationIcon,
   Text,
-} from "@/components/atoms";
-import { omni } from "@/helpers/omni";
+} from "../../atoms";
+import { classNames } from "../../../helpers/classNames";
 import type { NotificationCardProps, NotificationDetails } from "../types";
-import "./NotificationCard.css";
+import styles from "./NotificationCard.module.css";
 
 export default function NotificationCard({
   messageId,
@@ -27,40 +27,37 @@ export default function NotificationCard({
 
   return (
     <button
-      className={omni(
-        "notification-card",
-        !isRead && "notification-card--unread",
-      )}
+      className={classNames(styles.card, !isRead && styles.unread)}
       data-status={status}
       data-is-read={isRead}
       onClick={() => onSelect?.(details)}
     >
-      <div className={omni("notification-card__left")}>
+      <div className={styles.left}>
         <NotificationIcon
           picture={picture}
           alt={`Картинка уведомления с названием ${title}`}
         />
-        <div className={omni("notification-card__content")}>
-          <Text className={omni("notification-card__title")} size="lg" weight="medium">
+        <div className={styles.content}>
+          <Text className={styles.title} size="lg" weight="medium">
             {title}
           </Text>
           <Text
-            className={omni("notification-card__description")}
+            className={styles.description}
             variant="secondary"
           >
             {description}
           </Text>
         </div>
       </div>
-      <div className={omni("notification-card__right")}>
+      <div className={styles.right}>
         <Text
-          className={omni("notification-card__time")}
+          className={styles.time}
           as="time"
           variant="secondary"
         >
           {time}
         </Text>
-        <div className={omni("notification-card__chevron")}>
+        <div className={styles.chevron}>
           <ChevronIcon />
         </div>
       </div>

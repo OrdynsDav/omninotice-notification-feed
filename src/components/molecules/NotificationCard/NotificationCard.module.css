@@ -1,4 +1,4 @@
-.omni-notification-card {
+.card {
   container-type: inline-size;
   display: flex;
   align-items: center;
@@ -7,7 +7,7 @@
   flex-wrap: wrap;
   padding: 30px 20px;
   background-color: var(--omni-nf-bg);
-  box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--color-shadow, 0px 0px 1px rgba(0, 0, 0, 0.3));
   border-radius: calc(var(--omni-radius) + 4px);
   width: 100%;
   cursor: pointer;
@@ -15,49 +15,49 @@
   outline: none;
 }
 
-.omni-notification-card:hover,
-.omni-notification-card:focus-visible,
-.omni-notification-card:focus {
+.card:hover,
+.card:focus-visible,
+.card:focus {
   background: var(--omni-nf-bg-hover);
 }
 
-.omni-notification-card--unread,
-.omni-notification-card[data-is-read="false"] {
+.unread,
+.card[data-is-read="false"] {
   border-left: 3px solid var(--omni-primary);
 }
 
-.omni-notification-card__left {
+.left {
   display: flex;
   align-items: center;
   gap: 24px;
 }
 
-.omni-notification-card__content {
+.content {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 4px;
 }
 
-.omni-notification-card__title, 
-.omni-notification-card__description {
+.title,
+.description {
   width: 71cqw;
   overflow: hidden;
   text-wrap: nowrap;
   text-overflow: ellipsis;
 }
 
-.omni-notification-card__right {
+.right {
   display: flex;
   align-items: center;
   gap: 32px;
 }
 
-.omni-notification-card__time {
+.time {
   grid-area: time;
 }
 
-.omni-notification-card__chevron {
+.chevron {
   display: flex;
   justify-content: center;
   align-items: center;

@@ -1,10 +1,10 @@
-import { BellRingIcon } from "@/components/atoms";
-import CheckIcon from "@/components/atoms/icons/CheckIcon";
+import { BellRingIcon } from "../components/atoms";
+import CheckIcon from "../components/atoms/icons/CheckIcon";
 import type {
   NotificationPicture,
   NotificationState,
   NotificationsStateProps,
-} from "@/components/molecules/types";
+} from "../components/molecules/types";
 import type { ComponentType, ReactNode } from "react";
 
 type NotificationStateContent = Omit<NotificationsStateProps, "state"> & {

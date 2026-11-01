@@ -54,10 +54,10 @@ export type NotificationDetailsView =
   | { status: "ready"; details: NotificationDetails }
   | { status: "error"; preview: NotificationDetails };
 
-/** Запрос деталей, который пишет потребитель пакета */
+/** Loads notification details through the registered host provider. */
 export type LoadNotificationDetails = (
   messageId: string,
-  signal: AbortSignal,
+  signal?: AbortSignal,
 ) => Promise<NotificationDetails>;
 
 export interface NotificationsStateProps {

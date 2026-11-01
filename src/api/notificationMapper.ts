@@ -1,7 +1,7 @@
 import type {
   NotificationCardProps,
   NotificationDetails,
-} from "@/components/molecules/types";
+} from "../components/molecules/types";
 import type { NotificationCountsResponse } from "./notificationCounts";
 import type { NotificationDetailsResponse } from "./notificationDetails";
 import type { Notification } from "./notifications";

@@ -8,11 +8,6 @@ export {
 } from "./components/pages/NotificationFeedPage";
 export type { SettingsOverrides } from "./config/settings.config";
 export type { GetHasMore } from "./hooks/useNotificationsFeed";
-export type {
-  FetchNotificationCounts,
-  FetchNotificationDetails,
-  FetchNotifications,
-} from "./api/requests";
 export {
   NotificationSchema,
   NotificationsResponseSchema,
@@ -32,3 +27,4 @@ export {
   type NotificationDetailsItem,
   type NotificationDetailsResponse,
 } from "./api/notificationDetails";
+export { NOTIFICATION_PROVIDERS } from "./api/requests";

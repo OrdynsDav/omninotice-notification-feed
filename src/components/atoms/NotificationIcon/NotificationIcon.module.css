@@ -1,4 +1,4 @@
-.omni-notification-icon {
+.icon {
   overflow: hidden;
   border-radius: calc(var(--omni-radius) + 4px);
   width: var(--omni-nf-icon-container-size);
@@ -10,12 +10,12 @@
   color: var(--omni-nf-icon);
 }
 
-.omni-notification-icon__image {
+.image {
   object-position: center;
   user-select: none;
 }
 
-.omni-notification-icon__image[data-type="image"] {
+.image[data-type="image"] {
   width: var(--omni-nf-icon-container-size);
   height: var(--omni-nf-icon-container-size);
 }

@@ -1,17 +1,17 @@
-import { omni } from "@/helpers/omni";
-import { NotificationList } from "@/components/molecules";
-import { Button, SpinnerLoader, Text } from "@/components/atoms";
+import { runAction } from "@core/actions";
+import styles from "./NotificationsSection.module.css";
+import { NotificationList } from "../../molecules";
+import { Button, SpinnerLoader, Text } from "../../atoms";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { toCardProps } from "@/api/notificationMapper";
-import type { NotificationAction } from "@/api/actions";
-import { useTab } from "@/hooks/useTab";
-import NotificationsState from "@/components/molecules/NotificationsState/NotificationsState";
-import { useNotificationsContext } from "@/app/contexts/NotificationsContext";
-import "./NotificationsSection.css";
-import { useNotificationSettings } from "@/config/SettingsContext";
+import { toCardProps } from "../../../api/notificationMapper";
+import type { NotificationAction } from "../../../api/actions";
+import { useTab } from "../../../hooks/useTab";
+import NotificationsState from "../../molecules/NotificationsState/NotificationsState";
+import { useNotificationsContext } from "../../../app/contexts/NotificationsContext";
+import { useNotificationSettings } from "../../../config/SettingsContext";
 
 export default function NotificationsSection() {
-  const { state, onMarkRead } = useNotificationsContext();
+  const { state } = useNotificationsContext();
   const {
     items,
     error,
@@ -68,7 +68,7 @@ export default function NotificationsSection() {
         );
         if (!notification || notification.is_read) return false;
 
-        await onMarkRead(action.id);
+        await runAction({ type: "mark-read", id: action.id });
         const wasMarkedRead = markRead(action.id);
         return wasMarkedRead;
       } catch (cause) {
@@ -82,11 +82,11 @@ export default function NotificationsSection() {
         pendingActionIdsRef.current.delete(action.id);
       }
     },
-    [markRead, onMarkRead],
+    [markRead],
   );
 
   return (
-    <section className={omni("notifications")}>
+    <section className={styles.section}>
       {isEmpty && <NotificationsState state="empty" />}
       {error && (
         <NotificationsState
@@ -108,7 +108,7 @@ export default function NotificationsSection() {
       <NotificationList notifications={visibleCards} onAction={handleAction} />
 
       {hasMore && !(tab === "unread" && unreadCount === 0) && (
-        <div className={omni("notifications-action")}>
+        <div className={styles.action}>
           <Button variant="link" onClick={loadMore} disabled={isLoadingMore}>
             {isLoadingMore ? "Загрузка..." : "Показать больше"}
           </Button>

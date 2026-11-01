@@ -1,4 +1,4 @@
-.omni-notifications-state {
+.state {
     display: grid;
     place-items: center;
     padding: 40px;
@@ -7,12 +7,12 @@
     border-radius: calc(var(--omni-radius) + 4px);
 }
 
-.omni-notifications-state--error .omni-notification-icon {
-    color: var(--omni-nf-icon-error);
-    background-color: var(--omni-nf-icon-bg-error);
+.error {
+    --omni-nf-icon: var(--omni-nf-icon-error);
+    --omni-nf-icon-bg: var(--omni-nf-icon-bg-error);
 }
 
-.omni-notifications-state__content {
+.content {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -20,11 +20,11 @@
     margin-top: 24px;
 }
 
-.omni-notifications-state__title,
-.omni-notifications-state__subtitle {
+.title,
+.subtitle {
     text-align: center;
 }
 
-.omni-notifications-state__btn {
+.button {
     margin-top: 16px;
 }

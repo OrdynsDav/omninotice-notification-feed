@@ -15,7 +15,7 @@
     },
     "./style.css": "./dist/style.css"
   },
-  "files": ["dist"],
+  "files": ["dist", "README.md", "CHANGELOG.md"],
   "sideEffects": [
     "**/*.css",
     "./dist/public.js",

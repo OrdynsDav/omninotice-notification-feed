@@ -1,5 +1,5 @@
-import { omni } from "@/helpers/omni";
-import "./SpinnerLoader.css";
+import { classNames } from "../../../../helpers/classNames";
+import styles from "./SpinnerLoader.module.css";
 
 export default function SpinnerLoader({
   variant = "paper",
@@ -10,10 +10,10 @@ export default function SpinnerLoader({
 }) {
   return (
     <div
-      className={omni(
-        "spinner-loader",
-        `spinner-loader--${variant}`,
-        `spinner-loader--${size}`,
+      className={classNames(
+        styles.spinner,
+        variant !== "paper" && styles[variant],
+        styles[size],
       )}
     ></div>
   );

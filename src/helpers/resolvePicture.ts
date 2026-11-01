@@ -1,6 +1,6 @@
 import type { ComponentType, ReactNode } from "react";
 import { isEmoji } from "./isEmoji"; // твой существующий хелпер
-import { NotificationPicture } from "@/components/molecules/types";
+import { NotificationPicture } from "../components/molecules/types";
 
 export type ResolvedPicture =
   | { kind: "image"; src: string }

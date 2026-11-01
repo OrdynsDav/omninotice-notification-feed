@@ -3,7 +3,7 @@ import type {
   LoadNotificationDetails,
   NotificationDetails,
   NotificationDetailsView,
-} from "@/components/molecules/types";
+} from "../components/molecules/types";
 
 export function useNotificationDetails(
   onLoadDetails?: LoadNotificationDetails,
