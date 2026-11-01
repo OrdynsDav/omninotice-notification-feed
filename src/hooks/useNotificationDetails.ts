@@ -5,19 +5,16 @@ import type {
   NotificationDetailsView,
 } from "@/components/molecules/types";
 
-export function useNotificationDetails(
-  onLoadDetails?: LoadNotificationDetails,
-  onRetryDetails?: LoadNotificationDetails,
-) {
+export function useNotificationDetails(onLoadDetails?: LoadNotificationDetails) {
   const [view, setView] = useState<NotificationDetailsView>({ status: "closed" });
   const abortRef = useRef<AbortController | null>(null);
   const previewRef = useRef<NotificationDetails | null>(null);
 
   const run = useCallback(
-    (preview: NotificationDetails, loader?: LoadNotificationDetails) => {
+    (preview: NotificationDetails) => {
       abortRef.current?.abort();
 
-      if (!loader || !preview.messageId) {
+      if (!onLoadDetails || !preview.messageId) {
         setView({ status: "ready", details: preview });
         return;
       }
@@ -26,7 +23,7 @@ export function useNotificationDetails(
       abortRef.current = controller;
       setView({ status: "loading", preview });
 
-      loader(preview.messageId, controller.signal)
+      onLoadDetails(preview.messageId, controller.signal)
         .then((details) => {
           if (!controller.signal.aborted) setView({ status: "ready", details });
         })
@@ -34,20 +31,20 @@ export function useNotificationDetails(
           if (!controller.signal.aborted) setView({ status: "error", preview });
         });
     },
-    [],
+    [onLoadDetails],
   );
 
   const open = useCallback(
     (preview: NotificationDetails) => {
       previewRef.current = preview;
-      run(preview, onLoadDetails);
+      run(preview);
     },
-    [run, onLoadDetails],
+    [run],
   );
 
   const retry = useCallback(() => {
-    if (previewRef.current) run(previewRef.current, onRetryDetails ?? onLoadDetails);
-  }, [run, onRetryDetails, onLoadDetails]);
+    if (previewRef.current) run(previewRef.current);
+  }, [run]);
 
   const close = useCallback(() => {
     abortRef.current?.abort();

@@ -1,18 +1,30 @@
 export {
   NotificationsProvider,
-  useNotifications,
   type NotificationsProviderProps,
-  type NotificationsState,
-  type UseNotificationsOptions,
-} from "./hooks/useNotifications";
+} from "./app/providers/NotificationsProvider";
 export { default as NotificationFeedPage } from "./components/pages/NotificationFeedPage";
-export {
-  NotificationCountsSchema,
-  type NotificationCounts,
-} from "./api/notificationCounts";
+export type { SettingsOverrides } from "./config/settings.config";
+export type {
+  FetchNotificationCounts,
+  FetchNotificationDetails,
+  FetchNotifications,
+} from "./api/requests";
 export {
   NotificationSchema,
   NotificationsResponseSchema,
   type Notification,
   type NotificationsInfo,
+  type NotificationsResponse,
 } from "./api/notifications";
+export {
+  NotificationCountsSchema,
+  NotificationCountsResponseSchema,
+  type NotificationCounts,
+  type NotificationCountsResponse,
+} from "./api/notificationCounts";
+export {
+  NotificationDetailsItemSchema,
+  NotificationDetailsResponseSchema,
+  type NotificationDetailsItem,
+  type NotificationDetailsResponse,
+} from "./api/notificationDetails";

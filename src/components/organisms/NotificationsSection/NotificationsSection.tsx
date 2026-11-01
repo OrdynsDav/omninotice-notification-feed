@@ -11,9 +11,17 @@ import "./NotificationsSection.css";
 import { useNotificationSettings } from "@/config/SettingsContext";
 
 export default function NotificationsSection() {
-  const { state, onMarkRead, onLoadMore, onRetry } = useNotificationsContext();
-  const retryFeed = onRetry?.feed;
-  const { items, error, isLoading, isLoadingMore, hasMore, markRead } = state;
+  const { state, onMarkRead } = useNotificationsContext();
+  const {
+    items,
+    error,
+    isLoading,
+    isLoadingMore,
+    hasMore,
+    markRead,
+    loadMore,
+    retry,
+  } = state;
   const { tab, unreadCount } = useTab();
   const { autoLoadUnread } = useNotificationSettings();
   const pendingActionIdsRef = useRef(new Set<string>());
@@ -34,8 +42,8 @@ export default function NotificationsSection() {
     hasMore;
 
   useEffect(() => {
-    if (needsMoreUnread && autoLoadUnread) void onLoadMore();
-  }, [needsMoreUnread, autoLoadUnread, onLoadMore]);
+    if (needsMoreUnread && autoLoadUnread) loadMore();
+  }, [needsMoreUnread, autoLoadUnread, loadMore]);
 
   const handleAction = useCallback(
     async (action: NotificationAction) => {
@@ -64,8 +72,7 @@ export default function NotificationsSection() {
     },
     [items, markRead, onMarkRead],
   );
-  
-  console.log("retryFeed:", retryFeed);
+
   return (
     <section className={omni("notifications")}>
       {isLoading && items.length === 0 && <p>Загрузка...</p>}
@@ -73,7 +80,7 @@ export default function NotificationsSection() {
         <NotificationsState
           state="error"
           description={error.message}
-          btn={retryFeed ? { onClick: () => void retryFeed() } : undefined}
+          btn={{ onClick: retry }}
         />
       )}
       {actionError && <p role="alert">{actionError}</p>}
@@ -84,13 +91,16 @@ export default function NotificationsSection() {
         (unreadCount === 0 || !hasMore ? (
           <NotificationsState state="allRead" />
         ) : autoLoadUnread ? null : (
-          <NotificationsState state="noUnreadLoaded" />
+          <NotificationsState
+            state="noUnreadLoaded"
+            btn={{ onClick: loadMore }}
+          />
         ))}
       <NotificationList notifications={visibleCards} onAction={handleAction} />
 
       {hasMore && !(tab === "unread" && unreadCount === 0) && (
         <div className={omni("notifications-action")}>
-          <Button variant="link" onClick={onLoadMore} disabled={isLoadingMore}>
+          <Button variant="link" onClick={loadMore} disabled={isLoadingMore}>
             {isLoadingMore ? "Загрузка..." : "Показать больше"}
           </Button>
         </div>

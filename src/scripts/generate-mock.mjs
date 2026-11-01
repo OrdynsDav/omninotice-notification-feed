@@ -50,19 +50,12 @@ const items = Array.from({ length: TOTAL }, (_, i) => {
     i % 3 !== 2
       ? {
           url: `https://example.com/tasks/${i + 1}`,
-          title: 'Открыть задачу'
+          title: 'Открыть задачу',
+          type: 'button'
         }
       : undefined;
 
-  details.push({
-    messageId,
-    title: fullTitle,
-    description:
-      description ?? 'Подробности этого уведомления доступны по ссылке ниже.',
-    action
-  });
-
-  return {
+  const item = {
     status: 'published',
     created_date: date,
     modified_date: date,
@@ -81,6 +74,25 @@ const items = Array.from({ length: TOTAL }, (_, i) => {
     },
     is_read: i % 3 === 1
   };
+
+  // детали = тот же объект + text / action / extra (как в контракте деталей)
+  details.push({
+    messageId,
+    item: {
+      ...item,
+      chit: {
+        ...item.chit,
+        text: `${
+          description ?? 'Подробности этого уведомления доступны по ссылке ниже.'
+        } Полный текст уведомления #${i + 1}: здесь подробности, которых нет в коротком описании из списка.`,
+        action,
+        extra: {},
+        message_id: messageId
+      }
+    }
+  });
+
+  return item;
 });
 
 mkdirSync(OUT_DIR, { recursive: true });
@@ -101,12 +113,29 @@ for (let p = 1; p <= pages; p++) {
   writeFileSync(`${OUT_DIR}/notifications-${p}.json`, JSON.stringify(json, null, 2));
 }
 
-for (const detail of details) {
+const single = (item) => ({
+  data: [item],
+  info: { api_version: '0.1.0', count: 1, total: 1, page: 1, page_size: 1 }
+});
+
+for (const { messageId, item } of details) {
   writeFileSync(
-    `${OUT_DIR}/notification-details-${detail.messageId}.json`,
-    JSON.stringify(detail, null, 2)
+    `${OUT_DIR}/notification-details-${messageId}.json`,
+    JSON.stringify(single(item), null, 2)
   );
 }
+
+writeFileSync(
+  `${OUT_DIR}/notification-counts.json`,
+  JSON.stringify(
+    single({
+      total_count: TOTAL,
+      unread_count: items.filter((item) => !item.is_read).length
+    }),
+    null,
+    2
+  )
+);
 
 console.log(
   `Готово: ${pages} файлов списков, ${details.length} файлов деталей, ${TOTAL} записей`

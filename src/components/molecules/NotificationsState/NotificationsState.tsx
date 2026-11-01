@@ -15,7 +15,6 @@ export default function NotificationsState({
   const content = notificationState[state];
   const btnTitle = btn?.title ?? content.btn?.title;
   const btnOnClick = btn?.onClick ?? content.btn?.onClick;
-  console.log(state, { btnTitle, hasOnClick: Boolean(btnOnClick) });
 
   return (
     <div

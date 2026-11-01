@@ -48,9 +48,8 @@ export default function NotificationList({
   notifications: NotificationCardProps[];
   onAction?: (action: NotificationAction) => void | Promise<unknown>;
 }) {
-  const { onLoadDetails, onRetry } = useNotificationsContext();
-const { view, open, retry, close } = useNotificationDetails(onLoadDetails, onRetry?.details);
-
+  const { onLoadDetails } = useNotificationsContext();
+  const { view, open, retry, close } = useNotificationDetails(onLoadDetails);
 
   return (
     <>

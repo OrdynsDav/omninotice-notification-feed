@@ -46,7 +46,10 @@ export interface NotificationsStateProps {
 export type NotificationDetails = Pick<
   NotificationCardProps,
   "messageId" | "title" | "description" | "action"
->;
+> & {
+  /** Полный текст уведомления (есть только в ответе деталей) */
+  text?: string;
+};
 
 export type NotificationDetailsView =
   | { status: "closed" }

@@ -31,6 +31,11 @@ export default function NotificationDetailsSidebar({
     : shown.status === "closed" ? null
     : shown.preview;
 
+  const body =
+    shown.status === "ready"
+      ? shown.details.text || shown.details.description
+      : null;
+
   const action =
     shown.status === "ready" &&
     shown.details.action?.url &&
@@ -79,9 +84,7 @@ export default function NotificationDetailsSidebar({
             {shown.status === "error" && (
               <NotificationsState state="error" btn={{ onClick: onRetry }} />
             )}
-            {shown.status === "ready" && shown.details.description && (
-              <Text variant="secondary">{shown.details.description}</Text>
-            )}
+            {body && <Text variant="secondary">{body}</Text>}
           </div>
 
           <div className={omni("notification-details-sidebar__actions")}>

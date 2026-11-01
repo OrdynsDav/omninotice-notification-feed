@@ -63,6 +63,9 @@ export const settings = {
       icon: <BellRingIcon />,
       title: "Непрочитанных нет",
       description: "На загруженных страницах нет непрочитанных уведомлений.",
+      btn: {
+        title: "Показать больше",
+      },
     },
   },
   sidebarBackdrop: true,

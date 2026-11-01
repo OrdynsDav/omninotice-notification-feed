@@ -1,5 +1,42 @@
-import { NotificationCardProps } from "@/components/molecules/types";
+import type {
+  NotificationCardProps,
+  NotificationDetails,
+} from "@/components/molecules/types";
+import type { NotificationCountsResponse } from "./notificationCounts";
+import type { NotificationDetailsResponse } from "./notificationDetails";
 import type { Notification } from "./notifications";
+
+export interface FeedCounts {
+  all: number;
+  unread: number;
+}
+
+export function toCounts(response: NotificationCountsResponse): FeedCounts {
+  const counts = response.data[0];
+  if (!counts) throw new Error("Сервер не вернул количество уведомлений");
+  return { all: counts.total_count, unread: counts.unread_count };
+}
+
+export function toDetails(
+  response: NotificationDetailsResponse,
+  messageId: string,
+): NotificationDetails {
+  const item =
+    response.data.find((entry) => entry.chit.message_id === messageId) ??
+    response.data[0];
+  if (!item) throw new Error("Сервер не вернул уведомление");
+
+  const { chit } = item;
+  return {
+    messageId: chit.message_id,
+    title: chit.title,
+    description: chit.description ?? "",
+    text: chit.text ?? undefined,
+    action: chit.action
+      ? { url: chit.action.url, title: chit.action.title }
+      : undefined,
+  };
+}
 
 const timeFormatter = new Intl.DateTimeFormat("ru-RU", {
   hour: "2-digit",

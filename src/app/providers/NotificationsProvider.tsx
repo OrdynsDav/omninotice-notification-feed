@@ -1,9 +1,21 @@
-import { createElement, useMemo, type ReactNode } from "react";
+import {
+  createElement,
+  useCallback,
+  useMemo,
+  useRef,
+  type ReactNode,
+} from "react";
 import {
   NotificationsContext,
   type NotificationsContextValue,
 } from "../contexts/NotificationsContext";
-import type { NotificationsState } from "@/hooks/useNotifications";
+import { useNotificationsFeed } from "@/hooks/useNotificationsFeed";
+import { toDetails } from "@/api/notificationMapper";
+import type {
+  FetchNotificationCounts,
+  FetchNotificationDetails,
+  FetchNotifications,
+} from "@/api/requests";
 import type { LoadNotificationDetails } from "@/components/molecules/types";
 import {
   resolveSettings,
@@ -11,39 +23,58 @@ import {
 } from "@/config/settings.config";
 import { SettingsContext } from "@/config/SettingsContext";
 
-export interface RetryHandlers {
-  /** Повтор при ошибке ленты */
-  feed?: () => void | Promise<unknown>;
-  /** Повтор при ошибке деталей: любой запрос, который вернёт детали */
-  details?: LoadNotificationDetails;
-}
-
 export interface NotificationsProviderProps {
-  value: NotificationsState;
+  /** Страница списка. Вернуть ответ бэка как есть */
+  fetchList: FetchNotifications;
+  /** Количество уведомлений. Вернуть ответ бэка как есть */
+  fetchCounts: FetchNotificationCounts;
+  /** Детали уведомления. Без него сайдбар показывает данные карточки как есть */
+  fetchDetails?: FetchNotificationDetails;
+  /** Запрос «прочитано». После успеха пакет сам обновит ленту и счётчик */
   onMarkRead: (messageId: string) => Promise<unknown>;
-  onLoadMore: () => void | Promise<unknown>;
-  /** Запрос деталей уведомления. Без него сайдбар показывает данные карточки как есть */
-  onLoadDetails?: LoadNotificationDetails;
   settings?: SettingsOverrides;
   children: ReactNode;
-  onRetry?: RetryHandlers;
 }
 
 export function NotificationsProvider({
-  value,
-  onRetry,
+  fetchList,
+  fetchCounts,
+  fetchDetails,
   onMarkRead,
-  onLoadMore,
-  onLoadDetails,
   settings,
   children,
 }: NotificationsProviderProps) {
-  console.log("provider onRetry:", onRetry);
+  const state = useNotificationsFeed({ fetchList, fetchCounts });
+
+  // Функции приходят от потребителя и могут меняться каждый рендер,
+  // а ниже по дереву нужна стабильная ссылка.
+  const fetchDetailsRef = useRef(fetchDetails);
+  fetchDetailsRef.current = fetchDetails;
+  const onMarkReadRef = useRef(onMarkRead);
+  onMarkReadRef.current = onMarkRead;
+
+  const hasDetails = fetchDetails !== undefined;
+  const onLoadDetails = useMemo<LoadNotificationDetails | undefined>(
+    () =>
+      hasDetails
+        ? async (messageId, signal) =>
+            toDetails(
+              await fetchDetailsRef.current!(messageId, signal),
+              messageId,
+            )
+        : undefined,
+    [hasDetails],
+  );
+  const stableOnMarkRead = useCallback(
+    (messageId: string) => onMarkReadRef.current(messageId),
+    [],
+  );
+
   const resolvedSettings = useMemo(() => resolveSettings(settings), [settings]);
 
   const contextValue = useMemo<NotificationsContextValue>(
-    () => ({ state: value, onMarkRead, onLoadMore, onLoadDetails, onRetry }),
-    [value, onMarkRead, onLoadMore, onLoadDetails, onRetry],
+    () => ({ state, onMarkRead: stableOnMarkRead, onLoadDetails }),
+    [state, stableOnMarkRead, onLoadDetails],
   );
 
   return createElement(
