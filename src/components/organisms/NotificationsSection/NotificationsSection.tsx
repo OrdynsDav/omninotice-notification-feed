@@ -1,4 +1,3 @@
-import { runAction } from "@core/actions";
 import styles from "./NotificationsSection.module.css";
 import { NotificationList } from "../../molecules";
 import { Button, SpinnerLoader, Text } from "../../atoms";
@@ -11,7 +10,7 @@ import { useNotificationsContext } from "../../../app/contexts/NotificationsCont
 import { useNotificationSettings } from "../../../config/SettingsContext";
 
 export default function NotificationsSection() {
-  const { state } = useNotificationsContext();
+  const { state, onMarkRead } = useNotificationsContext();
   const {
     items,
     error,
@@ -68,7 +67,7 @@ export default function NotificationsSection() {
         );
         if (!notification || notification.is_read) return false;
 
-        await runAction({ type: "mark-read", id: action.id });
+        await onMarkRead(action.id);
         const wasMarkedRead = markRead(action.id);
         return wasMarkedRead;
       } catch (cause) {
@@ -82,7 +81,7 @@ export default function NotificationsSection() {
         pendingActionIdsRef.current.delete(action.id);
       }
     },
-    [markRead],
+    [markRead, onMarkRead],
   );
 
   return (

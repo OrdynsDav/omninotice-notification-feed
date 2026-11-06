@@ -6,6 +6,7 @@ export interface NotificationsContextValue {
   state: NotificationsState;
   /** Loads additional details from the registered data provider. */
   onLoadDetails: LoadNotificationDetails;
+  onMarkRead: (messageId: string) => Promise<void>;
 }
 
 export const NotificationsContext =

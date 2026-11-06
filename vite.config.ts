@@ -40,6 +40,9 @@ export default defineConfig(({ command }) => ({
     lib: {
       entry: {
         public: fileURLToPath(new URL("./src/public.ts", import.meta.url)),
+        standalone: fileURLToPath(
+          new URL("./src/standalone.ts", import.meta.url),
+        ),
         "register-all": fileURLToPath(
           new URL("./src/register-all.ts", import.meta.url),
         ),

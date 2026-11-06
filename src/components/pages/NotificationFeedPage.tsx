@@ -1,14 +1,15 @@
 import type { ReactNode } from "react";
-import type { SlotComponentProps } from "@core/hive";
 import { NotificationsSection } from "../organisms";
 import { Container } from "../atoms";
 import { PageTitle, Tab } from "../molecules";
 import styles from "./NotificationFeedPage.module.css";
 import NotificationsRoot from "../organisms/NotificationsRoot/NotificationsRoot";
 
-export interface NotificationFeedPageProps extends Partial<SlotComponentProps> {
+export interface NotificationFeedPageProps {
   /** Optional custom content rendered before the default page title. */
   header?: ReactNode;
+  slot?: string;
+  variant?: string;
 }
 
 export default function NotificationFeedPage({

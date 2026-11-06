@@ -24,8 +24,40 @@ export function Notifications() {
 }
 ```
 
-До рендера зарегистрируйте в `@core/data` три провайдера из раздела
-[Запросы](#запросы), а в `@core/actions` — действие `mark-read`.
+Этот способ использует провайдеры `@core/data` и действие `@core/actions`.
+Для обычного React-приложения без Apiary используйте точку входа
+`omninotice-notification-feed/standalone` и передайте API-функции:
+
+```tsx
+import {
+  NotificationFeedPage,
+  NotificationsFeedProvider,
+} from "omninotice-notification-feed/standalone";
+import "omninotice-notification-feed/style.css";
+
+const api = {
+  fetchList: (page: number) => myApi.getNotifications({ page }),
+  fetchCounts: () => myApi.getNotificationCounts(),
+  fetchDetails: (messageId: string, signal?: AbortSignal) =>
+    myApi.getNotificationDetails(messageId, { signal }),
+  markRead: (messageId: string) => myApi.markNotificationRead(messageId),
+};
+
+export function Notifications() {
+  return (
+    <NotificationsFeedProvider api={api}>
+      <NotificationFeedPage />
+    </NotificationsFeedProvider>
+  );
+}
+```
+
+Функции API должны возвращать ответы в формате, описанном в разделе
+[Запросы](#запросы). Передавайте `signal` в запрос деталей, чтобы он
+отменялся при закрытии панели. `markRead` вызывается после успешной загрузки
+деталей непрочитанного уведомления и при нажатии на действие карточки;
+локальное состояние меняется только после успешного выполнения функции.
+Существующий корневой импорт и Apiary-слот сохраняют прежний контракт.
 
 ### Apiary-слот
 

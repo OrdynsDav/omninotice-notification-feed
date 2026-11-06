@@ -1,24 +1,33 @@
 import { callProvider } from "@core/data";
-import { createElement, useMemo, type ReactNode } from "react";
+import { runAction } from "@core/actions";
+import { createElement, type ReactNode } from "react";
 import type { NotificationCountsResponse } from "../../api/notificationCounts";
 import type { NotificationDetailsResponse } from "../../api/notificationDetails";
 import { NOTIFICATION_PROVIDERS } from "../../api/requests";
-import { toDetails } from "../../api/notificationMapper";
 import type { NotificationsResponse } from "../../api/notifications";
-import type { LoadNotificationDetails } from "../../components/molecules/types";
+import type { SettingsOverrides } from "../../config/settings.config";
+import type { GetHasMore } from "../../hooks/useNotificationsFeed";
 import {
-  resolveSettings,
-  type SettingsOverrides,
-} from "../../config/settings.config";
-import {
-  useNotificationsFeed,
-  type GetHasMore,
-} from "../../hooks/useNotificationsFeed";
-import {
-  NotificationsContext,
-  type NotificationsContextValue,
-} from "../contexts/NotificationsContext";
-import { SettingsContext } from "../../config/SettingsContext";
+  NotificationsFeedDataProvider,
+  type NotificationsFeedApi,
+} from "./NotificationsFeedDataProvider";
+
+const notificationFeedApi: NotificationsFeedApi = {
+  fetchList: (page) =>
+    callProvider<NotificationsResponse>(NOTIFICATION_PROVIDERS.list, {
+      page,
+    }),
+  fetchCounts: () =>
+    callProvider<NotificationCountsResponse>(NOTIFICATION_PROVIDERS.counts),
+  fetchDetails: (messageId, signal) =>
+    callProvider<NotificationDetailsResponse>(
+      NOTIFICATION_PROVIDERS.details,
+      { messageId, signal },
+    ),
+  markRead: async (messageId) => {
+    await runAction({ type: "mark-read", id: messageId });
+  },
+};
 
 export interface NotificationsFeedProviderProps {
   /** Override pagination when the registered data provider uses a custom scheme. */
@@ -32,42 +41,10 @@ export function NotificationsFeedProvider({
   settings,
   children,
 }: NotificationsFeedProviderProps) {
-  const state = useNotificationsFeed({
-    fetchList: (page) =>
-      callProvider<NotificationsResponse>(NOTIFICATION_PROVIDERS.list, {
-        page,
-      }),
-    fetchCounts: () =>
-      callProvider<NotificationCountsResponse>(
-        NOTIFICATION_PROVIDERS.counts,
-      ),
+  return createElement(NotificationsFeedDataProvider, {
+    api: notificationFeedApi,
     getHasMore,
+    settings,
+    children,
   });
-
-  const onLoadDetails = useMemo<LoadNotificationDetails>(
-    () => async (messageId, signal) =>
-      toDetails(
-        await callProvider<NotificationDetailsResponse>(
-          NOTIFICATION_PROVIDERS.details,
-          { messageId, signal },
-        ),
-        messageId,
-      ),
-    [],
-  );
-  const resolvedSettings = useMemo(() => resolveSettings(settings), [settings]);
-  const contextValue = useMemo<NotificationsContextValue>(
-    () => ({ state, onLoadDetails }),
-    [state, onLoadDetails],
-  );
-
-  return createElement(
-    SettingsContext.Provider,
-    { value: resolvedSettings },
-    createElement(
-      NotificationsContext.Provider,
-      { value: contextValue },
-      children,
-    ),
-  );
 }
