@@ -209,56 +209,46 @@ async function markRead({ id }: { id: string }) {
 
 ## CSS-токены
 
-Токены пакета из `NotificationFeedPage.module.css`:
+Чтобы переопределить оформление, задайте публичные токены `--onf-*` на
+родительском элементе `NotificationFeedPage`. Переносить переменные в `:root`
+не нужно:
 
 ```css
---omni-main-bg: var(--color-surface, #f5f6f9); /* фон страницы */
---omni-primary: var(--color-primary, #487bfe); /* основной цвет */
---omni-primary-hover: var(
-    --color-primary-hover,
-    hsl(from var(--omni-primary) h s calc(l - 10))
-); /* цвет при наведении */
---omni-primary-text: var(--color-text-primary, #0c151d); /* основной текст */
---omni-secondary-text: var(--color-text-secondary, #767a7f); /* вторичный текст */
---omni-breadcumbs-icon-color: var(--color-icon, #4a5665); /* цвет иконки */
---omni-sidebar-box-shadow: var(
-    --color-shadow,
-    0px 0px 1px 0px #00000066,
-    -8px 8px 24px -8px #00000029
-); /* тень панели */
---omni-state-box-shadow: var(--color-shadow, 0px 0px 1px #0000004D); /* тень состояния */
---omni-nf-bg: var(--color-surface, #ffffff); /* фон карточки */
---omni-nf-bg-hover: var(
-    --color-bg-hover,
-    color-mix(in srgb, var(--omni-primary) 12%, white)
-); /* фон при наведении */
---omni-nf-icon: var(--omni-primary); /* цвет иконки уведомления */
---omni-nf-icon-error: var(--color-danger, #e65443); /* цвет иконки ошибки */
---omni-nf-icon-bg: var(
-    --color-primary-soft,
-    color-mix(in srgb, var(--omni-nf-icon) 25%, white)
-); /* фон иконки уведомления */
---omni-nf-icon-bg-error: var(
-    --color-danger-soft,
-    color-mix(in srgb, var(--omni-nf-icon-error) 25%, white)
-); /* фон иконки ошибки */
---omni-border-color: var(--color-border, #eceef4); /* цвет границы */
---omni-border-hover: var(--color-text-primary, #0c151d); /* граница при наведении */
---omni-radius: var(--radius-md, 8px); /* радиус скругления */
---omni-container-padding-inline: 24px 20px; /* отступы контейнера */
---omni-nf-icon-container-size: 56px; /* размер контейнера иконки */
---omni-nf-icon-chevron-size: 24px; /* размер шеврона */
---omni-tabs-margin-block: 32px; /* отступ вкладок */
---omni-transition: 0.15s ease-in; /* скорость перехода */
+.my-notifications {
+  --onf-primary: #7c3aed;
+  --onf-radius: 12px;
+  --onf-card-bg: #fff;
+}
 ```
 
-В состоянии ошибки `NotificationsState.module.css` переопределяет:
-
-```css
---omni-nf-icon: var(--omni-nf-icon-error); /* цвет иконки ошибки */
---omni-nf-icon-bg: var(--omni-nf-icon-bg-error); /* фон иконки ошибки */
+```tsx
+<div className="my-notifications">
+  <NotificationFeedPage />
+</div>
 ```
 
+Публичные токены:
+
+| Токен | Назначение |
+| --- | --- |
+| `--onf-main-bg` | фон страницы |
+| `--onf-primary`, `--onf-primary-hover` | основной цвет и цвет при наведении |
+| `--onf-primary-text`, `--onf-secondary-text` | основной и вторичный текст |
+| `--onf-icon` | цвет иконки-крошки |
+| `--onf-sidebar-box-shadow`, `--onf-state-box-shadow` | тени панели и состояния |
+| `--onf-card-bg`, `--onf-card-bg-hover` | фон карточки и при наведении |
+| `--onf-icon-color`, `--onf-icon-bg` | цвет и фон иконки уведомления |
+| `--onf-error-icon-color`, `--onf-error-icon-bg` | цвет и фон иконки ошибки |
+| `--onf-border-color`, `--onf-border-hover` | цвет границы и цвет при наведении |
+| `--onf-radius` | радиус скругления |
+| `--onf-container-padding-inline` | горизонтальные отступы контейнера |
+| `--onf-icon-container-size`, `--onf-icon-chevron-size` | размеры иконки и шеврона |
+| `--onf-tabs-margin-block` | вертикальные отступы вкладок |
+| `--onf-transition` | длительность и функция перехода |
+
+Если `--onf-*` не задан, пакет сохраняет значения по умолчанию и совместимость
+с цветовыми переменными хоста `--color-*` и `--radius-md`. Внутренние
+`--omni-*` — детали реализации, для переопределения используйте `--onf-*`.
 Стили компонентов изолированы CSS Modules.
 
 ## Локальный просмотр
