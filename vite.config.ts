@@ -3,6 +3,8 @@ import react from '@vitejs/plugin-react'
 import dts from 'vite-plugin-dts'
 import { fileURLToPath } from 'node:url'
 
+/// <reference types="vitest" />
+
 export default defineConfig(({ command }) => ({
   plugins: [
     react(),
@@ -32,6 +34,18 @@ export default defineConfig(({ command }) => ({
                 new URL("./src/mock/data.ts", import.meta.url),
               ),
             },
+            {
+              find: "@core/hive/react",
+              replacement: fileURLToPath(
+                new URL("./tests/mocks/core-hive-react.ts", import.meta.url),
+              ),
+            },
+            {
+              find: "@core/hive",
+              replacement: fileURLToPath(
+                new URL("./tests/mocks/core-hive.ts", import.meta.url),
+              ),
+            },
           ]
         : [],
   },
@@ -58,5 +72,13 @@ export default defineConfig(({ command }) => ({
         id.startsWith("@core/"),
     },
     sourcemap: true,
+  },
+  // Настройки Vitest
+  test: {
+    environment: 'jsdom',
+    setupFiles: ['./tests/setup.ts'],
+    globals: true,
+    css: true,
+    exclude: ['node_modules', 'dist'],
   },
 }))
