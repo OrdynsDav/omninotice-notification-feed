@@ -1,5 +1,5 @@
 {
-  "name": "omninotice-notification-feed",
+  "name": "@davordyns/omninotice-notification-feed",
   "version": "0.2.1",
   "type": "module",
   "exports": {
