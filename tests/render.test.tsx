@@ -17,14 +17,15 @@ describe('Рендер состояний (А.5)', () => {
     (window as any).failNext = false;
   });
 
-  it('показывает состояние загрузки при монтировании', () => {
+  it('показывает спиннер загрузки списка при монтировании', () => {
     const { container } = render(
       <NotificationsFeedProvider>
         <NotificationFeedPage />
       </NotificationsFeedProvider>
     );
-    // Спиннер в коде — div с классом _spinner_*
-    // TODO (a11y): добавить role="status" или aria-live="polite" в компонент спиннера
+    expect(
+      screen.getByRole('status', { name: 'Загрузка уведомлений' })
+    ).toBeInTheDocument();
     expect(container.querySelector('[class*="spinner"]')).toBeInTheDocument();
   });
 

@@ -1,6 +1,6 @@
 import styles from "./NotificationsSection.module.css";
 import { NotificationList } from "../../molecules";
-import { Button, SpinnerLoader, Text } from "../../atoms";
+import { Button, SpinnerLoader } from "../../atoms";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toCardProps } from "../../../api/notificationMapper";
 import type { NotificationAction } from "../../../api/actions";
@@ -8,8 +8,13 @@ import { useTab } from "../../../hooks/useTab";
 import NotificationsState from "../../molecules/NotificationsState/NotificationsState";
 import { useNotificationsContext } from "../../../app/contexts/NotificationsContext";
 import { useNotificationSettings } from "../../../config/SettingsContext";
+import { classNames } from "../../../helpers/classNames";
 
-export default function NotificationsSection() {
+export default function NotificationsSection({
+  className,
+}: {
+  className?: string;
+}) {
   const { state, onMarkRead } = useNotificationsContext();
   const {
     items,
@@ -85,7 +90,16 @@ export default function NotificationsSection() {
   );
 
   return (
-    <section className={styles.section}>
+    <section className={classNames(styles.section, className)}>
+      {isLoading && (
+        <div
+          className={styles.loader}
+          role="status"
+          aria-label="Загрузка уведомлений"
+        >
+          <SpinnerLoader variant="primary" size="md" />
+        </div>
+      )}
       {isEmpty && <NotificationsState state="empty" />}
       {error && (
         <NotificationsState

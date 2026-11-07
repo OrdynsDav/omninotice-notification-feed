@@ -16,6 +16,8 @@ export default function NotificationsState({
   const content = notificationState[state];
   const btnTitle = btn?.title ?? content.btn?.title;
   const btnOnClick = btn?.onClick ?? content.btn?.onClick;
+  const stateTitle = title || content.title;
+  const stateDescription = description || content.description;
 
   return (
     <div
@@ -32,13 +34,13 @@ export default function NotificationsState({
           size="lg"
           weight="medium"
         >
-          {decode(title ?? content.title)}
+          {decode(stateTitle)}
         </Text>
         <Text
           className={styles.subtitle}
           variant="secondary"
         >
-          {decode(description ?? content.description)}
+          {decode(stateDescription)}
         </Text>
       </div>
       {btnTitle && btnOnClick && (

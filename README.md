@@ -194,7 +194,15 @@ async function markRead({ id }: { id: string }) {
 поддерживаются только первые четыре настройки таблицы.
 
 `NotificationFeedPage` принимает необязательный `header` — React-узел перед
-заголовком страницы.
+заголовком страницы, `className` для корневого элемента и `sectionClassName`
+для секции уведомлений:
+
+```tsx
+<NotificationFeedPage
+  className="my-notifications-page"
+  sectionClassName="my-notifications-list"
+/>
+```
 
 ## API пакета
 

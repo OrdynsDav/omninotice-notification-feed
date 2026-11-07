@@ -8,6 +8,10 @@
   place-items: center;
   background-color: var(--omni-nf-icon-bg);
   color: var(--omni-nf-icon);
+
+  path {
+    color: var(--omni-nf-icon);
+  }
 }
 
 .image {
