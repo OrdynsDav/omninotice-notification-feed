@@ -1,3 +1,3 @@
 .container {
-    padding-inline: var(--omni-container-padding-inline);
+  padding: var(--omni-container-padding);
 }

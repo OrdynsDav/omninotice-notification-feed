@@ -14,11 +14,9 @@ import {
 
 const notificationFeedApi: NotificationsFeedApi = {
   fetchList: (page) =>
-
-        {throw new Error()
     callProvider<NotificationsResponse>(NOTIFICATION_PROVIDERS.list, {
       page,
-    })},
+    }),
   fetchCounts: () =>
     callProvider<NotificationCountsResponse>(NOTIFICATION_PROVIDERS.counts),
   fetchDetails: (messageId, signal) =>

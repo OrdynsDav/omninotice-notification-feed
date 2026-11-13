@@ -56,6 +56,8 @@
 .error {
   padding: 0;
   box-shadow: none;
+  background-color: transparent;
+  background: transparent;
 }
 
 .header {
