@@ -4,6 +4,7 @@ import { NotificationPicture } from "../components/molecules/types";
 
 export type ResolvedPicture =
   | { kind: "image"; src: string }
+  | { kind: "url-icon"; src: string }
   | { kind: "element"; element: ReactNode }
   | { kind: "component"; Component: ComponentType }
   | { kind: "emoji"; value: string }
@@ -29,7 +30,7 @@ export function resolvePicture(
   // 2. icon: путь к svg / готовый <svg> / компонент
   if (icon) {
     if (typeof icon === "string") {
-      if (!isFailed(icon)) return { kind: "image", src: icon };
+      if (!isFailed(icon)) return { kind: "url-icon", src: icon };
     } else if (isComponentType(icon)) {
       return { kind: "component", Component: icon };
     } else {

@@ -29,6 +29,7 @@
     var(--color-bg-hover, color-mix(in srgb, var(--omni-primary) 12%, white))
   );
   --omni-nf-icon: var(--onf-icon-color, var(--omni-primary));
+  --omni-nf-icon-size: var(--onf-icon-size, 24px);
   --omni-nf-icon-error: var(
     --onf-error-icon-color,
     var(--color-danger, #e65443)

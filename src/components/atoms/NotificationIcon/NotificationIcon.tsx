@@ -2,6 +2,7 @@ import type { NotificationPicture } from "../../molecules/types";
 import { useNotificationSettings } from "../../../config/SettingsContext";
 import { renderIcon } from "../../../helpers/renderIcon";
 import { resolvePicture } from "../../../helpers/resolvePicture";
+import { UrlIcon } from "../../../helpers/sanitizeInlineSvg";
 import { useState } from "react";
 import styles from "./NotificationIcon.module.css";
 
@@ -32,6 +33,15 @@ export default function NotificationIcon({
             alt={alt}
             onError={() => markFailed(resolved.src)}
             data-type={resolved.src.endsWith(".svg") ? "icon" : "image"}
+          />
+        );
+      case "url-icon":
+        return (
+          <UrlIcon
+            url={resolved.src}
+            className={styles.svg}
+            alt={alt ?? ""}
+            onImageError={markFailed}
           />
         );
       case "element":

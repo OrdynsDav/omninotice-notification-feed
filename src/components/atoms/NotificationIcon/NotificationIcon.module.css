@@ -23,3 +23,9 @@
   width: var(--omni-nf-icon-container-size);
   height: var(--omni-nf-icon-container-size);
 }
+
+.svg {
+  display: flex;
+  width: var(--omni-nf-icon-size, 24px);
+  height: var(--omni-nf-icon-size, 24px);
+}
